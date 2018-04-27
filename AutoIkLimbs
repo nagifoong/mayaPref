@@ -1,0 +1,359 @@
+def creaAnimInfi(name,type):#name = "aaa.bbb"creaAnimInfi("aaa.bbb",2)
+	name,attr=name.split(".")
+	animCurve = cmds.createNode("animCurveUA",n=name+"_"+attr)
+	if type ==-1:##Left-up
+		cmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')
+		cmds.setKeyframe(animCurve,f=-1,v=1,itt='linear',ott='linear')
+		cmds.setAttr(animCurve+".preInfinity",4)
+	if type ==-2:##Left-down
+		cmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')
+		cmds.setKeyframe(animCurve,f=-1,v=-1,itt='linear',ott='linear')
+		cmds.setAttr(animCurve+".preInfinity",4)
+	if type ==1:##Right-up
+		cmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')
+		cmds.setKeyframe(animCurve,f=1,v=1,itt='linear',ott='linear')
+		cmds.setAttr(animCurve+".postInfinity",4)
+	if type ==2:##Right-down
+		cmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')
+		cmds.setKeyframe(animCurve,f=1,v=-1,itt='linear',ott='linear')
+		cmds.setAttr(animCurve+".postInfinity",4)
+		#cmds.setInfinity("aaa_bbb",poi="cycleRelative")
+	cmds.connectAttr(animCurve+".output",name+"."+attr,f=1)
+	print animCurve
+	return animCurve	
+	
+	
+def ikLegAuto (prefix,ctrl,mirror,const = None):#1=posX,-1=negX
+	#ikLegAuto("LeftA",cmds.ls(sl=1)[0],1)
+	cmds.addAttr(ctrl,ln="roll",at='double',k=1)
+	cmds.addAttr(ctrl,ln="tilt",at='double',k=1)
+	cmds.addAttr(ctrl,ln="heelPivot",at='double',k=1)
+	cmds.addAttr(ctrl,ln="toePivot",at='double',k=1)
+	cmds.addAttr(ctrl,ln="toeLift",at='double',k=1)
+	cmds.addAttr(ctrl,ln="toeCurl",at='double',k=1)
+	cmds.addAttr(ctrl,ln="toeRotZ",at='double',k=1)
+	cmds.addAttr(ctrl,ln="legTwist",at='double',k=1)
+	#mirror=1 cmds.ls(sl=1,long=1)
+	outF = cmds.spaceLocator(n=prefix+"_foot_outter")[0]
+	cmds.setAttr(outF+".translate",1*mirror,0,0,typ="double3")
+	
+	heel = cmds.spaceLocator(n=prefix+"_heel")[0]
+	cmds.setAttr(heel+".translate",0,0,-1,typ="double3")
+	
+	inF = cmds.spaceLocator(n=prefix+"_foot_inner")[0]
+	cmds.setAttr(inF+".translate",-1*mirror,0,0,typ="double3")
+	
+	toe = cmds.spaceLocator(n=prefix+"_toe")[0]
+	cmds.setAttr(toe+".translate",0,0,1,typ="double3")
+
+                    
+	mainGrp = cmds.group(n=prefix+"_leg_ikMain_grp",em=1)
+	offGrp = cmds.group(n=prefix+"_leg_ikOffset_grp",em=1,p=mainGrp)
+	footGrp = cmds.group(n=prefix+"_foot_ikHandle_grp",em=1)
+	legGrp = cmds.group(n=prefix+"_leg_ikHandle_grp",em=1,p=footGrp)
+	toeGrp = cmds.group(n=prefix+"_toe_ikHandle_grp",em=1,p=footGrp)
+	
+	cmds.setAttr(footGrp+".translateY",1)
+	cmds.setAttr(legGrp+".translateY",-.5)
+	cmds.setAttr(legGrp+".translateZ",.5)
+	cmds.setAttr(toeGrp+".translateY",-.5)	
+	cmds.setAttr(toeGrp+".translateZ",1)
+	
+	cmds.parent(inF,toe)
+	cmds.parent(outF,inF)
+	cmds.parent(toe,heel)
+	cmds.parent(footGrp,outF)
+	cmds.parent(heel,offGrp)
+    
+	if mirror == 1:
+		for axis in ['x','y','z']:
+			for loc in [outF,heel,inF,toe]:
+				getVal = cmds.getAttr("%s.t%s"%(loc.replace("Left","Right"),axis)) 
+				if loc == outF or loc == inF and axis == 'x':	
+					getVal *=-1
+				cmds.setAttr("%s.t%s"%(loc,axis),getVal)
+                
+	if mirror == -1:
+		for axis in ['x','y','z']:
+			for loc in [outF,heel,inF,toe]:
+				getVal = cmds.getAttr("%s.t%s"%(loc.replace("Right","Left"),axis)) 
+				if (loc == outF or loc == inF) and axis == 'x':	
+					getVal *=-1
+				cmds.setAttr("%s.t%s"%(loc,axis),getVal)
+
+	cmds.connectAttr(ctrl+".roll",creaAnimInfi(legGrp+".rx",1)+".input",f=1)	
+	cmds.connectAttr(ctrl+".roll",creaAnimInfi(heel+".rx",-2)+".input",f=1)
+	if mirror ==1 :
+		cmds.connectAttr(ctrl+".tilt",creaAnimInfi(outF+".rz",2)+".input",f=1)
+		cmds.connectAttr(ctrl+".tilt",creaAnimInfi(inF+".rz",-1)+".input",f=1)
+	else:
+		cmds.connectAttr(ctrl+".tilt",creaAnimInfi(outF+".rz",1)+".input",f=1)
+		cmds.connectAttr(ctrl+".tilt",creaAnimInfi(inF+".rz",-2)+".input",f=1)		
+	
+	cmds.connectAttr(ctrl+".heelPivot",heel+".ry")
+	cmds.connectAttr(ctrl+".toePivot",toe+".ry")
+	cmds.connectAttr(ctrl+".toeLift",toe+".rx")
+	cmds.connectAttr(ctrl+".toeCurl",toeGrp+".rx")
+	cmds.connectAttr(ctrl+".toeRotZ",toeGrp+".rz")
+	
+	if mirror ==-1:
+		heeluC = cmds.listConnections(ctrl+".heelPivot")[0]
+		cmds.setAttr(heeluC+".conversionFactor",cmds.getAttr(heeluC+".conversionFactor")*mirror)
+		toePvtuC = cmds.listConnections(ctrl+".toePivot")[0]
+		cmds.setAttr(toePvtuC+".conversionFactor",cmds.getAttr(toePvtuC+".conversionFactor")*mirror)
+		toeRotZuC = cmds.listConnections(ctrl+".toeRotZ")[0]
+		cmds.setAttr(toeRotZuC+".conversionFactor",cmds.getAttr(toeRotZuC+".conversionFactor")*mirror)	
+			
+	if const != None:	
+		temp = cmds.parentConstraint(ctrl,mainGrp,mo=0)
+		cmds.delete(temp)
+		cmds.parentConstraint(const,mainGrp,mo=1)
+	else:
+		cmds.parentConstraint(ctrl,mainGrp,mo=0)
+	return mainGrp,[footGrp,legGrp,toeGrp]
+
+
+def customDistanceDimension(start = [0,0,0],end = [1,1,1],name = ""):
+    #customDistanceDimension(start = [0,0,0],end = [1,1,1],name = "test")
+    ##Create Distance Dimension with Naming Convention
+    disNode = cmds.distanceDimension(sp=start,ep=end)
+    [locA,locB] = cmds.listConnections(disNode)
+    disParent = cmds.listRelatives(disNode,p=1,type= "transform")
+    locA = cmds.rename (locA,"%s_distance_start_loc"%name)
+    locB = cmds.rename (locB,"%s_distance_end_loc"%name)
+    disParent = cmds.rename (disParent,"%s_distance"%name)
+    disNode = cmds.listRelatives(disParent,c=1,type= "distanceDimShape")[0]
+    disGrp = cmds.group(em=1,name = "%s_distance_util_grp"%name)
+    cmds.parent (locA,locB,disParent,disGrp)
+    return [disGrp , disParent , disNode, locA, locB]
+    
+def connectUnitConvert(input = '',output = '',factor = .1,reverse = 0):
+    ##Create Unit Convertin, Set Conversion Factor, Naming and Reverse Data(optional)
+    ucNode = cmds.shadingNode('unitConversion',au=1,name="%s_uc"%input)
+    cmds.setAttr("%s.conversionFactor"%ucNode,factor)
+    cmds.connectAttr(input,"%s.input"%ucNode)
+    
+    if reverse:
+        revNode = cmds.shadingNode('reverse',au=1,name="%s_REV"%input)
+        cmds.connectAttr("%s.output"%ucNode,"%s.inputX"%revNode)
+        cmds.connectAttr("%s.outputX"%revNode,output)
+        return
+    cmds.connectAttr("%s.output"%ucNode,output)
+    
+def createController (reposition = "parent",target = None,name = "",shape = ""):
+    ##Create Controller with two layers of group
+    ##Repostion only accept "parent", "point", "orient" and target needed
+    ##Shape only accept "locator" , "cube". For creating controller shape
+    
+    grp = cmds.group(name = "%s_grp"%name ,em=1)
+        
+    if shape == "locator":
+        cv = cmds.curve(name = name ,degree = 1, p=[(0,0,-1),(0,0,1),(0,0,0),(1,0,0),(-1,0,0),(0,0,0),(0,1,0),(0,-1,0)])
+    if shape == "cube":
+        cv = cmds.curve(n = name,d=1,p=[[-0.5, 0.5, 0.5], [-0.5, -0.5, 0.5], [0.5, -0.5, 0.5], [0.5, 0.5, 0.5], [-0.5, 0.5, 0.5], [-0.5, 0.5, -0.5], [-0.5, -0.5, -0.5], [-0.5, -0.5, 0.5], [-0.5, -0.5, -0.5], [0.5, -0.5, -0.5], [0.5, 0.5, -0.5], [-0.5, 0.5, -0.5], [0.5, 0.5, -0.5], [0.5, 0.5, 0.5], [0.5, -0.5, 0.5], [0.5, -0.5, -0.5]])
+    if shape == "4arrow":
+        cv = cmds.curve(n = name,d=1,p=[[0, 0, 10], [4, 0, 6], [2, 0, 6], [3, 0, 3], [6, 0, 2], [6, 0, 4], [10, 0, 0], [6, 0, -4], [6, 0, -2], [3, 0, -3], [2, 0, -6], [4, 0, -6], [0, 0, -10], [-4, 0, -6], [-2, 0, -6], [-3, 0, -3], [-6, 0, -2], [-6, 0, -4], [-10, 0, 0], [-6, 0, 4], [-6, 0, 2], [-3, 0, 3], [-2, 0, 6], [-4, 0, 6], [0, 0, 10]])
+
+    if shape == None:
+        tempConst =eval("cmds.%sConstraint(\"%s\",grp,mo=0)"%(reposition,name))
+        cmds.delete(tempConst)
+        return [grp]
+        
+    offset = cmds.group(name = "%s_offset_grp"%name ,em=1)
+    offset = cmds.parent(offset,grp)[0]    
+    cv = cmds.parent (cv,offset)[0]
+    cmds.select(d=1)
+    endJnt = cmds.joint(n= "%s_const_parent"%name)
+    cmds.setAttr("%s.drawStyle"%endJnt,2)
+    endJnt = cmds.parent(endJnt,cv)[0]
+    
+    if reposition == 0:
+        return [grp,offset,cv,endJnt]        
+        
+    tempConst = eval("cmds.%sConstraint(target,grp,mo=0)"%reposition)
+            
+    cmds.delete(tempConst)
+    
+    return [grp,offset,cv,endJnt] 
+    
+    
+def AutoIkLimb (jntList = [] ,ikName = ''): 
+    # pass a list contains three joints and Prefix to create an Ik Limb with stretchy function
+    #AutoIkLimb (cmds.ls(sl=1),ikName = "Right_leg")
+    from maya import cmds, OpenMaya
+    
+    if len(jntList) != 3:
+        cmds.warning("Selected objects need to be exactly three.")
+        return
+    
+    mainCtrlGrp = cmds.group(em=1, name = "CTRL_%s_main_grp"%ikName)
+    ikSysGrp = cmds.group(em=1, name = "%s_ikSystem_grp"%ikName)
+    midName = jntList[1].split("|")[-1]
+    
+    if "jnt" in jntList[1]:
+        ctrlName = midName.replace("jnt","CTRL")
+    else:
+        ctrlName = "CTRL_%s"%midName
+        
+    ##Pole Vector calculation##    
+    start = cmds.xform(jntList[0] ,q= 1 ,ws = 1,t =1 )
+    mid = cmds.xform(jntList[1] ,q= 1 ,ws = 1,t =1 )
+    end = cmds.xform(jntList[2] ,q= 1 ,ws = 1,t =1 )
+    startV = OpenMaya.MVector(start[0] ,start[1],start[2])
+    midV = OpenMaya.MVector(mid[0] ,mid[1],mid[2])
+    endV = OpenMaya.MVector(end[0] ,end[1],end[2])
+    startEnd = endV - startV
+    startMid = midV - startV
+    dotP = startMid * startEnd
+    proj = float(dotP) / float(startEnd.length())
+    startEndN = startEnd.normal()
+    projV = startEndN * proj
+    arrowV = startMid - projV
+    arrowV*= 2
+    finalV = arrowV + midV
+    
+    ##Pole Vector Controller Creation and Reposition ##
+    PVCtrl = createController(name = ctrlName,reposition = 0,shape = "locator")
+        
+    cmds.xform(PVCtrl[0] , ws =1 , t= (finalV.x  , finalV.y  , finalV.z ))
+    
+    ##IkHandle and Pole Vector constraint
+    ikHdl = cmds.ikHandle(sj=jntList[0],ee = jntList[2],solver = "ikRPsolver",name = "%s_ikHandle"%ikName)
+    ikHdlGrp = createController(shape = None,name = ikHdl[0])
+    ikHdl[0] = cmds.parent (ikHdl[0],ikHdlGrp[-1])[0]
+    
+    cmds.poleVectorConstraint(PVCtrl[-1],ikHdl[0])
+    
+    ##IkHandle Controller
+    ikCtrl = createController(name = "CTRL_%s_IK"%ikName,reposition = 'point' ,target = jntList[2],shape = "cube")
+    cmds.addAttr(ikCtrl[-2],ln="stretchy",at="double",min=0,max=10,dv=10,k=1)
+    cmds.addAttr(ikCtrl[-2],longName='length_1',at='double',min=0,dv=1,k=1)
+    cmds.addAttr(ikCtrl[-2],longName='length_2',at='double',min=0,dv=1,k=1)
+    cmds.parentConstraint(ikCtrl[-1],ikHdlGrp)
+    cmds.orientConstraint(ikCtrl[-1],jntList[-1],mo=1)
+    
+    ##Pole Vector Follow Controller
+    cmds.parentConstraint(ikCtrl[-1],PVCtrl[0],mo=1)
+    cmds.setKeyframe(PVCtrl[0],at=['translate',"rotate"])
+    
+    cmds.addAttr(PVCtrl[-2],longName='follow',at='double',min=0,max=10,dv=10,k=1)
+    cmds.addAttr(PVCtrl[-2],longName='lock',at='double',min=0,max=10,dv=0,k=1)
+    connectUnitConvert(input="%s.follow"%PVCtrl[-2],output = "%s.blendParent1"%PVCtrl[0],factor = .1)
+    
+    cmds.parent(ikCtrl[0],PVCtrl[0],mainCtrlGrp)
+    
+    ##Stretchy IK Distance Node    
+    startLoc=cmds.xform(jntList[0] ,q=1,t=1,ws=1)
+    endLoc = cmds.xform(jntList[-1],q=1,t=1,ws=1)
+    [disGrp , disParent , disNode, locA, locB] = customDistanceDimension(start = startLoc,end = endLoc,name = ikName)
+    
+    ##Total Length of the ikChain
+    totalDis = sum([cmds.getAttr(jnt+".tx") for jnt in jntList[1:]])
+    
+    ##Stretchy switch and scaleFix
+    switchNode = cmds.shadingNode("multiplyDivide",au=1,n=ikName+"_stretch_Switch")
+    scaleNode = cmds.shadingNode("multiplyDivide",au=1,n=ikName+"_stretch_scaleFix")
+    
+    cmds.setAttr(scaleNode+'.operation',2)
+    cmds.connectAttr(disNode+".distance",switchNode+".input1X")
+    cmds.connectAttr(switchNode+".outputX",scaleNode+".input1X")    
+    connectUnitConvert(input=ikCtrl[-2]+".stretchy",output = switchNode+".input2X",factor = .1)
+    
+    ##Set Driven Keys for joints to stretch and Create switch for Pole Vector stretch and Normal stretch
+    blendList = []    
+    lengthList = []
+    for ind,jnt in enumerate(jntList[1:]):
+        ind +=1
+        cmds.setDrivenKeyframe(jnt+".translateX",cd=disNode+".distance",dv=totalDis,v=(cmds.getAttr(jnt+".translateX")),itt="linear",ott="linear")
+        cmds.setDrivenKeyframe(jnt+".translateX",cd=disNode+".distance",dv=totalDis*2,v=(cmds.getAttr(jnt+".translateX")*2),itt="linear",ott="linear")
+        animCurv=cmds.listConnections(jnt+".translateX",t="animCurve")[0]
+        cmds.setAttr(animCurv+".postInfinity",4)    
+        cmds.connectAttr(scaleNode+".outputX",animCurv+".input",f=1)
+        
+        blendNode = cmds.shadingNode('blendColors',au=1,n="%s_BLEND"%jnt)        
+        lengthNode = cmds.shadingNode("multiplyDivide",au=1,n=ikName+("_length_%s_MULT"%ind))
+        
+        cmds.connectAttr(animCurv+".output",blendNode+".color1R",f=1)
+        connectUnitConvert(input="%s.lock"%PVCtrl[-2],output = "%s.blender"%blendNode,factor = .1,reverse = 1)
+        
+        #cmds.connectAttr(blendNode+".outputR",jnt+".translateX",f=1)
+        cmds.connectAttr(blendNode+".outputR",lengthNode+".input2X",f=1)
+        cmds.connectAttr('%s.length_%s'%(ikCtrl[-2],ind),lengthNode+".input1X")
+        cmds.connectAttr(lengthNode+".outputX",jnt+".translateX",f=1)
+        
+        blendList.append(blendNode)
+        lengthList.append(lengthNode)
+        
+    ##Constraint Locators to Controllers
+    parentJnt = cmds.listRelatives(jntList[0],p=1)       
+    if len(parentJnt) == None:
+        cmds.warning("Please Manually Constraint %s."%locA)
+    else:
+        cmds.parentConstraint (parentJnt[0],locA,mo=1)
+    cmds.parentConstraint (ikCtrl[-1],locB,mo=1)
+    
+    ##Pole Vector pin 
+    posA = cmds.xform(jntList[0] ,q= 1 ,ws = 1,t =1 )
+    posB = cmds.xform(PVCtrl[-2] ,q= 1 ,ws = 1,t =1 )
+    posC = cmds.xform(jntList[2] ,q= 1 ,ws = 1,t =1 )
+    [disGrpA , disParentA , disNodeA, locA, locB] = customDistanceDimension(start = posA,end = posB,name = "upper_%s"%ikName)
+    [disGrpB , disParentB , disNodeB, locC, locD] = customDistanceDimension(start = posB,end = posC,name = "lower_%s"%ikName)
+    
+    cmds.parentConstraint(PVCtrl[-2],locC,mo=1)
+    cmds.parent(locC,locD,disParentB,disGrpA)
+    cmds.delete(disGrpB)
+    
+    scaleNode = cmds.shadingNode("multiplyDivide",au=1,n=ikName+"_lock_scaleFix")
+    
+    cmds.connectAttr("%s.distance"%disNodeA,scaleNode+".input1X",f=1)
+    cmds.connectAttr("%s.distance"%disNodeB,scaleNode+".input1Z",f=1)
+    cmds.connectAttr(scaleNode+".outputX",blendList[0]+".color2R",f=1)
+    cmds.connectAttr(scaleNode+".outputZ",blendList[-1]+".color2R",f=1)
+    
+    #Clean Up
+    cmds.parent(disGrpA,disGrp,ikHdlGrp,ikSysGrp)
+    
+    ## Make sure leg ctrl pivot is on the grid
+    if "leg" in ikName.lower() :
+        ikHdl[0] = cmds.parent(ikHdl[0],w=1)[0]
+        cmds.delete(ikHdlGrp)
+        pivot = cmds.xform(ikCtrl[-2],q=1,ws=1,t=1)        
+        cmds.setAttr("%s.rotatePivotY"%ikCtrl[-2],-1*pivot[1])
+            
+        objA,objB = cmds.spaceLocator()[0],cmds.spaceLocator()[0]
+        #cmds.setAttr("%s.rotateOrder"%obj,2)
+
+        cmds.aimConstraint(objB,objA,upVector=[0,1,0],aimVector=[0,0,1],sk=['x','z'],worldUpType="vector")
+        cmds.pointConstraint(jntList[-1],objA,mo=0,n='pcc1')
+        cmds.delete("pcc1")
+        cmds.pointConstraint(cmds.listRelatives(jntList[-1],c=1)[0],objB,mo=0)
+        offsetValue = cmds.getAttr("%s.ry"%(objA))
+        cmds.delete(objA,objB)
+        cmds.setAttr("%s.ry"%ikCtrl[1],offsetValue)    
+        cmds.setAttr("%s.ry"%ikCtrl[-1],-1*offsetValue)
+        #print offsetValue
+        if "left" in ikName.lower():
+            ikMain,ikLegGrp = ikLegAuto("Left",ikCtrl[-2],1,const = ikCtrl[-1])
+            cmds.connectAttr("%s.legTwist"%ikCtrl[-2],"%s.twist"%ikHdl[0])
+
+            
+        elif "right" in ikName.lower():
+            ikMain,ikLegGrp = ikLegAuto("Right",ikCtrl[-2],-1,const = ikCtrl[-1])
+            connectUnitConvert(input = "%s.legTwist"%ikCtrl[-2],output = "%s.twist"%ikHdl[0],factor = -1)
+            
+
+        footJnt = cmds.listRelatives(jntList[-1],c=1,type = "joint")[0]
+        toeJnt = cmds.listRelatives(footJnt,c=1,type = "joint")[0]
+        footIkHdl = cmds.ikHandle(sj=jntList[-1],ee = footJnt,solver = "ikSCsolver",name = ikLegGrp[0].replace("_grp",""))
+        toeIkHdl = cmds.ikHandle(sj=footJnt,ee = toeJnt,solver = "ikSCsolver",name = ikLegGrp[2].replace("_grp",""))
+        
+        cmds.pointConstraint(jntList[-1],ikLegGrp[0],mo=0,name = "PCCC1")
+        cmds.pointConstraint(footJnt,ikLegGrp[1],mo=0,name = "PCCC2") 
+        cmds.pointConstraint(footJnt,ikLegGrp[2],mo=0,name = "PCCC3")
+        cmds.delete("PCCC1","PCCC2","PCCC3") 
+        
+        cmds.parent (footIkHdl[0],ikLegGrp[0])
+        cmds.parent (ikHdl[0],ikLegGrp[1])
+        cmds.parent (toeIkHdl[0],ikLegGrp[2])
+        cmds.parent (ikMain,  ikSysGrp)
+    return [mainCtrlGrp,ikSysGrp]
