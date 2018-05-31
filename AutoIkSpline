@@ -99,9 +99,9 @@ def controllerCv(name = "",type = "cylinder",face = "y"):##controllerCv(name = "
 
 
 def createSplineJointProxy():#createSplineJointProxy()
-    iterate=0
+    iterate=1
     cmds.select(deselect = 1)
-    jntA = cmds.joint(name = "jnt_spline"+str(iterate))
+    jntA = cmds.joint(name = "jnt_spline_proxy"+str(iterate).zfill(2))
     cmds.addAttr(jntA, longName = "ctrlNumber", attributeType = "long", min=3, defaultValue = 3, keyable =1)
     cmds.addAttr(jntA, longName = "drivenJoint", attributeType = "long", min=3, defaultValue = 5, keyable =1)
     cmds.setAttr("%s.type"%jntA,18)
@@ -109,7 +109,7 @@ def createSplineJointProxy():#createSplineJointProxy()
     cmds.setAttr("%s.drawLabel"%jntA,1)
     iterate +=1
     for ind in range(2):
-        jntB = cmds.joint(name = "jnt_spline"+str(iterate),position = (0,9*iterate,0))
+        jntB = cmds.joint(name = "jnt_spline_proxy"+str(iterate).zfill(2),position = (0,9*iterate,0))
         cmds.setAttr("%s.type"%jntB,18)
         cmds.setAttr("%s.otherType"%jntB,str(iterate),type = "string")
         cmds.setAttr("%s.drawLabel"%jntB,1)        
@@ -171,6 +171,7 @@ def runAutospline():
     for jnt in cmds.ls(type = "joint"):
         attr = cmds.getAttr("%s.otherType"%jnt)
         if attr.isdigit():
+            jnt = cmds.rename(jnt,jnt.replace("proxy",""))
             ctrlJnt.append(jnt)
             crvPos.append(cmds.xform(jnt,q=1,ws=1,t=1))
             if attr == "0":
@@ -178,7 +179,7 @@ def runAutospline():
                drivenNum = cmds.getAttr("%s.drivenJoint"%jnt)
                
     
-    name = ctrlJnt[0][:-1]
+    name = "_".join(ctrlJnt[0].split("_")[:-1])
     newCvPos = []
     cvIter = 0
     for cv in range((len(crvPos)*2)-1):
@@ -210,7 +211,7 @@ def runAutospline():
     cmds.select(deselect = 1)
     cvLen = cmds.arclen(ikCurve,ch=0)       
     for drvn in range(int(drivenNum)):
-        jnt = cmds.joint(name = "%s_%s_skin"%(name,drvn))
+        jnt = cmds.joint(name = "%s_%s_skin"%(name,str(drvn+1).zfill(2)))
         
         if drvn != 0:
             cmds.setAttr("%s.tx"%jnt,cvLen/(drivenNum-1))
@@ -291,5 +292,8 @@ def runAutospline():
     cmds.connectAttr("%s.s"%jntGrp[0],"%s.input2"%scaleFixUtil[1],f=1)
     cmds.delete(scaleFixUtil[0])
 
-#createSplineJointProxy()
-#runAutospline()
+if cmds.objExists("jnt_spline_proxy01"):
+    runAutospline()
+else:
+    createSplineJointProxy()
+#
