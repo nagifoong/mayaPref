@@ -1,4 +1,19 @@
-def creaAnimInfi(name,type):#name = "aaa.bbb"creaAnimInfi("aaa.bbb",2)
+def mirrorJnt (*n):
+    #mirrorJnt(cmds.ls(sl=1))
+    # Mirror joint on YZ plane and re-orient the x axis to point towards the next joint
+    jntList =cmds.mirrorJoint(n[0],mirrorYZ=1,mirrorBehavior=1,searchReplace=["Left","Right"])
+    cmds.parent(jntList[1:],w=1)
+    for ind , jnt in enumerate(jntList):
+        val = cmds.getAttr("%s.jointOrientY"%jnt)+180    
+        cmds.setAttr("%s.jointOrientY"%jnt,val)
+        if ind != 0:
+            cmds.parent(jnt,jntList[ind-1])
+    #cmds.select(jntList[0])
+    return jntList
+
+def creaAnimInfi(name,type):
+    #name = "aaa.bbb"creaAnimInfi("aaa.bbb",2)
+    #Creating Infinite animation loop on selected animCurve node
 	name,attr=name.split(".")
 	animCurve = cmds.createNode("animCurveUA",n=name+"_"+attr)
 	if type ==-1:##Left-up
@@ -19,11 +34,12 @@ def creaAnimInfi(name,type):#name = "aaa.bbb"creaAnimInfi("aaa.bbb",2)
 		cmds.setAttr(animCurve+".postInfinity",4)
 		#cmds.setInfinity("aaa_bbb",poi="cycleRelative")
 	cmds.connectAttr(animCurve+".output",name+"."+attr,f=1)
-	print animCurve
+	#print animCurve
 	return animCurve	
 	
 	
 def ikLegAuto (prefix,ctrl,mirror,const = None):#1=posX,-1=negX
+    #Create Ik leg function, such as roll,tilt and etc
 	#ikLegAuto("LeftA",cmds.ls(sl=1)[0],1)
 	cmds.addAttr(ctrl,ln="roll",at='double',k=1)
 	cmds.addAttr(ctrl,ln="tilt",at='double',k=1)
@@ -33,7 +49,7 @@ def ikLegAuto (prefix,ctrl,mirror,const = None):#1=posX,-1=negX
 	cmds.addAttr(ctrl,ln="toeCurl",at='double',k=1)
 	cmds.addAttr(ctrl,ln="toeRotZ",at='double',k=1)
 	cmds.addAttr(ctrl,ln="legTwist",at='double',k=1)
-	#mirror=1 cmds.ls(sl=1,long=1)
+	
 	outF = cmds.spaceLocator(n=prefix+"_foot_outter")[0]
 	cmds.setAttr(outF+".translate",1*mirror,0,0,typ="double3")
 	
@@ -65,21 +81,28 @@ def ikLegAuto (prefix,ctrl,mirror,const = None):#1=posX,-1=negX
 	cmds.parent(footGrp,outF)
 	cmds.parent(heel,offGrp)
     
-	if mirror == 1:
-		for axis in ['x','y','z']:
-			for loc in [outF,heel,inF,toe]:
-				getVal = cmds.getAttr("%s.t%s"%(loc.replace("Left","Right"),axis)) 
-				if loc == outF or loc == inF and axis == 'x':	
-					getVal *=-1
-				cmds.setAttr("%s.t%s"%(loc,axis),getVal)
-                
-	if mirror == -1:
-		for axis in ['x','y','z']:
-			for loc in [outF,heel,inF,toe]:
-				getVal = cmds.getAttr("%s.t%s"%(loc.replace("Right","Left"),axis)) 
-				if (loc == outF or loc == inF) and axis == 'x':	
-					getVal *=-1
-				cmds.setAttr("%s.t%s"%(loc,axis),getVal)
+	footProxy = "jnt_%s_toe_proxy"%prefix
+	for axis in ['x','y','z']:
+		for loc in [outF,heel,inF,toe]:
+			if mirror == 1:
+				if cmds.objExists(loc.replace("Left","Right")):
+					getVal = cmds.getAttr("%s.t%s"%(loc.replace("Left","Right"),axis)) 
+					if (loc == outF or loc == inF) and axis == 'x':	
+						getVal *=-1
+					cmds.setAttr("%s.t%s"%(loc,axis),getVal)
+					continue
+    				                
+			if mirror == -1:
+				if cmds.objExists(loc.replace("Right","Left")):
+					getVal = cmds.getAttr("%s.t%s"%(loc.replace("Right","Left"),axis)) 
+					if (loc == outF or loc == inF) and axis == 'x':	
+					    getVal *=-1
+					cmds.setAttr("%s.t%s"%(loc,axis),getVal)
+					continue
+			if cmds.objExists(footProxy):
+				cmds.pointConstraint(loc+"_proxy",loc,mo=0,name = "PCCC1")
+				cmds.delete ("PCCC1")
+			    
 
 	cmds.connectAttr(ctrl+".roll",creaAnimInfi(legGrp+".rx",1)+".input",f=1)	
 	cmds.connectAttr(ctrl+".roll",creaAnimInfi(heel+".rx",-2)+".input",f=1)
@@ -105,11 +128,13 @@ def ikLegAuto (prefix,ctrl,mirror,const = None):#1=posX,-1=negX
 		cmds.setAttr(toeRotZuC+".conversionFactor",cmds.getAttr(toeRotZuC+".conversionFactor")*mirror)	
 			
 	if const != None:	
-		temp = cmds.parentConstraint(ctrl,mainGrp,mo=0)
-		cmds.delete(temp)
+		#temp = cmds.parentConstraint(ctrl,mainGrp,mo=0)
+		#cmds.delete(temp)
 		cmds.parentConstraint(const,mainGrp,mo=1)
+		cmds.scaleConstraint(const,mainGrp,mo=1)
 	else:
-		cmds.parentConstraint(ctrl,mainGrp,mo=0)
+		cmds.parentConstraint(ctrl,mainGrp,mo=1)
+		cmds.scaleConstraint(ctrl,mainGrp,mo=1)
 	return mainGrp,[footGrp,legGrp,toeGrp]
 
 
@@ -153,9 +178,10 @@ def createController (reposition = "parent",target = None,name = "",shape = ""):
         cv = cmds.curve(n = name,d=1,p=[[-0.5, 0.5, 0.5], [-0.5, -0.5, 0.5], [0.5, -0.5, 0.5], [0.5, 0.5, 0.5], [-0.5, 0.5, 0.5], [-0.5, 0.5, -0.5], [-0.5, -0.5, -0.5], [-0.5, -0.5, 0.5], [-0.5, -0.5, -0.5], [0.5, -0.5, -0.5], [0.5, 0.5, -0.5], [-0.5, 0.5, -0.5], [0.5, 0.5, -0.5], [0.5, 0.5, 0.5], [0.5, -0.5, 0.5], [0.5, -0.5, -0.5]])
     if shape == "4arrow":
         cv = cmds.curve(n = name,d=1,p=[[0, 0, 10], [4, 0, 6], [2, 0, 6], [3, 0, 3], [6, 0, 2], [6, 0, 4], [10, 0, 0], [6, 0, -4], [6, 0, -2], [3, 0, -3], [2, 0, -6], [4, 0, -6], [0, 0, -10], [-4, 0, -6], [-2, 0, -6], [-3, 0, -3], [-6, 0, -2], [-6, 0, -4], [-10, 0, 0], [-6, 0, 4], [-6, 0, 2], [-3, 0, 3], [-2, 0, 6], [-4, 0, 6], [0, 0, 10]])
-
+    if shape == "circle":
+        cv = cmds.circle(n=name, c = [0,0,0], nr = [0,1,0],r=1,ch=0)
     if shape == None:
-        tempConst =eval("cmds.%sConstraint(\"%s\",grp,mo=0)"%(reposition,name))
+        tempConst =eval("cmds.%sConstraint(target,grp,mo=0)"%(reposition))
         cmds.delete(tempConst)
         return [grp]
         
@@ -165,7 +191,8 @@ def createController (reposition = "parent",target = None,name = "",shape = ""):
     cmds.select(d=1)
     endJnt = cmds.joint(n= "%s_const_parent"%name)
     cmds.setAttr("%s.drawStyle"%endJnt,2)
-    endJnt = cmds.parent(endJnt,cv)[0]
+    
+    cmds.parent(endJnt,cv)[0]
     
     if reposition == 0:
         return [grp,offset,cv,endJnt]        
@@ -179,21 +206,27 @@ def createController (reposition = "parent",target = None,name = "",shape = ""):
     
 def AutoIkLimb (jntList = [] ,ikName = ''): 
     # pass a list contains three joints and Prefix to create an Ik Limb with stretchy function
-    #AutoIkLimb (cmds.ls(sl=1),ikName = "Right_leg")
+    #AutoIkLimb (cmds.ls(sl=1),ikName = "Left_leg")
     from maya import cmds, OpenMaya
+    ikList = []
+    for name in ikName.split("_"):
+        if name.lower() not in ["ik","jnt"]:
+            ikList.append(name)
+            
+    ikName = "_".join(ikList)
     
     if len(jntList) != 3:
         cmds.warning("Selected objects need to be exactly three.")
         return
     
-    mainCtrlGrp = cmds.group(em=1, name = "CTRL_%s_main_grp"%ikName)
+    mainCtrlGrp = cmds.group(em=1, name = "CTRL_%s_ikMain_grp"%ikName)
     ikSysGrp = cmds.group(em=1, name = "%s_ikSystem_grp"%ikName)
     midName = jntList[1].split("|")[-1]
     
     if "jnt" in jntList[1]:
         ctrlName = midName.replace("jnt","CTRL")
     else:
-        ctrlName = "CTRL_%s"%midName
+        ctrlName = "CTRL_%s_ik"%midName
         
     ##Pole Vector calculation##    
     start = cmds.xform(jntList[0] ,q= 1 ,ws = 1,t =1 )
@@ -209,23 +242,23 @@ def AutoIkLimb (jntList = [] ,ikName = ''):
     startEndN = startEnd.normal()
     projV = startEndN * proj
     arrowV = startMid - projV
-    arrowV*= 2
+    #arrowV*= startEnd.length()
     finalV = arrowV + midV
-    
+    print startEnd.length(),startEnd
     ##Pole Vector Controller Creation and Reposition ##
     PVCtrl = createController(name = ctrlName,reposition = 0,shape = "locator")
         
-    cmds.xform(PVCtrl[0] , ws =1 , t= (finalV.x  , finalV.y  , finalV.z ))
+    cmds.xform(PVCtrl[0] , ws =1 , t= (finalV.x  , finalV.y  , finalV.z+float(startEnd.length())/2 ))
     
     ##IkHandle and Pole Vector constraint
     ikHdl = cmds.ikHandle(sj=jntList[0],ee = jntList[2],solver = "ikRPsolver",name = "%s_ikHandle"%ikName)
-    ikHdlGrp = createController(shape = None,name = ikHdl[0])
+    ikHdlGrp = createController(shape = None,name = ikHdl[0],target = ikHdl[0])
     ikHdl[0] = cmds.parent (ikHdl[0],ikHdlGrp[-1])[0]
     
     cmds.poleVectorConstraint(PVCtrl[-1],ikHdl[0])
     
     ##IkHandle Controller
-    ikCtrl = createController(name = "CTRL_%s_IK"%ikName,reposition = 'point' ,target = jntList[2],shape = "cube")
+    ikCtrl = createController(name = "CTRL_%s_ik"%ikName,reposition = 'point' ,target = jntList[2],shape = "cube")
     cmds.addAttr(ikCtrl[-2],ln="stretchy",at="double",min=0,max=10,dv=10,k=1)
     cmds.addAttr(ikCtrl[-2],longName='length_1',at='double',min=0,dv=1,k=1)
     cmds.addAttr(ikCtrl[-2],longName='length_2',at='double',min=0,dv=1,k=1)
@@ -313,15 +346,16 @@ def AutoIkLimb (jntList = [] ,ikName = ''):
     #Clean Up
     cmds.parent(disGrpA,disGrp,ikHdlGrp,ikSysGrp)
     
-    ## Make sure leg ctrl pivot is on the grid
+    
     if "leg" in ikName.lower() :
+        ## Make sure ikLeg ctrl pivot is on the grid
         ikHdl[0] = cmds.parent(ikHdl[0],w=1)[0]
         cmds.delete(ikHdlGrp)
         pivot = cmds.xform(ikCtrl[-2],q=1,ws=1,t=1)        
         cmds.setAttr("%s.rotatePivotY"%ikCtrl[-2],-1*pivot[1])
-            
+        cmds.setAttr("%s.scalePivotY"%ikCtrl[-2],-1*pivot[1])    
         objA,objB = cmds.spaceLocator()[0],cmds.spaceLocator()[0]
-        #cmds.setAttr("%s.rotateOrder"%obj,2)
+        
 
         cmds.aimConstraint(objB,objA,upVector=[0,1,0],aimVector=[0,0,1],sk=['x','z'],worldUpType="vector")
         cmds.pointConstraint(jntList[-1],objA,mo=0,n='pcc1')
@@ -331,17 +365,18 @@ def AutoIkLimb (jntList = [] ,ikName = ''):
         cmds.delete(objA,objB)
         cmds.setAttr("%s.ry"%ikCtrl[1],offsetValue)    
         cmds.setAttr("%s.ry"%ikCtrl[-1],-1*offsetValue)
-        #print offsetValue
+        
+        #connect ikHandle twist to controller's attribute
         if "left" in ikName.lower():
             ikMain,ikLegGrp = ikLegAuto("Left",ikCtrl[-2],1,const = ikCtrl[-1])
-            cmds.connectAttr("%s.legTwist"%ikCtrl[-2],"%s.twist"%ikHdl[0])
+            connectUnitConvert(input = "%s.legTwist"%ikCtrl[-2],output = "%s.twist"%ikHdl[0],factor = 0.017)
 
             
         elif "right" in ikName.lower():
             ikMain,ikLegGrp = ikLegAuto("Right",ikCtrl[-2],-1,const = ikCtrl[-1])
-            connectUnitConvert(input = "%s.legTwist"%ikCtrl[-2],output = "%s.twist"%ikHdl[0],factor = -1)
+            connectUnitConvert(input = "%s.legTwist"%ikCtrl[-2],output = "%s.twist"%ikHdl[0],factor = -0.017)
             
-
+        #create ikHandle for foot and toe joint
         footJnt = cmds.listRelatives(jntList[-1],c=1,type = "joint")[0]
         toeJnt = cmds.listRelatives(footJnt,c=1,type = "joint")[0]
         footIkHdl = cmds.ikHandle(sj=jntList[-1],ee = footJnt,solver = "ikSCsolver",name = ikLegGrp[0].replace("_grp",""))
@@ -356,4 +391,138 @@ def AutoIkLimb (jntList = [] ,ikName = ''):
         cmds.parent (ikHdl[0],ikLegGrp[1])
         cmds.parent (toeIkHdl[0],ikLegGrp[2])
         cmds.parent (ikMain,  ikSysGrp)
+        
     return [mainCtrlGrp,ikSysGrp]
+
+def AutoFkLimbs(jntList=[],name = ""):
+    #Create controllers for fk joint chain
+    ctList = []
+    
+    if "left" in name.lower():
+        ctList = createController(name = (name.replace("jnt","CTRL"))+"Main",target=jntList[0],shape = None,reposition = "point")
+        for jnt in jntList:
+            ctName = createController(name = jnt.replace("jnt","CTRL"),target=jnt,shape = "circle")
+            
+            if len(ctList)!=0:
+                cmds.parent(ctName[0],ctList[-1])            
+            
+            ctList.append(ctName[2])
+            cmds.parentConstraint(ctName[-1],jnt,mo=1)
+    elif "right" in name.lower():
+        ctGrp = name.replace("jnt","CTRL").replace("Right","Left").replace("right","left")+"Main_grp"
+       
+        if cmds.objExists(ctGrp):
+            
+            dulGrp = cmds.duplicate(ctGrp,rc=1)
+            newGrp = []
+            if "blendParent1" in cmds.listAttr(dulGrp):
+                cmds.deleteAttr(dulGrp[0],at=  "blendParent1")
+            #newGrp = cmds.rename(newGrp,newGrp.replace("Right","Left").replace("right","left"))
+            for obj in dulGrp:
+                if cmds.objectType(obj) in ["transform","joint"]:
+                    #newName = obj.replace("Right","Left").replace("right","left")
+                    if obj[-1]=="1":
+                        newName=obj[:-1]
+                    temp = cmds.rename(obj,newName.replace("Left","Right").replace("left","right"))
+                
+                    newGrp.append(temp)  
+                    if cmds.objectType(temp,i="joint"):                                      
+                        ctList.append(cmds.listRelatives(temp,p=1,type = "transform")[0]) 
+                
+            cmds.setAttr(newGrp[0]+".tx",cmds.getAttr(newGrp[0]+".tx")*-1)
+            cmds.setAttr(newGrp[0]+".sx",-1)
+            for jnt in jntList:
+                cmds.parentConstraint(jnt.replace("jnt","CTRL"),jnt,mo=1)
+                cmds.parentConstraint(jnt.replace("jnt","CTRL"),jnt,mo=1)
+        
+        cmds.parent(newGrp[0],w=1)
+        #ctList = newGrp
+        ctList.insert(0,newGrp[0])
+        print ctList    
+    return ctList
+    
+def fkIkJoints(*n):#fkIkJoints(cmds.ls(sl=1))
+    # Create fkIk system on the selected joints
+    selection = n[0]
+    skinJnts = []
+    fkJnts = []
+    ikJnts = []
+    parentJnt = ""
+    if len(selection)== 1:
+        cmds.select(selection[0], hi =1)
+        skinJnts = cmds.ls(sl=1,type = "joint")
+    elif len(selection) == 2:
+        
+        parentJnt = selection[-1]
+        cmds.select(selection[0], hi =1)
+        skinJnts =cmds.ls(sl=1,type = "joint")
+      
+    #create groups to organize objects
+    grpName = skinJnts[0].replace("jnt_","").replace("skin_","")
+    utilGrp = cmds.group(em=1,n=grpName+"_util_grp")
+    cmds.addAttr(utilGrp,ln= "ikFk",at="double",min = 0,max = 1 ,k=1 )
+    
+    #Create and connect ikFk switch on util grp
+    revNode =  cmds.createNode("reverse",n=skinJnts[0]+"_REV")
+    cmds.connectAttr(utilGrp+".ikFk",revNode+".inputX")
+    
+    fkGrp = cmds.group(em=1,n=grpName+"_fk_grp")
+    ikGrp = cmds.group(em=1,n=grpName+"_ik_grp")
+    cmds.connectAttr(revNode+".inputX",fkGrp+".visibility")
+    cmds.connectAttr(revNode+".outputX",ikGrp+".visibility") 
+    
+    cmds.parentConstraint(parentJnt,fkGrp,mo=0)
+    cmds.parentConstraint(parentJnt,ikGrp,mo=0)
+    
+    #Duplicate and rename joints as ik chain and fk chain        
+    cmds.duplicate(skinJnts,rc=1)
+    for dul in cmds.duplicate(skinJnts,rc=1):        
+        ikJnts.append(cmds.rename(dul,dul.replace("skin2","ik")))
+        fkJnts.append(cmds.rename(dul.replace("skin2","skin1"),dul.replace("skin2","fk")))
+ 
+    cmds.parent(ikJnts[0],ikGrp)
+    cmds.parent(fkJnts[0],fkGrp)
+    cmds.parent(ikGrp,fkGrp,utilGrp)    
+    for jnt in skinJnts:        
+        for type in ["translate","rotate","scale"]:
+            blender = cmds.createNode("blendColors",n=jnt.replace("skin",type))
+            cmds.connectAttr(jnt.replace("skin","ik")+"."+type,blender+".color2")
+            cmds.connectAttr(jnt.replace("skin","fk")+"."+type,blender+".color1")
+            cmds.connectAttr(utilGrp+".ikFk",blender+".blender")
+            cmds.connectAttr(blender+".output",jnt+"."+type)
+            
+    #Create system on fk and ik joints        
+    ikSys = AutoIkLimb (jntList = ikJnts[:3] ,ikName = ikJnts[0].replace("thigh","leg").replace("clavicle","arm"))
+    fkSys = AutoFkLimbs (jntList = fkJnts[:-1] , name= fkJnts[0].replace("thigh","leg").replace("clavicle","arm"))
+     
+    cmds.parent(ikSys[1],utilGrp)
+
+    cmds.connectAttr("%s.visibility"%ikGrp,"%s.visibility"%ikSys[0])
+    cmds.connectAttr("%s.visibility"%fkGrp,"%s.visibility"%fkSys[0])
+    
+    #Parent controllers into one group
+    ctrlMainGrp = cmds.group(em=1,name = skinJnts[0].replace("thigh","leg").replace("clavicle","arm").replace("skin","main_grp").replace("jnt","CTRL"))
+    cmds.parent(ikSys[0],fkSys[0],ctrlMainGrp) 
+    const = cmds.parentConstraint(parentJnt,fkSys[0],mo=1)
+    cmds.parent(const,utilGrp)
+    cmds.setKeyframe(fkSys[0],at = "r" )
+    try:
+        cmds.addAttr(fkSys[1],longName = "global",at = "double" , min = 0 , max= 10 ,dv = 0,k=1)
+    except:pass
+    connectUnitConvert(input = '%s.global'%fkSys[1],output = '%s.blendParent1'%fkSys[0],factor = .1,reverse = 1)
+    
+       
+    return (ctrlMainGrp,utilGrp)
+
+
+    
+selection = cmds.ls(sl=1)    
+ctrlMainGrp,utilGrp = fkIkJoints(selection)
+#Try to mirror joint if other side of the joint is not exists
+if not cmds.objExists(selection[1].replace("Left","Right")):
+    negJnt = mirrorJnt(selection[1])
+    mirrorCtrlMainGrp,mirrorUtilGrp = fkIkJoints([negJnt[1],negJnt[0]])
+    
+if not cmds.objExists("util_grp"):
+    cmds.group(name = "util_grp",em=1)
+cmds.parent(mirrorUtilGrp,utilGrp,"util_grp")
