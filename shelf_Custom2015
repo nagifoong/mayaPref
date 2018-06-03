@@ -1,0 +1,1266 @@
+global proc shelf_Custom () {
+    global string $gBuffStr;
+    global string $gBuffStr0;
+    global string $gBuffStr1;
+
+
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "file -type mayaAscii" 
+        -enableBackground 0
+        -align "center" 
+        -label "file -type mayaAscii" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "SV-ma" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "file -type mayaAscii" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Change Panel " 
+        -enableBackground 0
+        -align "center" 
+        -label "setNamedPanelLayout \"Persp/Outliner\"" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Pnl" 
+        -overlayLabelColor 1 0 0 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "menuIconWindow.png" 
+        -image1 "menuIconWindow.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "setNamedPanelLayout \"Persp/Outliner\";" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "----------------" ( "setNamedPanelLayout \"Persp/Outliner\";" )
+        -mi "Outliner" ( "setNamedPanelLayout \"Persp/Outliner\";" )
+        -mi "Four View" ( "setNamedPanelLayout \"Four View\";" )
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Common Window/Editor" 
+        -enableBackground 0
+        -align "center" 
+        -label "Node Editor" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Wdw" 
+        -overlayLabelColor 1 0 0 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "menuIconWindow.png" 
+        -image1 "menuIconWindow.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "NodeEditorWindow" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "Node Editor" ( "NodeEditorWindow" )
+        -mi "Graph Editor" ( "GraphEditor" )
+        -mi "Component Editor" ( "ComponentEditor" )
+        -mi "Expression Editor" ( "ExpressionEditor" )
+        -mi "Hypershade Window" ( "HypershadeWindow" )
+        -mi "Texture View Window" ( "TextureViewWindow" )
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Toggle local rotation axis visibility" 
+        -enableBackground 0
+        -align "center" 
+        -label "Local Rotation Axes" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "LRA" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "menuIconDisplay.png" 
+        -image1 "menuIconDisplay.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "ToggleLocalRotationAxes" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Toggle CV visibility" 
+        -enableBackground 0
+        -align "center" 
+        -label "CVs" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "CVs" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "menuIconDisplay.png" 
+        -image1 "menuIconDisplay.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "ToggleCVs" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Display Face Normals" 
+        -enableBackground 0
+        -align "center" 
+        -label "Face Normals" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "FN" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "menuIconDisplay.png" 
+        -image1 "menuIconDisplay.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "ToggleFaceNormalDisplay" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select -hi" 
+        -enableBackground 0
+        -align "center" 
+        -label "select -hi" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "-HI" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -hi" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Select an object(s)" 
+        -enableBackground 0
+        -align "center" 
+        -label "Freeze Transformations" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "FT" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "menuIconModify.png" 
+        -image1 "menuIconModify.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "FreezeTransformations" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Select an object(s)" 
+        -enableBackground 0
+        -align "center" 
+        -label "Center Pivot" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "CP" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "menuIconModify.png" 
+        -image1 "menuIconModify.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "CenterPivot" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Delete construction history on the selected object(s)" 
+        -enableBackground 0
+        -align "center" 
+        -label "History" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Hist" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "menuIconEdit.png" 
+        -image1 "menuIconEdit.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "DeleteHistory" 
+        -sourceType "mel" 
+        -doubleClickCommand "doBakeNonDefHistory( 1, {\"prePost\" });" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "EP curve tool options" 
+        -enableBackground 0
+        -align "center" 
+        -label "menuItem1106" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "curveEP.png" 
+        -image1 "curveEP.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "EPCurveToolOptions" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Rebuild curve options" 
+        -enableBackground 0
+        -align "center" 
+        -label "Rebuild Curve Option Box" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "rebuildCurve.png" 
+        -image1 "rebuildCurve.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "RebuildCurveOptions" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a NURBS circle on the grid" 
+        -enableBackground 1
+        -align "center" 
+        -label "Circle" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "NURBS" 
+        -overlayLabelColor 0.739777 0.739777 0.739777 
+        -overlayLabelBackColor 0.297398 0.297398 0.297398 1 
+        -image "circle.png" 
+        -image1 "circle.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "print (\"Right Click for more\");\nheadsUpMessage \"Right click it for more\"" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "---" ( "" )
+        -mi "Circle" ( "circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1; objectMoveCommand" )
+        -mi "Sphere" ( "$newCV = `createNode transform -n \"nurbsSphere1\"`;\ncreateNode nurbsCurve -n \"nurbsSphereShape1\" -p $newCV;\n\tsetAttr -k off \".v\";\n\tsetAttr \".cc\" -type \"nurbsCurve\" \n\t\t1 78 0 no 3\n\t\t79 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27\n\t\t 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54\n\t\t 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78\n\t\t79\n\t\t-1.8301530340720735e-032 1.0114885454683014 2.9888667252407753e-016\n\t\t0.2617924994702448 0.97702290906339739 0\n\t\t0.50574427273415168 0.8759747760125205 0\n\t\t0.71523040959315454 0.71523040959315343 0\n\t\t0.87597477601252138 0.50574427273415035 0\n\t\t0.97702290906339784 0.26179249947024286 0\n\t\t1.0114885454683022 -4.6338367666503048e-032 7.5676297359803043e-016\n\t\t0.97702290906339717 -0.26179249947024424 0\n\t\t0.87597477601252038 -0.50574427273415157 0\n\t\t0.71523040959315343 -0.71523040959315409 0\n\t\t0.50574427273415046 -0.87597477601252094 0\n\t\t0.26179249947024297 -0.97702290906339728 0\n\t\t-3.3478916934140324e-032 -1.0114885454683018 5.4675220573719136e-016\n\t\t-0.26179249947024397 -0.97702290906339717 0\n\t\t-0.50574427273415123 -0.87597477601252038 0\n\t\t-0.71523040959315387 -0.71523040959315332 0\n\t\t-0.87597477601252083 -0.50574427273415068 0\n\t\t-0.97702290906339706 -0.26179249947024308 0\n\t\t-1.0114885454683016 1.8966335795403798e-032 -3.097437695278165e-016\n\t\t-0.97702290906339662 0.26179249947024358 0\n\t\t-0.8759747760125205 0.50574427273415101 0\n\t\t-0.71523040959315354 0.71523040959315365 0\n\t\t-0.50574427273415079 0.87597477601252038 0\n\t\t-0.26179249947024325 0.97702290906339695 0\n\t\t-1.8301530340720735e-032 1.0114885454683014 2.9888667252407753e-016\n\t\t-1.6030167325850927e-017 0.97702290906339695 0.26179249947024325\n\t\t-3.096790523954919e-017 0.87597477601252038 0.50574427273415079\n\t\t-4.3795231588055291e-017 0.71523040959315365 0.71523040959315354\n\t\t-5.3637985278877645e-017 0.50574427273415101 0.8759747760125205\n\t\t-5.9825398913906209e-017 0.26179249947024358 0.97702290906339662\n\t\t-6.193581047909838e-017 3.097437695278165e-016 1.0114885454683016\n\t\t-5.9825398913906233e-017 -0.26179249947024308 0.97702290906339706\n\t\t-5.3637985278877664e-017 -0.50574427273415068 0.87597477601252083\n\t\t-4.3795231588055315e-017 -0.71523040959315332 0.71523040959315387\n\t\t-3.0967905239549215e-017 -0.87597477601252038 0.50574427273415123\n\t\t-1.603016732585097e-017 -0.97702290906339717 0.26179249947024397\n\t\t-3.3478916934140324e-032 -1.0114885454683018 5.4675220573719136e-016\n\t\t1.6030167325850912e-017 -0.97702290906339728 -0.26179249947024297\n\t\t3.0967905239549172e-017 -0.87597477601252094 -0.50574427273415046\n\t\t4.3795231588055285e-017 -0.71523040959315409 -0.71523040959315343\n\t\t5.3637985278877639e-017 -0.50574427273415157 -0.87597477601252038\n\t\t5.9825398913906246e-017 -0.26179249947024424 -0.97702290906339717\n\t\t6.1935810479098417e-017 -7.5676297359803043e-016 -1.0114885454683022\n\t\t5.9825398913906283e-017 0.26179249947024286 -0.97702290906339784\n\t\t5.3637985278877701e-017 0.50574427273415035 -0.87597477601252138\n\t\t4.3795231588055352e-017 0.71523040959315343 -0.71523040959315454\n\t\t3.0967905239549245e-017 0.8759747760125205 -0.50574427273415168\n\t\t1.6030167325851023e-017 0.97702290906339739 -0.2617924994702448\n\t\t-1.8301530340720735e-032 1.0114885454683014 2.9888667252407753e-016\n\t\t1.6030167325851023e-017 0.97702290906339739 -0.2617924994702448\n\t\t3.0967905239549245e-017 0.8759747760125205 -0.50574427273415168\n\t\t4.3795231588055352e-017 0.71523040959315343 -0.71523040959315454\n\t\t5.3637985278877701e-017 0.50574427273415035 -0.87597477601252138\n\t\t5.9825398913906283e-017 0.26179249947024286 -0.97702290906339784\n\t\t6.1935810479098417e-017 -7.5676297359803043e-016 -1.0114885454683022\n\t\t0.2617924994702448 5.9825398913906258e-017 -0.97702290906339739\n\t\t0.50574427273415168 5.3637985278877645e-017 -0.8759747760125205\n\t\t0.71523040959315454 4.3795231588055285e-017 -0.71523040959315343\n\t\t0.87597477601252138 3.0967905239549159e-017 -0.50574427273415035\n\t\t0.97702290906339784 1.6030167325850903e-017 -0.26179249947024286\n\t\t1.0114885454683022 -4.6338367666503048e-032 7.5676297359803043e-016\n\t\t0.97702290906339717 -1.6030167325850989e-017 0.26179249947024424\n\t\t0.87597477601252038 -3.0967905239549239e-017 0.50574427273415157\n\t\t0.71523040959315343 -4.3795231588055328e-017 0.71523040959315409\n\t\t0.50574427273415046 -5.363798527887767e-017 0.87597477601252094\n\t\t0.26179249947024297 -5.9825398913906246e-017 0.97702290906339728\n\t\t-6.193581047909838e-017 3.097437695278165e-016 1.0114885454683016\n\t\t-0.26179249947024397 -5.9825398913906246e-017 0.97702290906339717\n\t\t-0.50574427273415123 -5.3637985278877639e-017 0.87597477601252038\n\t\t-0.71523040959315387 -4.3795231588055278e-017 0.71523040959315332\n\t\t-0.87597477601252083 -3.0967905239549184e-017 0.50574427273415068\n\t\t-0.97702290906339706 -1.6030167325850918e-017 0.26179249947024308\n\t\t-1.0114885454683016 1.8966335795403798e-032 -3.097437695278165e-016\n\t\t-0.97702290906339662 1.6030167325850949e-017 -0.26179249947024358\n\t\t-0.8759747760125205 3.0967905239549202e-017 -0.50574427273415101\n\t\t-0.71523040959315354 4.3795231588055303e-017 -0.71523040959315365\n\t\t-0.50574427273415079 5.3637985278877639e-017 -0.87597477601252038\n\t\t-0.26179249947024325 5.9825398913906233e-017 -0.97702290906339695\n\t\t6.1935810479098417e-017 -7.5676297359803043e-016 -1.0114885454683022\n\t\t;\t\t\nselect $newCV;" )
+        -mi "Cylinder" ( "$newcy = `createNode transform -n \"nurbsCylinder1\"`;\ncreateNode nurbsCurve -n \"nurbsCylinderShape1\" -p \"nurbsCylinder1\";\n\tsetAttr -k off \".v\";\n\tsetAttr \".cc\" -type \"nurbsCurve\" \n\t\t1 63 0 no 3\n\t\t64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27\n\t\t 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54\n\t\t 55 56 57 58 59 60 61 62 63\n\t\t64\n\t\t-5.4675220573719136e-016 0.99999999999999989 1.0114885454683018\n\t\t0.26179249947024297 0.99999999999999989 0.97702290906339728\n\t\t0.50574427273415046 1 0.87597477601252094\n\t\t0.71523040959315343 1 0.71523040959315409\n\t\t0.87597477601252038 1 0.50574427273415157\n\t\t0.97702290906339717 1 0.26179249947024424\n\t\t1.0114885454683022 1 7.5676297359803043e-016\n\t\t0.97702290906339784 1 -0.26179249947024286\n\t\t0.87597477601252138 1 -0.50574427273415035\n\t\t0.71523040959315454 1 -0.71523040959315343\n\t\t0.50574427273415168 1 -0.8759747760125205\n\t\t0.2617924994702448 1 -0.97702290906339739\n\t\t-2.9888667252407753e-016 1 -1.0114885454683014\n\t\t-0.26179249947024325 1 -0.97702290906339695\n\t\t-0.50574427273415079 1 -0.87597477601252038\n\t\t-0.71523040959315354 1 -0.71523040959315365\n\t\t-0.8759747760125205 1 -0.50574427273415101\n\t\t-0.97702290906339662 1 -0.26179249947024358\n\t\t-1.0114885454683016 1 -3.097437695278165e-016\n\t\t-0.97702290906339706 1 0.26179249947024308\n\t\t-0.87597477601252083 1 0.50574427273415068\n\t\t-0.71523040959315387 1 0.71523040959315332\n\t\t-0.50574427273415123 1 0.87597477601252038\n\t\t-0.26179249947024397 0.99999999999999989 0.97702290906339717\n\t\t-5.4675220573719136e-016 0.99999999999999989 1.0114885454683018\n\t\t-5.4675220573719136e-016 -1 1.0114885454683018\n\t\t0.26179249947024297 -1 0.97702290906339728\n\t\t0.50574427273415046 -1 0.87597477601252094\n\t\t0.71523040959315343 -1 0.71523040959315409\n\t\t0.71523040959315343 1 0.71523040959315409\n\t\t0.71523040959315343 -1 0.71523040959315409\n\t\t0.87597477601252038 -1 0.50574427273415157\n\t\t0.97702290906339717 -1 0.26179249947024424\n\t\t1.0114885454683022 -1 7.5676297359803043e-016\n\t\t1.0114885454683022 1 7.5676297359803043e-016\n\t\t1.0114885454683022 -1 7.5676297359803043e-016\n\t\t0.97702290906339784 -1 -0.26179249947024286\n\t\t0.87597477601252138 -1 -0.50574427273415035\n\t\t0.71523040959315454 -1 -0.71523040959315343\n\t\t0.71523040959315454 1 -0.71523040959315343\n\t\t0.71523040959315454 -1 -0.71523040959315343\n\t\t0.50574427273415168 -1 -0.8759747760125205\n\t\t0.2617924994702448 -0.99999999999999989 -0.97702290906339739\n\t\t-2.9888667252407753e-016 -0.99999999999999989 -1.0114885454683014\n\t\t-2.9888667252407753e-016 1 -1.0114885454683014\n\t\t-2.9888667252407753e-016 -0.99999999999999989 -1.0114885454683014\n\t\t-0.26179249947024325 -0.99999999999999989 -0.97702290906339695\n\t\t-0.50574427273415079 -1 -0.87597477601252038\n\t\t-0.71523040959315354 -1 -0.71523040959315365\n\t\t-0.71523040959315354 1 -0.71523040959315365\n\t\t-0.71523040959315354 -1 -0.71523040959315365\n\t\t-0.8759747760125205 -1 -0.50574427273415101\n\t\t-0.97702290906339662 -1 -0.26179249947024358\n\t\t-1.0114885454683016 -1 -3.097437695278165e-016\n\t\t-1.0114885454683016 1 -3.097437695278165e-016\n\t\t-1.0114885454683016 -1 -3.097437695278165e-016\n\t\t-0.97702290906339706 -1 0.26179249947024308\n\t\t-0.87597477601252083 -1 0.50574427273415068\n\t\t-0.71523040959315387 -1 0.71523040959315332\n\t\t-0.71523040959315387 1 0.71523040959315332\n\t\t-0.71523040959315387 -1 0.71523040959315332\n\t\t-0.50574427273415123 -1 0.87597477601252038\n\t\t-0.26179249947024397 -1 0.97702290906339717\n\t\t-5.4675220573719136e-016 -1 1.0114885454683018\n\t\t;\nselect $newcy;" )
+        -mi "Square" ( "curve -d 1 -p -1 0 1 -p 1 0 1 -p 1 0 -1 -p -1 0 -1 -p -1 0 1 -k 0 -k 1 -k 2 -k 3 -k 4 -n \"nurbsSquare1\";" )
+        -mi "Cube" ( "curve -d 1 -p -0.5 0.5 0.5 -p -0.5 -0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 0.5 0.5 -p -0.5 0.5 0.5 -p -0.5 0.5 -0.5 -p -0.5 -0.5 -0.5 -p -0.5 -0.5 0.5 -p -0.5 -0.5 -0.5 -p 0.5 -0.5 -0.5 -p 0.5 0.5 -0.5 -p -0.5 0.5 -0.5 -p 0.5 0.5 -0.5 -p 0.5 0.5 0.5 -p 0.5 -0.5 0.5 -p 0.5 -0.5 -0.5 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -n \"nurbsCube1\";\n" )
+        -mi "Diamond" ( "createNode nurbsCurve -n \"nurbsDiamondShape1\";\n\tsetAttr -k off \".v\";\n\tsetAttr \".cc\" -type \"nurbsCurve\" \n\t\t1 13 0 no 3\n\t\t14 0 1 2 3 4 5 6 7 8 9 10 11 12 13\n\t\t14\n\t\t0 0 -1\n\t\t-1 0 0\n\t\t0 0 1\n\t\t1 0 0\n\t\t0 0 -1\n\t\t0 1.0000000000000002 0\n\t\t0 0 1.0000000000000009\n\t\t0 -1.0000000000000002 0\n\t\t0 0 -1.0000000000000009\n\t\t-1 0 0\n\t\t0 1 0\n\t\t1 0 0\n\t\t0 -1 0\n\t\t-1 0 0\n\t\t;" )
+        -mi "4 arrows" ( "curve -d 1 -p -1 0 -3 -p -2 0 -3 -p 0 0 -4 -p 2 0 -3 -p 1 0 -3 -p 1 0 -1 -p 3 0 -1 -p 3 0 -2 -p 4 0 0 -p 3 0 2 -p 3 0 1 -p 1 0 1 -p 1 0 3 -p 2 0 3 -p 0 0 4 -p -2 0 3 -p -1 0 3 -p -1 0 1 -p -3 0 1 -p -3 0 2 -p -4 0 0 -p -3 0 -2 -p -3 0 -1 -p -1 0 -1 -p -1 0 -3 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -k 11 -k 12 -k 13 -k 14 -k 15 -k 16 -k 17 -k 18 -k 19 -k 20 -k 21 -k 22 -k 23 -k 24 -n \"nurbsFourArrow1\";\n" )
+        -mi "2 arrows" ( "curve -d 1 -p -1 0 1 -p -1 0 -1 -p -2 0 -1 -p 0 0 -3 -p 2 0 -1 -p 1 0 -1 -p 1 0 1 -p 2 0 1 -p 0 0 3 -p -2 0 1 -p -1 0 1 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -k 8 -k 9 -k 10 -n \"nurbsTwoArrow1\";\n" )
+        -mi "Arrow" ( "curve -d 1 -p -2 0 -1 -p 0 0 -3 -p 2 0 -1 -p 1 0 -1 -p 1 0 1 -p -1 0 1 -p -1 0 -1 -p -2 0 -1 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 -n \"nurbsArrow\";\nCenterPivot;" )
+        -mi "2ArwCircle" ( "createNode transform -n \"nurbs2ArrowsCircle1\";\n\tsetAttr \".s\" -type \"double3\" 1 1 1 ;\ncreateNode nurbsCurve -n \"nurbs2ArrowsCircle1Shape1\" -p \"nurbs2ArrowsCircle1\";\n\tsetAttr -k off \".v\";\n\tsetAttr \".cc\" -type \"nurbsCurve\" \n\t\t3 35 1 no 3\n\t\t40 1.9968854389999997 1.9968854389999997 1.9968854389999997 2.9915894920000001\n\t\t 3.9915894920000001 4.9915894920000001 5.9915894920000001 5.9943925969000009 5.9947040530000004\n\t\t 6.094704053000001 6.9947040530000004 6.9947040530000004 6.9947040530000004 7.9947040530000004\n\t\t 7.9947040530000004 7.9947040530000004 8.9947040529999995 8.9947040529999995 8.9947040529999995\n\t\t 9.8947040529999999 9.9947040529999995 10.094704052999999 10.994704053 11.994704053\n\t\t 12.994704053 13.889937700699999 13.989408105999999 14.089408106 14.989408105999999\n\t\t 14.989408105999999 14.989408105999999 15.989408105999999 15.989408105999999 15.989408105999999\n\t\t 16.989408105999999 16.989408105999999 16.989408105999999 17.989408105999999 17.989408105999999\n\t\t 17.989408105999999\n\t\t38\n\t\t2 0 0\n\t\t1.9977037457969544 -3.2326802305125505e-017 0.52793674596843254\n\t\t1.5644566060264427 -9.6034917940356671e-017 1.5683692311484407\n\t\t-6.6784107271810389e-016 -1.3571464646221829e-016 2.2163883751087763\n\t\t-1.567223249782449 -9.5964746819769389e-017 1.5672232497824481\n\t\t-2.0006065593145705 -3.1898582522577175e-017 0.52094338620386216\n\t\t-2.0000002092555924 -9.9010676119921947e-021 0.00016169670502363953\n\t\t-1.9999932813776191 3.1789608911147721e-019 -0.0051916371207250452\n\t\t-1.6333333333333331 0 0\n\t\t-1.2999999999999998 0 0\n\t\t-1 0 0\n\t\t-1.6666666666666667 0 -0.66666666666666663\n\t\t-2.3333333333333335 0 -1.3333333333333333\n\t\t-3 0 -2\n\t\t-3.6666666666666665 0 -1.3333333333333333\n\t\t-4.333333333333333 0 -0.66666666666666663\n\t\t-5 0 0\n\t\t-4.7000000000000002 0 0\n\t\t-4.3666666666666663 0 0\n\t\t-4 0 0\n\t\t-3.9580028390867827 -7.0184851897878325e-017 1.1462056153128191\n\t\t-3.0299649495794019 -1.9457948694903535e-016 3.1777241745866514\n\t\t-1.3356821454362078e-015 -2.7142929292443659e-016 4.4327767502175526\n\t\t3.0249849908185897 -1.947057949660925e-016 3.179786941045438\n\t\t3.952197804900563 -7.1007501644354747e-017 1.1596405052263714\n\t\t4.0043002496476063 2.3216818686719049e-020 -0.00037915942299249217\n\t\t4.3666666666666671 0 0\n\t\t4.7000000000000011 0 0\n\t\t5 0 0\n\t\t4.333333333333333 0 -0.66666666666666663\n\t\t3.6666666666666665 0 -1.3333333333333333\n\t\t3 0 -2\n\t\t2.3333333333333335 0 -1.3333333333333333\n\t\t1.6666666666666667 0 -0.66666666666666663\n\t\t1 0 0\n\t\t1.3333333333333333 0 0\n\t\t1.6666666666666667 0 0\n\t\t2 0 0\n\t\t;" )
+        -mi "1ArwCircle" ( "createNode transform -n \"nurbs1ArrowCurve1\";\ncreateNode nurbsCurve -n \"nurbs1ArrowCurveShape1\" -p \"nurbs1ArrowCurve1\";\n\tsetAttr -k off \".v\";\n\tsetAttr \".cc\" -type \"nurbsCurve\" \n\t\t3 29 1 no 3\n\t\t34 0.0053792495680000003 0.0053792495680000003 0.0053792495680000003 1 2 3\n\t\t 4 5 5.8972044641000005 5.9968938490000001 6.0968938490000006 6.9068938490000003 6.9968938490000001\n\t\t 7.0965832339000006 7.9937876980000002 8.9937876980000002 9.9937876980000002 10.993787698\n\t\t 11.993787698 12.8889463733888 12.988408448432001 13.088408448432 13.988408448432001\n\t\t 13.988408448432001 13.988408448432001 14.988408448432001 14.988408448432001 14.988408448432001\n\t\t 15.988408448432001 15.988408448432001 15.988408448432001 16.988408448432001 16.988408448432001\n\t\t 16.988408448432001\n\t\t32\n\t\t0 0 -4\n\t\t-1.0560472914310692 2.4464371810511798e-016 -3.9953351166303381\n\t\t-3.1367745137115448 1.9158534809095656e-016 -3.1288261762386624\n\t\t-4.4327767502175517 7.8653418464751436e-032 -1.284507802894892e-015\n\t\t-3.134446499564898 -1.919294936395388e-016 3.1344464995648962\n\t\t-1.3356821454362078e-015 -2.7142929292443659e-016 4.4327767502175517\n\t\t3.0270441303406783 -1.9465356846335003e-016 3.178934017528571\n\t\t3.9540705005867829 -7.0745733822628496e-017 1.1553655122747952\n\t\t4.004311112762819 1.3497342764661559e-020 -0.00022042833532154305\n\t\t3.3270364411322904 1.1046399697038118e-021 -1.8040139744317782e-005\n\t\t2.6599999999999997 0 0\n\t\t1.9935404100666665 0 0\n\t\t1.977035250293391 -3.5372866911314279e-017 0.57768275613739817\n\t\t1.5135220651703385 -9.7326784231675013e-017 1.5894670087642857\n\t\t-6.6784107271810389e-016 -1.3571464646221829e-016 2.2163883751087763\n\t\t-1.567223249782449 -9.5964746819769401e-017 1.5672232497824481\n\t\t-2.2163883751087758 3.9326709232375718e-032 -6.4225390144744599e-016\n\t\t-1.5899096936593173 9.2611056428915117e-017 -1.5124533292928954\n\t\t-0.57990153956629931 1.2099897710147243e-016 -1.976063256535953\n\t\t0.00019262620918492068 1.2966819808730687e-018 -2.0021499254250799\n\t\t0 0 -1.6333333333333335\n\t\t0 0 -1.3\n\t\t0 0 -1\n\t\t0.66666666666666663 0 -1.666666666666667\n\t\t1.3333333333333333 0 -2.3333333333333335\n\t\t2 0 -3\n\t\t1.3333333333333333 0 -3.6666666666666661\n\t\t0.66666666666666663 0 -4.333333333333333\n\t\t0 0 -5\n\t\t0 0 -4.666666666666667\n\t\t0 0 -4.333333333333333\n\t\t0 0 -4\n\t\t;" )
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a locator object on the grid" 
+        -enableBackground 0
+        -align "center" 
+        -label "Locator" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "locator.png" 
+        -image1 "locator.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "CreateLocator" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Mirror skin weights options" 
+        -enableBackground 0
+        -align "center" 
+        -label "mirrorSkinWeightsDialog" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "mirrorSkinWeight.png" 
+        -image1 "mirrorSkinWeight.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "MirrorSkinWeights" 
+        -sourceType "mel" 
+        -doubleClickCommand "MirrorSkinWeightsOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Click to place joint. Click on existing joint to add to skeleton. Click-Drag to position joint." 
+        -enableBackground 0
+        -align "center" 
+        -label "Joint Tool" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "kinJoint.png" 
+        -image1 "kinJoint.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "JointTool" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Copy skin weights options" 
+        -enableBackground 0
+        -align "center" 
+        -label "copySkinWeights" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "copySkinWeight.png" 
+        -image1 "copySkinWeight.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "CopySkinWeights" 
+        -sourceType "mel" 
+        -doubleClickCommand "CopySkinWeightsOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Paint skin weights tool options" 
+        -enableBackground 0
+        -align "center" 
+        -label "skinWeightPaintDialogItem" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "paintSkinWeights.png" 
+        -image1 "paintSkinWeights.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "ArtPaintSkinWeightsToolOptions" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "----" ( "print(\"User defined menuItem\");" )
+        -mi "Smooth" ( "artAttrPaintOperation artAttrSkinPaintCtx Smooth;" )
+        -mi "replace val 1" ( "artAttrPaintOperation artAttrSkinPaintCtx Replace;\nartSkinSetSelectionValue 1 false artAttrSkinPaintCtx artAttrSkin;" )
+        -mi "replace val 0.5" ( "artAttrPaintOperation artAttrSkinPaintCtx Replace;\nartSkinSetSelectionValue 0.5 false artAttrSkinPaintCtx artAttrSkin;\n" )
+        -mi "replace val 0.25" ( "artAttrPaintOperation artAttrSkinPaintCtx Replace;\nartSkinSetSelectionValue 0.25 false artAttrSkinPaintCtx artAttrSkin;" )
+        -mi "add val 0.5" ( "artAttrPaintOperation artAttrSkinPaintCtx Add;\nartSkinSetSelectionValue 0.5 false artAttrSkinPaintCtx artAttrSkin;" )
+        -mi "add val 0.05" ( "artAttrPaintOperation artAttrSkinPaintCtx Add;\nartSkinSetSelectionValue 0.05 false artAttrSkinPaintCtx artAttrSkin;" )
+        -mi "add val 0.01" ( "artAttrPaintOperation artAttrSkinPaintCtx Add;\nartSkinSetSelectionValue 0.01 false artAttrSkinPaintCtx artAttrSkin;" )
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Artisan paint attributes tool options" 
+        -enableBackground 0
+        -align "center" 
+        -label "artisanPaintAttrDialogItem" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "artAttr.png" 
+        -image1 "artAttr.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "ArtPaintAttrToolOptions" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "$listA = `ls -sl`;\nparentConstraint -n\"pcC1\";\ndelete pcC1; \n" 
+        -enableBackground 0
+        -align "center" 
+        -label "move pivot" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "PVT" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "parentConstraint -n\"pcC1\";\ndelete pcC1; \n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "------" ( "print(\"User defined menuItem\");" )
+        -mi "point" ( "pointConstraint -n\"pcC1\";\ndelete pcC1; \n" )
+        -mi "orient" ( "orientConstraint -n\"pcC1\";\ndelete pcC1; \n" )
+        -mi "scale" ( "scaleConstraint -n\"pcC1\";\ndelete pcC1; \n" )
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select joint and parent" 
+        -enableBackground 0
+        -align "center" 
+        -label "Fk/Ik creation" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "FK/IK" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "//CREATE FK/IK LIMBS///\nstring $listSkin[] = `ls -sl`;\nduplicate -rc $listSkin[0];duplicate -rc $listSkin[0];\n\n\nint $size = size($listSkin);\n$nameIK = $listSkin[0]+\"1\";\nselect $nameIK;\nsearchReplaceNames \"skin1\" \"IK\" \"hierarchy\";\n$nameFK = $listSkin[0]+\"2\";\nselect $nameFK;\nsearchReplaceNames \"skin2\" \"FK\" \"hierarchy\";\n$nameIK = substituteAllString($nameIK,\"skin1\",\"IK\");\n$nameFK = substituteAllString($nameFK ,\"skin2\",\"FK\");\nselect -hi $nameIK;\nstring $listIK[] = `ls -sl`;\nselect -hi $nameFK;\nstring $listFK[] = `ls -sl`;\n\n\n//CREATE NODE//\nfor ($item in $listIK){\n    $temp1 = substituteAllString($item,\"_IK\",\"_rot\");\n    $temp2 = substituteAllString($item,\"_IK\",\"_trans\");\n    $temp3 = substituteAllString($item,\"_IK\",\"_scale\");    \n    shadingNode -asUtility blendColors -n $temp1;\n    shadingNode -asUtility blendColors -n $temp2;\n    shadingNode -asUtility blendColors -n $temp3;  \n}\n//CONNECT ATTRIBUTE//print $listIK\nfor ($item in $listIK){\n    $itemR = $item + \".rotate\";\n    $itemT = $item + \".translate\";\n    $itemS = $item + \".scale\";\n    \n    $tempR = substituteAllString($item,\"IK\",\"rot\");\n    $tempR = $tempR + \".color2\";    \n    $tempT = substituteAllString($item,\"IK\",\"trans\");\n    $tempT = $tempT + \".color2\";\n    $tempS = substituteAllString($item,\"IK\",\"scale\");\n    $tempS = $tempS + \".color2\";    \n    \n    connectAttr -f $itemT $tempT;\n    connectAttr -f $itemR $tempR;\n    connectAttr -f $itemS $tempS;\n}\n\nfor ($item in $listFK){    \n    $itemR = $item + \".rotate\";\n    $itemT = $item + \".translate\";\n    $itemS = $item + \".scale\";\n    \n    $tempR = substituteAllString($item,\"FK\",\"rot\");\n    $tempR = $tempR + \".color1\";    \n    $tempT = substituteAllString($item,\"FK\",\"trans\");\n    $tempT = $tempT + \".color1\";    \n    $tempS = substituteAllString($item,\"FK\",\"scale\");\n    $tempS = $tempS + \".color1\"; \n    \n    connectAttr -f $itemT $tempT ;\n    connectAttr -f $itemR $tempR;\n    connectAttr -f $itemS $tempS;\n}\n\nfor ($item in $listFK){\n    $item1 = substituteAllString($item,\"FK\",\"skin\");\n    $itemR = $item1 + \".rotate\";\n    $itemT = $item1 + \".translate\";\n    $itemS = $item1 + \".scale\";\n    \n    $tempR = substituteAllString($item,\"FK\",\"rot\");\n    $tempR = $tempR + \".output\";    \n    $tempT = substituteAllString($item,\"FK\",\"trans\");\n    $tempT = $tempT + \".output\";    \n    $tempS = substituteAllString($item,\"FK\",\"scale\");\n    $tempS = $tempS + \".output\"; \n    \n    connectAttr -f $tempT $itemT;\n    connectAttr -f $tempR $itemR;\n    connectAttr -f $tempS $itemS;\n}\n\n//FINISHING//\n\n$grpName = substituteAllString($listSkin[0],\"skin\",\"util_grp\");\n\n\ngroup -em -n $grpName;\naddAttr -ln \"ikFk\"  -at double  -min 0 -max 1 -k 1 $grpName;\n\n\n//parentConstraint -n \"pcTemp1\"$listSkin[1] $grpName ;delete pcTemp1;\n//parent $listFK[0] $listIK[0] $grpName ;\n\n$fkGRP = `group -em -n($listFK[0] + \"_grp\")`;\nparentConstraint -n \"pcTemp1\" $listSkin[1] $fkGRP ;delete pcTemp1;\nparent $listFK[0] $fkGRP ;\n\n$ikGRP = `group -em -n($listIK[0] + \"_grp\")`;\nparentConstraint -n \"pcTemp1\" $listSkin[1] $ikGRP ;delete pcTemp1;\nparent $listIK[0] $ikGRP ;\n\nparent $ikGRP $fkGRP $grpName;\n\n$groupConn = $grpName + \".ikFk\";\n\nfor ($item in $listFK){    \n    $temp1 = substituteAllString($item,\"FK\",\"rot\");\n    $tempR = $temp1 + \".blender\";    \n    $temp2 = substituteAllString($item,\"FK\",\"trans\");\n    $tempT = $temp2 + \".blender\";    \n    $temp3 = substituteAllString($item,\"FK\",\"scale\");\n    $tempS = $temp3 + \".blender\";    \n    \n    connectAttr -f $groupConn $tempR ;\n    connectAttr -f $groupConn $tempT ;\n    connectAttr -f $groupConn $tempS ;\n}\n\n$revName = substituteAllString($listSkin[0],\"skin\",\"vis_REVERSE\");\nshadingNode -asUtility reverse -n $revName;\nconnectAttr -f $groupConn ($revName+\".inputX\") ;\nconnectAttr -f ($revName+\".inputX\") ($fkGRP+\".visibility\") ;\nconnectAttr -f ($revName+\".outputX\") ($ikGRP+\".visibility\")  ;\n//connectAttr -f ($listSkin[1]+\".translate\") ($grpName+\".translate\" );\n//connectAttr -f ($listSkin[1]+\".rotate\") ($grpName+\".rotate\" );\n\n\n//LOCATOR CREATION//\n$locName = substituteAllString($listSkin[1],\"skin\",\"LOC\");\nspaceLocator -p 0 0 0 -n $locName;\ngroup -n ($locName + \"_grp\") $locName;\nparentConstraint $listSkin[1] ($locName + \"_grp\");\nparentConstraint -n\"loc_pC1\" $listSkin[0] $locName;delete loc_pC1;\nparentConstraint -mo $listSkin[1] $fkGRP; \nparentConstraint -mo $listSkin[1] $ikGRP;\nparent ($locName + \"_grp\") $grpName;" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "ikLegCtrl Setup" 
+        -enableBackground 0
+        -align "center" 
+        -label "def creaAnimInfi(name,type):#name = \"aaa.bbb\"creaAnimInfi(\"aaa.b..." 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "ikLeg" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "def creaAnimInfi(name,type):#name = \"aaa.bbb\"creaAnimInfi(\"aaa.bbb\",2)\n\tname,attr=name.split(\".\")\n\tanimCurve = cmds.createNode(\"animCurveUA\",n=name+\"_\"+attr)\n\tif type ==-1:##Left-up\n\t\tcmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\n\t\tcmds.setKeyframe(animCurve,f=-1,v=1,itt='linear',ott='linear')\n\t\tcmds.setAttr(animCurve+\".preInfinity\",4)\n\tif type ==-2:##Left-down\n\t\tcmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\n\t\tcmds.setKeyframe(animCurve,f=-1,v=-1,itt='linear',ott='linear')\n\t\tcmds.setAttr(animCurve+\".preInfinity\",4)\n\tif type ==1:##Right-up\n\t\tcmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\n\t\tcmds.setKeyframe(animCurve,f=1,v=1,itt='linear',ott='linear')\n\t\tcmds.setAttr(animCurve+\".postInfinity\",4)\n\tif type ==2:##Right-down\n\t\tcmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\n\t\tcmds.setKeyframe(animCurve,f=1,v=-1,itt='linear',ott='linear')\n\t\tcmds.setAttr(animCurve+\".postInfinity\",4)\n\t\t#cmds.setInfinity(\"aaa_bbb\",poi=\"cycleRelative\")\n\tcmds.connectAttr(animCurve+\".output\",name+\".\"+attr,f=1)\n\tprint animCurve\n\treturn animCurve\t\n\t\n\t\ndef ikLegAuto (prefix,ctrl,mirror):#1=posX,-1=negX\n\tcmds.addAttr(ctrl,ln=\"roll\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"tilt\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"heelPivot\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"toePivot\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"toeLift\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"toeCurl\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"toeRotZ\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"legTwist\",at='double',k=1)\n\t#mirror=1 cmds.ls(sl=1,long=1)\n\toutF = cmds.spaceLocator(n=prefix+\"_foot_outter\")[0]\n\tcmds.setAttr(outF+\".translate\",1*mirror,0,0,typ=\"double3\")\n\t\n\theel = cmds.spaceLocator(n=prefix+\"_heel\")[0]\n\tcmds.setAttr(heel+\".translate\",0,0,-1,typ=\"double3\")\n\t\n\tinF = cmds.spaceLocator(n=prefix+\"_foot_inner\")[0]\n\tcmds.setAttr(inF+\".translate\",-1*mirror,0,0,typ=\"double3\")\n\t\n\ttoe = cmds.spaceLocator(n=prefix+\"_toe\")[0]\n\tcmds.setAttr(toe+\".translate\",0,0,1,typ=\"double3\")\n\n\tmainGrp = cmds.group(n=prefix+\"_leg_ikMain_grp\",em=1)\n\toffGrp = cmds.group(n=prefix+\"_leg_ikOffset_grp\",em=1,p=mainGrp)\n\tfootGrp = cmds.group(n=prefix+\"_foot_ikHandle_grp\",em=1)\n\tlegGrp = cmds.group(n=prefix+\"_leg_ikHandle_grp\",em=1,p=footGrp)\n\ttoeGrp = cmds.group(n=prefix+\"_toe_ikHandle_grp\",em=1,p=footGrp)\n\t\n\tcmds.setAttr(footGrp+\".translateY\",1)\n\tcmds.setAttr(legGrp+\".translateY\",-.5)\n\tcmds.setAttr(legGrp+\".translateZ\",.5)\n\tcmds.setAttr(toeGrp+\".translateY\",-.5)\t\n\tcmds.setAttr(toeGrp+\".translateZ\",1)\n\t\n\tcmds.parent(toe,outF)\n\tcmds.parent(outF,inF)\n\tcmds.parent(inF,heel)\n\tcmds.parent(footGrp,toe)\n\tcmds.parent(heel,offGrp)\n\n\tcmds.connectAttr(ctrl+\".roll\",creaAnimInfi(legGrp+\".rx\",1)+\".input\",f=1)\t\n\tcmds.connectAttr(ctrl+\".roll\",creaAnimInfi(heel+\".rx\",-2)+\".input\",f=1)\n\tif mirror ==1 :\n\t\tcmds.connectAttr(ctrl+\".tilt\",creaAnimInfi(outF+\".rz\",2)+\".input\",f=1)\n\t\tcmds.connectAttr(ctrl+\".tilt\",creaAnimInfi(inF+\".rz\",-1)+\".input\",f=1)\n\telse:\n\t\tcmds.connectAttr(ctrl+\".tilt\",creaAnimInfi(outF+\".rz\",1)+\".input\",f=1)\n\t\tcmds.connectAttr(ctrl+\".tilt\",creaAnimInfi(inF+\".rz\",-2)+\".input\",f=1)\t\t\n\t\n\tcmds.connectAttr(ctrl+\".heelPivot\",heel+\".ry\")\n\tcmds.connectAttr(ctrl+\".toePivot\",toe+\".ry\")\n\tcmds.connectAttr(ctrl+\".toeLift\",toe+\".rx\")\n\tcmds.connectAttr(ctrl+\".toeCurl\",toeGrp+\".rx\")\n\tcmds.connectAttr(ctrl+\".toeRotZ\",toeGrp+\".rz\")\n\t\n\tif mirror ==-1:\n\t\theeluC = cmds.listConnections(ctrl+\".heelPivot\")[0]\n\t\tcmds.setAttr(heeluC+\".conversionFactor\",cmds.getAttr(heeluC+\".conversionFactor\")*mirror)\n\t\ttoePvtuC = cmds.listConnections(ctrl+\".toePivot\")[0]\n\t\tcmds.setAttr(toePvtuC+\".conversionFactor\",cmds.getAttr(toePvtuC+\".conversionFactor\")*mirror)\n\t\ttoeRotZuC = cmds.listConnections(ctrl+\".toeRotZ\")[0]\n\t\tcmds.setAttr(toeRotZuC+\".conversionFactor\",cmds.getAttr(toeRotZuC+\".conversionFactor\")*mirror)\t\t\n\t\t\n\tcmds.parentConstraint(ctrl,mainGrp,mo=0)\n\t\nikCt = cmds.ls(sl=1)\nif len(ikCt) <= 1:\n\tif ikCt == []:\n\t\tctrlAuto = cmds.circle(c=(0,0,0),nr=(0,1,0),sw=360,r=1,d=3,ut=0,tol=0.01,s=8,ch=1,n=\"CTRL_\"+prefix+\"_IK\")[0]\n\telse:\n\t\tctrlAuto = ikCt[0]\n\tikLegAuto(\"Left\",ctrlAuto,1)\nelse:pass" 
+        -sourceType "python" 
+        -doubleClickCommand "def creaAnimInfi(name,type):#name = \"aaa.bbb\"creaAnimInfi(\"aaa.bbb\",2)\n\tname,attr=name.split(\".\")\n\tanimCurve = cmds.createNode(\"animCurveUA\",n=name+\"_\"+attr)\n\tif type ==-1:##Left-up\n\t\tcmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\n\t\tcmds.setKeyframe(animCurve,f=-1,v=1,itt='linear',ott='linear')\n\t\tcmds.setAttr(animCurve+\".preInfinity\",4)\n\tif type ==-2:##Left-down\n\t\tcmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\n\t\tcmds.setKeyframe(animCurve,f=-1,v=-1,itt='linear',ott='linear')\n\t\tcmds.setAttr(animCurve+\".preInfinity\",4)\n\tif type ==1:##Right-up\n\t\tcmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\n\t\tcmds.setKeyframe(animCurve,f=1,v=1,itt='linear',ott='linear')\n\t\tcmds.setAttr(animCurve+\".postInfinity\",4)\n\tif type ==2:##Right-down\n\t\tcmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\n\t\tcmds.setKeyframe(animCurve,f=1,v=-1,itt='linear',ott='linear')\n\t\tcmds.setAttr(animCurve+\".postInfinity\",4)\n\t\t#cmds.setInfinity(\"aaa_bbb\",poi=\"cycleRelative\")\n\tcmds.connectAttr(animCurve+\".output\",name+\".\"+attr,f=1)\n\tprint animCurve\n\treturn animCurve\t\n\t\n\t\ndef ikLegAuto (prefix,ctrl,mirror):#1=posX,-1=negX\n\tcmds.addAttr(ctrl,ln=\"roll\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"tilt\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"heelPivot\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"toePivot\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"toeLift\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"toeCurl\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"toeRotZ\",at='double',k=1)\n\tcmds.addAttr(ctrl,ln=\"legTwist\",at='double',k=1)\n\t#mirror=1 cmds.ls(sl=1,long=1)\n\toutF = cmds.spaceLocator(n=prefix+\"_foot_outter\")[0]\n\tcmds.setAttr(outF+\".translate\",1*mirror,0,0,typ=\"double3\")\n\t\n\theel = cmds.spaceLocator(n=prefix+\"_heel\")[0]\n\tcmds.setAttr(heel+\".translate\",0,0,-1,typ=\"double3\")\n\t\n\tinF = cmds.spaceLocator(n=prefix+\"_foot_inner\")[0]\n\tcmds.setAttr(inF+\".translate\",-1*mirror,0,0,typ=\"double3\")\n\t\n\ttoe = cmds.spaceLocator(n=prefix+\"_toe\")[0]\n\tcmds.setAttr(toe+\".translate\",0,0,1,typ=\"double3\")\n\n\tmainGrp = cmds.group(n=prefix+\"_leg_ikMain_grp\",em=1)\n\toffGrp = cmds.group(n=prefix+\"_leg_ikOffset_grp\",em=1,p=mainGrp)\n\tfootGrp = cmds.group(n=prefix+\"_foot_ikHandle_grp\",em=1)\n\tlegGrp = cmds.group(n=prefix+\"_leg_ikHandle_grp\",em=1,p=footGrp)\n\ttoeGrp = cmds.group(n=prefix+\"_toe_ikHandle_grp\",em=1,p=footGrp)\n\t\n\tcmds.setAttr(footGrp+\".translateY\",1)\n\tcmds.setAttr(legGrp+\".translateY\",-.5)\n\tcmds.setAttr(legGrp+\".translateZ\",.5)\n\tcmds.setAttr(toeGrp+\".translateY\",-.5)\t\n\tcmds.setAttr(toeGrp+\".translateZ\",1)\n\t\n\tcmds.parent(toe,outF)\n\tcmds.parent(outF,inF)\n\tcmds.parent(inF,heel)\n\tcmds.parent(footGrp,toe)\n\tcmds.parent(heel,offGrp)\n\n\tcmds.connectAttr(ctrl+\".roll\",creaAnimInfi(legGrp+\".rx\",1)+\".input\",f=1)\t\n\tcmds.connectAttr(ctrl+\".roll\",creaAnimInfi(heel+\".rx\",-2)+\".input\",f=1)\n\tif mirror ==1 :\n\t\tcmds.connectAttr(ctrl+\".tilt\",creaAnimInfi(outF+\".rz\",2)+\".input\",f=1)\n\t\tcmds.connectAttr(ctrl+\".tilt\",creaAnimInfi(inF+\".rz\",-1)+\".input\",f=1)\n\telse:\n\t\tcmds.connectAttr(ctrl+\".tilt\",creaAnimInfi(outF+\".rz\",1)+\".input\",f=1)\n\t\tcmds.connectAttr(ctrl+\".tilt\",creaAnimInfi(inF+\".rz\",-2)+\".input\",f=1)\t\t\n\t\n\tcmds.connectAttr(ctrl+\".heelPivot\",heel+\".ry\")\n\tcmds.connectAttr(ctrl+\".toePivot\",toe+\".ry\")\n\tcmds.connectAttr(ctrl+\".toeLift\",toe+\".rx\")\n\tcmds.connectAttr(ctrl+\".toeCurl\",toeGrp+\".rx\")\n\tcmds.connectAttr(ctrl+\".toeRotZ\",toeGrp+\".rz\")\n\t\n\tif mirror ==-1:\n\t\theeluC = cmds.listConnections(ctrl+\".heelPivot\")[0]\n\t\tcmds.setAttr(heeluC+\".conversionFactor\",cmds.getAttr(heeluC+\".conversionFactor\")*mirror)\n\t\ttoePvtuC = cmds.listConnections(ctrl+\".toePivot\")[0]\n\t\tcmds.setAttr(toePvtuC+\".conversionFactor\",cmds.getAttr(toePvtuC+\".conversionFactor\")*mirror)\n\t\ttoeRotZuC = cmds.listConnections(ctrl+\".toeRotZ\")[0]\n\t\tcmds.setAttr(toeRotZuC+\".conversionFactor\",cmds.getAttr(toeRotZuC+\".conversionFactor\")*mirror)\t\t\n\t\t\n\tcmds.parentConstraint(ctrl,mainGrp,mo=0)\n\t\nikCt = cmds.ls(sl=1)\nif len(ikCt) <= 1:\n\tif ikCt == []:\n\t\tctrlAuto = cmds.circle(c=(0,0,0),nr=(0,1,0),sw=360,r=1,d=3,ut=0,tol=0.01,s=8,ch=1,n=\"CTRL_\"+prefix+\"_IK\")[0]\n\telse:\n\t\tctrlAuto = ikCt[0]\n\tikLegAuto(\"Right\",ctrlAuto,-1)\nelse:pass" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "------" ( "print(\"User defined menuItem\");" )
+        -mi "Left Finger" ( "##finger + group ctrl\ndef creaFingerCtrl(name,count):#creaFingerCtrl(\"Left\",4) #cmds.xform(cmds.ls(sl=1)[0],q=1,ws=1,t=1)\n\tnewDrv = []\n\tjntLi = []\n\t#mainGrp = cmds.group(n=\"CTRL_\"+name+\"_main_grp\",em=1) #name = \"new\"\n\tmainGrp = cmds.group(n=\"CTRL_\"+name+\"_main_grp\",em=1)\n\tfor q in range(1,count+1):\n\t\tif len(newDrv)==0:\t\t\t\n\t\t\toffAGrp = cmds.group(n=\"CTRL_\"+name+\"_\"+str(q)+\"_offset_grp\",em=1,p=mainGrp)\n\t\telse:\n\t\t\toffAGrp = cmds.group(n=\"CTRL_\"+name+\"_\"+str(q)+\"_offset_grp\",em=1,p=newDrv[-1])\t\t\n\t\tctrlA= cmds.circle(n=\"CTRL_\"+name+\"_\"+str(q),c=(0,0,0),nr=(1,0,0),sw=360,r=1,d=3,ut=0,tol=.01,s=8,ch=0)[0]\n\t\tdrvA = cmds.group(n=\"CTRL_\"+name+\"_\"+str(q)+\"_DRV_grp\",em=1,p=offAGrp)\n\t\tkeyA = cmds.group(n=\"CTRL_\"+name+\"_\"+str(q)+\"_DrvK_grp\",em=1,p=drvA)\t\t\n\t\tctrlA = cmds.parent(\"|\"+ctrlA,keyA,r=1)[0]\n\t\tcmds.setAttr(offAGrp+\".tx\",1)\n\t\tcmds.setAttr(cmds.listRelatives(ctrlA)[0]+\".cv[1]\",0,2,0,typ=\"double3\")\n\t\t\n\t\tjntLi.append(cmds.joint(p=cmds.xform(ctrlA,q=1,ws=1,t=1),n=\"jnt_\"+name+\"_\"+str(q),rad=.2))\n\t\tcmds.parentConstraint(ctrlA,jntLi[-1])\n\t\t\t\t\n\t\tnewDrv.append(drvA)\n\t\tnewDrv.append(ctrlA)\n\tfor q in range(len(jntLi)):\n\t\tcmds.parent(jntLi[q],w=1)\n\t\tif q != 0:\n\t\t\tcmds.parent(jntLi[q],jntLi[q-1])\t\t\n\t\t\n\treturn [mainGrp,newDrv[::2],jntLi]\n\t\n\t\nhandCvList = [['0.22642694728056528', '-0.20263762877821001', '-2.4327762027098743e-014'],\n['0.23420360828192441', '-0.19923822102819838', '-2.1441182163073336e-014'],\n['0.25494137095221597', '-0.19017313369484334', '-1.3766765505351941e-014'],\n['0.29065637638347824', '-0.16015921321764995', '-1.609823385706477e-014'],\n['0.34928649892641744', '-0.11150916928608279', '-1.4422490979271174e-014'],\n['0.49648002684085735', '0.043880219110492114', '-7.4801276284119922e-015'],\n['0.72504974125223487', '0.19543945741920604', '1.1934897514720433e-015'],\n['0.60252384059667285', '0.35350178188910064', '1.2212453270876722e-015'],\n['0.40228201067051594', '0.16766451514980307', '-7.5078832040276211e-015'],\n['0.29755610449053282', '0.13874113971226174', '-1.462024945553253e-014'],\n['0.28696478590892732', '0.14090723824746207', '-1.5411283360577954e-014'],\n['0.26294951993786442', '0.13987953797091102', '-1.6417422976644502e-014'],\n['0.26296800080951827', '0.14698552596662393', '-2.1170565300820954e-014'],\n['0.25494456441571139', '0.34688038120379355', '-1.1518563880485999e-015'],\n['0.25732241099101533', '0.28538845264856244', '-6.8001160258290838e-015'],\n['0.23912684502037834', '0.56376774191403722', '3.7747582837255322e-015'],\n['0.24029533668470304', '0.73092905404803243', '1.074140776324839e-014'],\n['0.24832913832640413', '0.9635815045300602', '1.9512169657787126e-014'],\n['0.1290452257082533', '0.96358729477774485', '1.9401147355324611e-014'],\n['0.11507845191368447', '0.73086331529873494', '1.0880185641326534e-014'],\n['0.11946407227510386', '0.53423705724225645', '2.6090241078691179e-015'],\n['0.12300583348719754', '0.33292013890385957', '-4.7600812180803587e-015'],\n['0.13345219273747178', '0.34103664922213817', '-8.7152507433074788e-015'],\n['0.095362902135815691', '0.33160333327274577', '6.9666494795228573e-015'],\n['0.10605969268898331', '0.32755156868263757', '2.5673907444456745e-015'],\n['0.10628580179311811', '0.55644002280905347', '1.2323475573339238e-014'],\n['0.10588799192848622', '0.75118917538266139', '1.9539925233402755e-014'],\n['0.10532472104370633', '1.0354880505876667', '3.1030733538273125e-014'],\n['-0.021580620621908686', '1.0354880073447357', '3.0975222387041867e-014'],\n['-0.013262366674146375', '0.77602129378314022', '2.1566082253343666e-014'],\n['-0.012256206152655436', '0.58876173892774375', '1.3766765505351941e-014'],\n['-0.011206172254415392', '0.55651953349897454', '1.2295719997723609e-014'],\n['-0.008814786210535927', '0.32865989041942267', '2.5396351688300456e-015'],\n['-0.0014714665711707329', '0.33300594486239365', '6.9666494795228573e-015'],\n['-0.027280767564868101', '0.34104700710362845', '-8.7430063189231078e-015'],\n['-0.020135809832055401', '0.33147609578405657', '-4.801714581503802e-015'],\n['-0.025656108156757756', '0.7308646824676891', '1.0769163338864018e-014'],\n['-0.0093264337784595419', '0.96358619120207323', '1.9484414082171497e-014'],\n['-0.15189621968424671', '0.96358553326378171', '1.9373391779708982e-014'],\n['-0.14077481354700147', '0.73089165799811795', '1.074140776324839e-014'],\n['-0.13772639333526321', '0.56324776521749698', '3.7747582837255322e-015'],\n['-0.14201082699898315', '0.31258865919055534', '-6.8278716014447127e-015'],\n['-0.1368864092039859', '0.32203157917229669', '-1.1379786002407855e-015'],\n['-0.15157010962897363', '0.31978553754708461', '-2.0997092953223273e-014'],\n['-0.14635771801676831', '0.3369277972422875', '-1.494637746901617e-014'],\n['-0.1492060652729546', '0.46655802646161687', '-9.9087404947795221e-015'],\n['-0.15533565033808328', '0.62481982816569481', '-2.7755575615628914e-015'],\n['-0.14142104436045333', '0.82182057214219451', '4.0523140398818214e-015'],\n['-0.26037501664630713', '0.82181891589648515', '3.9968028886505635e-015'],\n['-0.25367558438834203', '0.62765878007878917', '-3.1363800445660672e-015'],\n['-0.25749336458237282', '0.46302855708486845', '-9.9503738582029655e-015'],\n['-0.26520406218458026', '0.28776862874758979', '-1.5792922525292852e-014'],\n['-0.28508691363210381', '0.18955482280689567', '-1.7756629500098597e-014'],\n['-0.28095601845981405', '-0.10633006373903778', '-1.3346962424165554e-014'],\n['-0.11521383033049398', '-0.27324537927733633', '-3.1030733538273125e-014'],\n['0.20828140494406105', '-0.21056958019491298', '-3.104461132608094e-014'],\n['0.2186502862792061', '-0.20603703652822164', '-2.7179647421604614e-014'],\n['0.22642694728056528', '-0.20263762877821001', '-2.4327762027098743e-014']]\n\npreN = \"Left\" \n\nhandCrv = cmds.curve(d=3,p=handCvList,n = \"CTRL_\"+preN+\"_hand_Setting\")\nhandGrp = cmds.group(n=handCrv+\"_grp\",em=1)\nhandCrv = cmds.parent(handCrv,handGrp)[0]\ncmds.addAttr(handCrv,ln=\"ikFk\",at='double',min=0,max=1,k=1)\ncmds.addAttr(handCrv,ln=\"fingersCtrlVisibility\",at='bool',k=1)\ncmds.setAttr(handCrv+\".fingersCtrlVisibility\",1)\ncmds.addAttr(handCrv,ln=\"fingersCtrl\",at='enum',en=\"............\",k=1)\ncmds.setAttr (handCrv+\".fingersCtrl\",lock=1)\ncmds.addAttr(handCrv,ln=\"thumbCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"indexCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"middleCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"ringCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"pinkyCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"cup\",at='double',min=-10,max=10,k=1)\ncmds.addAttr(handCrv,ln=\"fist\",at='double',min=-10,max=10,k=1)\ncmds.addAttr(handCrv,ln=\"spread\",at='double',min=-10,max=10,k=1)\n\nmainT,ctrlT,jntT = creaFingerCtrl(preN+\"_Thumb\",3)\nmainI,ctrlI,jntI = creaFingerCtrl(preN+\"_Index\",3)\nmainM,ctrlM,jntM = creaFingerCtrl(preN+\"_Middle\",3)\nmainR,ctrlR,jntR = creaFingerCtrl(preN+\"_Ring\",3)\nmainP,ctrlP,jntP = creaFingerCtrl(preN+\"_Pinky\",4)\n\ncmds.group(jntT[0],jntI[0],jntM[0],jntR[0],jntP[0],n=\"jnt_\"+preN+\"_finger_main_grp\")\nhandMain = cmds.group(n=handCrv.replace(\"Setting\",\"Main\")+\"_grp\",em=1)\ncmds.parent(cmds.group(mainT,mainI,mainM,mainR,mainP,n=\"CTRL_\"+preN+\"_finger_main_grp\"),handGrp,handMain)\nfor q in range(1,4):\n\tcmds.connectAttr(handCrv+\".thumbCurl\",ctrlT[-1*q]+\".rz\")\n\tcmds.connectAttr(handCrv+\".indexCurl\",ctrlI[-1*q]+\".rz\")\n\tcmds.connectAttr(handCrv+\".middleCurl\",ctrlM[-1*q]+\".rz\")\n\tcmds.connectAttr(handCrv+\".ringCurl\",ctrlR[-1*q]+\".rz\")\n\tcmds.connectAttr(handCrv+\".pinkyCurl\",ctrlP[-1*q]+\".rz\")\n\nname,attr=ctrlP[0],\"rz\"\nanimCurve = cmds.createNode(\"animCurveUA\",n=name+\"_\"+attr)\ncmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\ncmds.setKeyframe(animCurve,f=10,v=45,itt='linear',ott='linear')\ncmds.setAttr(animCurve+\".preInfinity\",4)\ncmds.setAttr(animCurve+\".postInfinity\",4)\ncmds.connectAttr(animCurve+\".output\",name+\".\"+attr,f=1)\ncmds.connectAttr(handCrv+\".cup\",animCurve+\".input\",f=1)\n\ncmds.setAttr(mainT+\".tz\",1.5)\ncmds.setAttr(mainT+\".ry\",-90)\ncmds.setAttr(mainI+\".tz\",1)\ncmds.setAttr(mainR+\".tz\",-1)\ncmds.setAttr(mainP+\".tz\",-2)" )
+        -mip 1
+        -mi "Right Finger" ( "##finger + group ctrl\ndef creaFingerCtrl(name,count):#creaFingerCtrl(\"Left\",4) #cmds.xform(cmds.ls(sl=1)[0],q=1,ws=1,t=1)\n\tnewDrv = []\n\tjntLi = []\n\t#mainGrp = cmds.group(n=\"CTRL_\"+name+\"_main_grp\",em=1) #name = \"new\"\n\tmainGrp = cmds.group(n=\"CTRL_\"+name+\"_main_grp\",em=1)\n\tfor q in range(1,count+1):\n\t\tif len(newDrv)==0:\t\t\t\n\t\t\toffAGrp = cmds.group(n=\"CTRL_\"+name+\"_\"+str(q)+\"_offset_grp\",em=1,p=mainGrp)\n\t\telse:\n\t\t\toffAGrp = cmds.group(n=\"CTRL_\"+name+\"_\"+str(q)+\"_offset_grp\",em=1,p=newDrv[-1])\t\t\n\t\tctrlA= cmds.circle(n=\"CTRL_\"+name+\"_\"+str(q),c=(0,0,0),nr=(1,0,0),sw=360,r=1,d=3,ut=0,tol=.01,s=8,ch=0)[0]\n\t\tdrvA = cmds.group(n=\"CTRL_\"+name+\"_\"+str(q)+\"_DRV_grp\",em=1,p=offAGrp)\n\t\tkeyA = cmds.group(n=\"CTRL_\"+name+\"_\"+str(q)+\"_DrvK_grp\",em=1,p=drvA)\t\t\n\t\tctrlA = cmds.parent(\"|\"+ctrlA,keyA,r=1)[0]\n\t\tcmds.setAttr(offAGrp+\".tx\",1)\n\t\tcmds.setAttr(cmds.listRelatives(ctrlA)[0]+\".cv[1]\",0,2,0,typ=\"double3\")\n\t\t\n\t\tjntLi.append(cmds.joint(p=cmds.xform(ctrlA,q=1,ws=1,t=1),n=\"jnt_\"+name+\"_\"+str(q),rad=.2))\n\t\tcmds.parentConstraint(ctrlA,jntLi[-1])\n\t\t\t\t\n\t\tnewDrv.append(drvA)\n\t\tnewDrv.append(ctrlA)\n\tfor q in range(len(jntLi)):\n\t\tcmds.parent(jntLi[q],w=1)\n\t\tif q != 0:\n\t\t\tcmds.parent(jntLi[q],jntLi[q-1])\t\t\n\t\t\n\treturn [mainGrp,newDrv[::2],jntLi]\n\t\n\t\nhandCvList = [['0.22642694728056528', '-0.20263762877821001', '-2.4327762027098743e-014'],\n['0.23420360828192441', '-0.19923822102819838', '-2.1441182163073336e-014'],\n['0.25494137095221597', '-0.19017313369484334', '-1.3766765505351941e-014'],\n['0.29065637638347824', '-0.16015921321764995', '-1.609823385706477e-014'],\n['0.34928649892641744', '-0.11150916928608279', '-1.4422490979271174e-014'],\n['0.49648002684085735', '0.043880219110492114', '-7.4801276284119922e-015'],\n['0.72504974125223487', '0.19543945741920604', '1.1934897514720433e-015'],\n['0.60252384059667285', '0.35350178188910064', '1.2212453270876722e-015'],\n['0.40228201067051594', '0.16766451514980307', '-7.5078832040276211e-015'],\n['0.29755610449053282', '0.13874113971226174', '-1.462024945553253e-014'],\n['0.28696478590892732', '0.14090723824746207', '-1.5411283360577954e-014'],\n['0.26294951993786442', '0.13987953797091102', '-1.6417422976644502e-014'],\n['0.26296800080951827', '0.14698552596662393', '-2.1170565300820954e-014'],\n['0.25494456441571139', '0.34688038120379355', '-1.1518563880485999e-015'],\n['0.25732241099101533', '0.28538845264856244', '-6.8001160258290838e-015'],\n['0.23912684502037834', '0.56376774191403722', '3.7747582837255322e-015'],\n['0.24029533668470304', '0.73092905404803243', '1.074140776324839e-014'],\n['0.24832913832640413', '0.9635815045300602', '1.9512169657787126e-014'],\n['0.1290452257082533', '0.96358729477774485', '1.9401147355324611e-014'],\n['0.11507845191368447', '0.73086331529873494', '1.0880185641326534e-014'],\n['0.11946407227510386', '0.53423705724225645', '2.6090241078691179e-015'],\n['0.12300583348719754', '0.33292013890385957', '-4.7600812180803587e-015'],\n['0.13345219273747178', '0.34103664922213817', '-8.7152507433074788e-015'],\n['0.095362902135815691', '0.33160333327274577', '6.9666494795228573e-015'],\n['0.10605969268898331', '0.32755156868263757', '2.5673907444456745e-015'],\n['0.10628580179311811', '0.55644002280905347', '1.2323475573339238e-014'],\n['0.10588799192848622', '0.75118917538266139', '1.9539925233402755e-014'],\n['0.10532472104370633', '1.0354880505876667', '3.1030733538273125e-014'],\n['-0.021580620621908686', '1.0354880073447357', '3.0975222387041867e-014'],\n['-0.013262366674146375', '0.77602129378314022', '2.1566082253343666e-014'],\n['-0.012256206152655436', '0.58876173892774375', '1.3766765505351941e-014'],\n['-0.011206172254415392', '0.55651953349897454', '1.2295719997723609e-014'],\n['-0.008814786210535927', '0.32865989041942267', '2.5396351688300456e-015'],\n['-0.0014714665711707329', '0.33300594486239365', '6.9666494795228573e-015'],\n['-0.027280767564868101', '0.34104700710362845', '-8.7430063189231078e-015'],\n['-0.020135809832055401', '0.33147609578405657', '-4.801714581503802e-015'],\n['-0.025656108156757756', '0.7308646824676891', '1.0769163338864018e-014'],\n['-0.0093264337784595419', '0.96358619120207323', '1.9484414082171497e-014'],\n['-0.15189621968424671', '0.96358553326378171', '1.9373391779708982e-014'],\n['-0.14077481354700147', '0.73089165799811795', '1.074140776324839e-014'],\n['-0.13772639333526321', '0.56324776521749698', '3.7747582837255322e-015'],\n['-0.14201082699898315', '0.31258865919055534', '-6.8278716014447127e-015'],\n['-0.1368864092039859', '0.32203157917229669', '-1.1379786002407855e-015'],\n['-0.15157010962897363', '0.31978553754708461', '-2.0997092953223273e-014'],\n['-0.14635771801676831', '0.3369277972422875', '-1.494637746901617e-014'],\n['-0.1492060652729546', '0.46655802646161687', '-9.9087404947795221e-015'],\n['-0.15533565033808328', '0.62481982816569481', '-2.7755575615628914e-015'],\n['-0.14142104436045333', '0.82182057214219451', '4.0523140398818214e-015'],\n['-0.26037501664630713', '0.82181891589648515', '3.9968028886505635e-015'],\n['-0.25367558438834203', '0.62765878007878917', '-3.1363800445660672e-015'],\n['-0.25749336458237282', '0.46302855708486845', '-9.9503738582029655e-015'],\n['-0.26520406218458026', '0.28776862874758979', '-1.5792922525292852e-014'],\n['-0.28508691363210381', '0.18955482280689567', '-1.7756629500098597e-014'],\n['-0.28095601845981405', '-0.10633006373903778', '-1.3346962424165554e-014'],\n['-0.11521383033049398', '-0.27324537927733633', '-3.1030733538273125e-014'],\n['0.20828140494406105', '-0.21056958019491298', '-3.104461132608094e-014'],\n['0.2186502862792061', '-0.20603703652822164', '-2.7179647421604614e-014'],\n['0.22642694728056528', '-0.20263762877821001', '-2.4327762027098743e-014']]\n\npreN = \"Right\" \n\nhandCrv = cmds.curve(d=3,p=handCvList,n = \"CTRL_\"+preN+\"_hand_Setting\")\nhandGrp = cmds.group(n=handCrv+\"_grp\",em=1)\nhandCrv = cmds.parent(handCrv,handGrp)[0]\ncmds.addAttr(handCrv,ln=\"ikFk\",at='double',min=0,max=1,k=1)\ncmds.addAttr(handCrv,ln=\"fingersCtrlVisibility\",at='bool',k=1)\ncmds.setAttr(handCrv+\".fingersCtrlVisibility\",1)\ncmds.addAttr(handCrv,ln=\"fingersCtrl\",at='enum',en=\"............\",k=1)\ncmds.setAttr (handCrv+\".fingersCtrl\",lock=1)\ncmds.addAttr(handCrv,ln=\"thumbCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"indexCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"middleCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"ringCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"pinkyCurl\",at='double',k=1)\ncmds.addAttr(handCrv,ln=\"cup\",at='double',min=-10,max=10,k=1)\ncmds.addAttr(handCrv,ln=\"fist\",at='double',min=-10,max=10,k=1)\ncmds.addAttr(handCrv,ln=\"spread\",at='double',min=-10,max=10,k=1)\n\nmainT,ctrlT,jntT = creaFingerCtrl(preN+\"_Thumb\",3)\nmainI,ctrlI,jntI = creaFingerCtrl(preN+\"_Index\",3)\nmainM,ctrlM,jntM = creaFingerCtrl(preN+\"_Middle\",3)\nmainR,ctrlR,jntR = creaFingerCtrl(preN+\"_Ring\",3)\nmainP,ctrlP,jntP = creaFingerCtrl(preN+\"_Pinky\",4)\n\ncmds.group(jntT[0],jntI[0],jntM[0],jntR[0],jntP[0],n=\"jnt_\"+preN+\"_finger_main_grp\")\nhandMain = cmds.group(n=handCrv.replace(\"Setting\",\"Main\")+\"_grp\",em=1)\ncmds.parent(cmds.group(mainT,mainI,mainM,mainR,mainP,n=\"CTRL_\"+preN+\"_finger_main_grp\"),handGrp,handMain)\nfor q in range(1,4):\n\tcmds.connectAttr(handCrv+\".thumbCurl\",ctrlT[-1*q]+\".rz\")\n\tcmds.connectAttr(handCrv+\".indexCurl\",ctrlI[-1*q]+\".rz\")\n\tcmds.connectAttr(handCrv+\".middleCurl\",ctrlM[-1*q]+\".rz\")\n\tcmds.connectAttr(handCrv+\".ringCurl\",ctrlR[-1*q]+\".rz\")\n\tcmds.connectAttr(handCrv+\".pinkyCurl\",ctrlP[-1*q]+\".rz\")\n\nname,attr=ctrlP[0],\"rz\"\nanimCurve = cmds.createNode(\"animCurveUA\",n=name+\"_\"+attr)\ncmds.setKeyframe(animCurve,f=0,v=0,itt='linear',ott='linear')\ncmds.setKeyframe(animCurve,f=10,v=45,itt='linear',ott='linear')\ncmds.setAttr(animCurve+\".preInfinity\",4)\ncmds.setAttr(animCurve+\".postInfinity\",4)\ncmds.connectAttr(animCurve+\".output\",name+\".\"+attr,f=1)\ncmds.connectAttr(handCrv+\".cup\",animCurve+\".input\",f=1)\n\ncmds.setAttr(mainT+\".tz\",1.5)\ncmds.setAttr(mainT+\".ry\",-90)\ncmds.setAttr(mainI+\".tz\",1)\ncmds.setAttr(mainR+\".tz\",-1)\ncmds.setAttr(mainP+\".tz\",-2)" )
+        -mip 2
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "double-click for R>L" 
+        -enableBackground 0
+        -align "center" 
+        -label "searchReplaceNames \"Left\" \"Right\" \"hierarchy\";" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "L>R" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import maya.cmds as cmds\n\ncmds.select(hi=1)    \nfor q in range(len(cmds.ls(sl=1))):\n    oldName = cmds.ls(sl=1,long=1)[q]\n    newName = oldName.split(\"|\")[-1].replace('Left','Right')\n    if q ==0 and oldName[-1]=='1':\n        newMirror = cmds.rename(oldName,newName[:-1])\n    else:\n        cmds.rename(oldName,newName)\ncmds.select(newMirror)" 
+        -sourceType "python" 
+        -doubleClickCommand "\ncmds.select(hi=1)    \nfor q in range(len(cmds.ls(sl=1))):\n    oldName = cmds.ls(sl=1,long=1)[q]\n    newName = oldName.split(\"|\")[-1].replace('Right','Left')\n    if q ==0 and oldName[-1]=='1':\n        cmds.rename(oldName,newName[:-1])\n    else:\n        cmds.rename(oldName,newName)\ncmds.select(cl=1)" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Sculpt geometry tool options" 
+        -enableBackground 0
+        -align "center" 
+        -label "sculpt geometry" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "putty.png" 
+        -image1 "putty.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "SculptGeometryToolOptions" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "renamer" 
+        -enableBackground 0
+        -align "center" 
+        -label "rename tool" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Rnm" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import maya.cmds as cmds\n\ndef repStr(n):\n    a=n.split(\"|\")    \n    return a[-1]\n    \ndef preSuf():\n    preT= cmds.textFieldGrp('tfPrefix',q=1,tx=1)\n    sufT= cmds.textFieldGrp('tfSuffix',q=1,tx=1)\n     \n    nameFields = cmds.scrollLayout( 'scrollRF',q=1,ca=1)\n    for q in range(len(nameFields)):\n        nameFields[q]=cmds.nameField(nameFields[q],q=1,fpn=0,o=1)\n        newName = preT+repStr(nameFields[q])+sufT\n        cmds.rename(nameFields[q],newName )\n        \n    cmds.textFieldGrp('tfPrefix',e=1,tx=\"\")\n    cmds.textFieldGrp('tfSuffix',e=1,tx=\"\")\n\ndef SeRe():\n    seName= cmds.textFieldGrp('tfSearch',q=1,tx=1)\n    reName= cmds.textFieldGrp('tfReplace',q=1,tx=1)\n    nameFields = cmds.scrollLayout( 'scrollRF',q=1,ca=1)\n    for q in range(len(nameFields)):\n        nameFields[q]=cmds.nameField(nameFields[q],q=1,fpn=0,o=1)\n        temp = nameFields[q].replace(seName.replace(\" \",\"_\"),reName)\n        cmds.rename(nameFields[q],repStr(temp))\n        \n    seName= cmds.textFieldGrp('tfSearch',e=1,tx=\"\")\n    reName= cmds.textFieldGrp('tfReplace',e=1,tx=\"\")  \n      \ndef increName():\n    inPre = cmds.textFieldGrp('tfIncreName',q=1,tx=1)\n    inNo = cmds.intFieldGrp('tfIncreNum',q=1,v1=1)\n    nameFields = cmds.scrollLayout( 'scrollRF',q=1,ca=1)\n    for q in range(len(nameFields)):\n        nameFields[q]=cmds.nameField(nameFields[q],q=1,o=1)\n        cmds.rename(nameFields[q],inPre+str(q+inNo))\n\n#nameField update\ndef renewNF(selection):\n    if cmds.scrollLayout('scrollRF',q=1,ca=1)!=None:\n    \tfor q in cmds.scrollLayout('scrollRF',q=1,ca=1):\n    \t\tcmds.deleteUI(q)\n    if cmds.menuItem(\"shpVisCb\",q=1,cb=1) ==1:\t    \n        for sel in selection:\n            if cmds.objectType(sel ,i=\"mesh\")!=1 and cmds.objectType(sel ,i=\"nurbsSurface\")!=1 and cmds.objectType(sel ,i=\"nurbsCurve\")!=1:\n                cmds.nameField(o=sel,p='scrollRF')\n    else:\n        for sel in selection:\n            cmds.nameField(o=sel,p='scrollRF')\n##clean up\t\t\ndef killScript():\n\tfor script in cmds.scriptJob(lj=1):\n\t\tif \"renewNF(\" in script:\n\t\t\tcmds.scriptJob(k=int(script.split(\":\")[0]))\n\t\n\n##WINDOW CREATION\ndef runRNM(n):\n    if cmds.window('windowRnm',q=1,ex=1):\n        cmds.deleteUI('windowRnm')\n    window = cmds.window('windowRnm',t='Renamer',wh=(231,636),vis=1,mb=1)\n    cmds.menu(\"viewMenu\",l=\"Show\",p='windowRnm')\n    cmds.menuItem(\"shpVisCb\",cb=1,p='viewMenu',l=\"Hide Shapes\")\n    #cmds.window('windowRnm',q=1,wh=1)\n    #cmds.columnLayout(adj=1,w=200,cal=\"left\")##\n    cmds.formLayout('mainF',nd=100)\n    cmds.scrollLayout( 'scrollRF' ,cr=1,p='mainF')#\n    renewNF(n)\n       \n    cmds.frameLayout('frameIncre',l=\"Increment Rename\",bv=1,cll=0,p='mainF')\n    cmds.columnLayout('colIncre',adj=1,w=200,cal=\"left\",p='frameIncre')\n    cmds.textFieldGrp('tfIncreName',p='colIncre',adj=2,l=\"Name:\",cl2=[\"left\",\"left\"],cw2=[60,130])\n    cmds.intFieldGrp('tfIncreNum',p='colIncre',adj=2,l=\"Start From:\",cl2=[\"left\",\"left\"],cw2=[60,130],v1=1)         \n    cmds.button ('btIncre',p='colIncre',l=\"Apply\",w=80,c=\"increName()\")\n    \n    cmds.frameLayout('framePreSuf',l=\"Prefix/Suffix\",bv=1,cll=0,p='mainF')\n    cmds.columnLayout('colPreSuf',adj=1,w=200,cal=\"left\",p='framePreSuf')\n    cmds.textFieldGrp('tfPrefix',p='colPreSuf',adj=2,l=\"Prefix:\",cl2=[\"left\",\"left\"],cw2=[60,130])\n    cmds.textFieldGrp('tfSuffix',p='colPreSuf',adj=2,l=\"Suffix:\",cl2=[\"left\",\"left\"],cw2=[60,130])    \n    cmds.button ('btPreSuf',p='colPreSuf',l=\"Apply\",w=80,c=\"preSuf()\")\n    \n    cmds.frameLayout('frameSeRe',l=\"Search&Replace\",bv=1,cll=0,p='mainF')##\n    cmds.columnLayout('colSeRe',adj=1,w=200,cal=\"left\",p='frameSeRe')#\n    cmds.textFieldGrp('tfSearch',adj=2,l=\"Search:\",cl2=[\"left\",\"left\"],cw2=[60,130],p='colSeRe')\n    cmds.textFieldGrp('tfReplace',adj=2,l=\"Replace:\",cl2=[\"left\",\"left\"],cw2=[60,130],p='colSeRe')    \n    cmds.button ('btSeRe',l=\"Apply\",w=80,c=\"SeRe()\",p='colSeRe')\n    cmds.rowLayout('rowBtLayout',ad2=2,nc=2,p='mainF')\n    cmds.button (\"btRE\",l=\"Refresh Selection\",h=35,w=100,c=\"renewNF(cmds.ls(sl=1))\" ,p='rowBtLayout')\n    cmds.button (\"btHI\",l=\"Refresh Selection \\n with Hierarchy\",h=35,w=100,c=\"cmds.select(hi=1);renewNF(cmds.ls(sl=1))\" ,p='rowBtLayout')\n    cmds.button ('btClose',l=\"Close\",h=30,w=100,c=\"cmds.deleteUI('windowRnm')\",p='mainF')\n    \n    cmds.formLayout('mainF',e=1,ac=[('frameIncre','top',5,'scrollRF'),('framePreSuf','top',5,'frameIncre'),('frameSeRe','top',5,'framePreSuf'),(\"rowBtLayout\",'top',5,'frameSeRe'),(\"btClose\",'top',5,\"rowBtLayout\")],\n                                af=[('scrollRF','left',5),('scrollRF','right',5),('scrollRF','top',5),('scrollRF','bottom',370),\n                                   ('framePreSuf','left',5),('framePreSuf','right',5),\n                                   ('frameIncre','left',5),('frameIncre','right',5),\n                                   ('frameSeRe','left',5),('frameSeRe','right',5),\n                                   (\"rowBtLayout\",'left',5),(\"rowBtLayout\",'right',5),\n                                   (\"btClose\",'left',5),(\"btClose\",'right',5)])\n    cmds.scriptJob(e=['SelectionChanged',\"renewNF(cmds.ls(sl=1))\"])\n    cmds.scriptJob(uid=['windowRnm','killScript()'])\n    \n\n\t\t\nrunRNM(cmds.ls(sl=1))\n#####" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "colorObject(s)" 
+        -enableBackground 0
+        -align "center" 
+        -label "color wireframe/curve" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Color" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import maya.cmds as cmds\ndef asg(n,m):##n=cmds.ls(sl=1)\n    if len(n)>1:\n        for q in n:\n            itemAttr = cmds.getAttr(q+\".overrideEnabled\")\n            if itemAttr == 0:cmds.setAttr(q+\".overrideEnabled\",1)\n            cmds.setAttr(q+\".overrideColor\",m-1)\n    else:\n        itemAttr = cmds.getAttr(n[0]+\".overrideEnabled\")\n        if itemAttr == 0:cmds.setAttr(n[0]+\".overrideEnabled\",1)\n        cmds.setAttr(n[0]+\".overrideColor\",m-1)\n\nif cmds.window('winColor',q=1,ex=1):\n        cmds.deleteUI('winColor')\n\ncmds.window(\"winColor\",t=\"Color Object(s)\",vis=1,s=1)\ncmds.formLayout('clrForm',nd=1)\ncmds.gridLayout('btGrid',cr=1,cw=145,nrc=(1,1),p='clrForm',aec=0)#cmds.gridLayout('btGrid',q=1,nc=1)\ncmds.colorIndexSliderGrp( \"sldC\",label='Select Color', min=0, max=20, value=10 ,p='clrForm',adj=3,cw3=(60,50,100))##len(cmds.ls(sl=1))\ncmds.button ('asBt',l=\"Assign to Selected Object(s)\",c=\"asg(cmds.ls(sl=1),cmds.colorIndexSliderGrp( 'sldC',q=1,value=1 ))\",h=30,p='clrForm')\n#cmds.grabColor()#cmds.colorIndexSliderGrp( 'sldC',q=1,value=1 )  \ncmds.button('btBlue',l='Blue',c=\"asg(cmds.ls(sl=1),7)\",bgc=[0,0,1],p='btGrid')\ncmds.button('btPink',l='Pink',c=\"asg(cmds.ls(sl=1),10)\",bgc=[0.78431373834609985, 0.0, 0.78431373834609985],p='btGrid')\ncmds.button('btRed',l='Red',c=\"asg(cmds.ls(sl=1),14)\",bgc=[1,0,0],p='btGrid')\ncmds.button('btGreen',l='Green',c=\"asg(cmds.ls(sl=1),15)\",bgc=[0,1,0],p='btGrid')\ncmds.button('btWhite',l='White',c=\"asg(cmds.ls(sl=1),17)\",bgc=[1,1,1],p='btGrid')\ncmds.button('btYellow',l='Yellow',c=\"asg(cmds.ls(sl=1),18)\",bgc=[1,1,0],p='btGrid')\ncmds.button('btLightBlue',l='LightBlue',c=\"asg(cmds.ls(sl=1),19)\",bgc=[0.39215686917304993, 0.86274510622024536, 1.0],p='btGrid')\n\ncmds.formLayout('clrForm',e=1,ac=[('sldC','right',5,'asBt'),('btGrid','top',20,'sldC')],\n                af=[('sldC','left',5),('sldC','top',5),\n                ('asBt','right',5),('asBt','top',1),\n                ('btGrid','left',5),('btGrid','right',5),('btGrid','bottom',1)])" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "transfer UV" 
+        -enableBackground 0
+        -align "center" 
+        -label "uv transfer" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "UV" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import maya.cmds as cmds\n\ndef filterObj(n):#n= cmds.ls(sl=1,long=1)[0]+'.inMesh'    #boj = filterObj(cmds.ls(sl=1)[0])\n    shpList = cmds.listRelatives(n,s=1,f=1)\n    n=n.split(\"|\")[-1]\n    final = []\n    for q in shpList:\n        origConn = cmds.listConnections(q)       \n        if cmds.getAttr(q+\".io\")== 1 and origConn!=None :\n            grps = [conn for conn in origConn if 'groupparts' in conn.lower()]\n            for grp in cmds.listConnections(grps):\n                if grp == n:return q,1\n        else:pass\n    return n,0\n\ndef find(n):\n    listUV = cmds.ls (sl=1,long=1)\n    #flip normals\n    if n==5 :\n        for uv in listUV:#uv = cmds.ls (sl=1)[0]\n            obj = filterObj(uv)\n            val = obj[1]\n            obj = obj[0]\n            if val==1:\n                intUV(obj,n)                \n            else:                \n                normUV(obj,n)\n                \n    #transfer uv\n    elif n !=5:\n        objIn=filterObj(listUV[1]) \n        val = objIn[1]\n        listUV[1]=objIn[0]\n        \n        if val==0:normUV(listUV,n)\n        else:intUV(listUV,n)\n    cmds.select(listUV)    \n    \ndef intUV(m,n):\n    if n ==5:\n        cmds.setAttr(m+\".io\",0)\n        cmds.polyNormal (m,normalMode=4 ,userNormalMode=1 ,ch=1 )\n        cmds.delete(m,ch=1)\n        cmds.setAttr(m+\".io\",1)\n        \n    else:\n        \n        cmds.setAttr(m[1]+\".io\",0)\n        cmds.transferAttributes ( m,transferPositions=0 ,transferNormals=0 ,transferUVs=2 ,transferColors=2 ,sampleSpace=n ,sourceUvSpace=\"map1\" ,searchMethod=3 ,flipUVs=0 ,colorBorders=1)\n        cmds.delete (m[1],ch=1)        \n        cmds.setAttr (m[1]+\".io\",1)    \n    \ndef normUV(m,n):\n    if n ==5:\n        cmds.polyNormal (m,normalMode=4 ,userNormalMode=1 ,ch=1 )\n        cmds.delete(m,ch=1)\n    else:        \n        cmds.transferAttributes ( m,transferPositions=0 ,transferNormals=0 ,transferUVs=2 ,transferColors=2 ,sampleSpace=n ,sourceUvSpace=\"map1\" ,searchMethod=3 ,flipUVs=0 ,colorBorders=1)\n        cmds.delete(m[1],ch=1)\n\n    \nif (cmds.window('winTransUV',q=1,ex=1)):cmds.deleteUI('winTransUV')\ncmds.window('winTransUV',t=\"UV transfer option\",wh=[273, 150],s=0,vis=1)\ncmds.gridLayout(nrc=[3,2],cwh=[136,50],p='winTransUV')\ncmds.button('btWorld',l=\"Sample Space World\",c=\"find(0);cmds.repeatLast(ac='python(\\\"find(0)\\\")')\",rs=1)    \ncmds.button('btLocal',l=\"Sample Space Local\",c=\"find(1);cmds.repeatLast(ac='python(\\\"find(1)\\\")')\",rs=1) \ncmds.button('btUV',l=\"Sample Space UV\",c=\"find(2);cmds.repeatLast(ac='python(\\\"find(2)\\\")')\",rs=1) \ncmds.button('btComponent',l=\"Sample Space Component\",c=\"find(3);cmds.repeatLast(ac='python(\\\"find(3)\\\")')\",rs=1) \ncmds.button('btTopology',l=\"Sample Space Topology\",c=\"find(4);cmds.repeatLast(ac='python(\\\"find(4)\\\")')\",rs=1) \ncmds.button('btNorm',l=\"Reverse Normal\",c=\"find(5);cmds.repeatLast(ac='python(\\\"find(5)\\\")')\",rs=1,bgc=[0.631373,0.631373,0.631373]) \ncmds.setParent('..')" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Select the surface or components on the surface to be smoothed." 
+        -enableBackground 0
+        -align "center" 
+        -label "Smooth Skin Weights" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "smoothSkinWeights.png" 
+        -image1 "smoothSkinWeights.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "SmoothSkinWeights" 
+        -sourceType "mel" 
+        -doubleClickCommand "SmoothSkinWeightsOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Weight hammer: fix vertices that have bad weights (select them and use the hammer)" 
+        -enableBackground 0
+        -align "center" 
+        -label "Weight Hammer" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "WH" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "menuIconSkinning.png" 
+        -image1 "menuIconSkinning.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "weightHammerVerts" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "duplicate -rc" 
+        -enableBackground 0
+        -align "center" 
+        -label "Duplicate and rename children" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Dul" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "duplicate -rc" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Motion Path with CTRL" 
+        -enableBackground 0
+        -align "center" 
+        -label "motion path with controller" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "mP" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "##multi-motionPath\nimport maya.cmds as cmds\nlistMp = cmds.ls(sl=1)\nlistMp.reverse()\nmPCtrl= cmds.circle(c=[0,0,0] ,nr=[0,1,0] ,sw=360 ,r=1 ,d=3 ,ut=0 ,tol=0.01 ,s=8 ,ch=1,n=\"CTRL_mp\")\nfor item in [\"X\",\"Y\",\"Z\"]:\n    cmds.addAttr (mPCtrl,ln=\"worldUpVector\"+item, at=\"double\", min=0 ,max=1)\n    cmds.setAttr (mPCtrl[0]+\".worldUpVector\"+item,cb=1)\ncmds.setAttr (mPCtrl[0]+\".worldUpVectorX\",1)\ncmds.addAttr (ln=\"worldUpType\"  ,at=\"enum\" ,en=\"Scene Up:Object Up:Object Rotation Up:Vector:Normal:\",k=1)\ncmds.setAttr (mPCtrl[0]+\".worldUpType\",2)\n\ninU = (1.0/(len(listMp)-2))*100\ndataU=0\nfor q in range(1,len(listMp)):\n    mpName = listMp[q]+\"_mP1\"\n    cmds.pathAnimation( listMp[q],c=listMp[0],n=mpName ,fractionMode = 1 ,follow=1 ,followAxis='x' ,upAxis='y' ,worldUpType=\"normal\" ,inverseUp=0 ,inverseFront=0 ,bank=0 )    \n    cmds.setAttr(mpName+\".worldUpType\" ,2)\n    cmds.setAttr(mpName+\".worldUpVector\" , 1,0,0)\n    cmds.connectAttr( mPCtrl[0]+\".worldMatrix[0]\",mpName+\".worldUpMatrix\")\n    cmds.addAttr (mPCtrl,ln=mpName, at=\"double\", min=0 ,max=100,k=1)\n    cmds.setAttr(mPCtrl[0]+\".\"+mpName , dataU)\n    dataU += inU\n    if dataU >100:dataU=100    \n    uC = cmds.shadingNode (\"unitConversion\",asUtility=1,n=mpName + \"_uC1\");\n    cmds.setAttr (uC+\".conversionFactor\",.01);\n    cmds.connectAttr( mPCtrl[0] +\".\"+ mpName , uC+\".input\",f=1)\n    cmds.connectAttr( uC+\".output\" , mpName+\".uValue\",f=1)\n    \n    cmds.connectAttr( mPCtrl[0] +\".worldUpVectorX\" , mpName+\".worldUpVectorX\",f=1)\n    cmds.connectAttr( mPCtrl[0] +\".worldUpVectorY\" , mpName+\".worldUpVectorY\",f=1)\n    cmds.connectAttr( mPCtrl[0] +\".worldUpVectorZ\" , mpName+\".worldUpVectorZ\",f=1)\n\t\n    cmds.setAttr(listMp[q]+ \".displayLocalAxis\",k=1)\n    try:\n        cmds.setAttr(listMp[q]+ \".jointOrientX\",k=1)\n        cmds.setAttr(listMp[q]+ \".jointOrientY\",k=1)\n        cmds.setAttr(listMp[q]+ \".jointOrientZ\",k=1)\n    except:pass\n    \n    cmds.connectAttr (mPCtrl[0] + \".worldUpType\" , mpName+\".worldUpType\",f=1)\n\t\n    \ncmds.select(mPCtrl)" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "multiSkinWeight\n" 
+        -enableBackground 0
+        -align "center" 
+        -label "copy skin weight to multiple object" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "multiSkinWeight" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "listSkin = cmds.ls( sl=1);\n\nfor q in range(len(listSkin)-1):\n    cmds.copySkinWeights (listSkin[-1],listSkin[q],noMirror=1 ,surfaceAssociation=\"closestPoint\" ,influenceAssociation=[\"name\",\"oneToOne\" ,\"closestJoint\"])\n\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select ikCurve and joints" 
+        -enableBackground 0
+        -align "center" 
+        -label "stretchy spline" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "SSpline" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import maya.cmds as cmds\n\ndef stretchySpline(n):\n    if len(n)>1: \n        #n=cmds.ls(sl=1)\n        listSpine=[\"1\"]####fix naming problem\n        listSpine[0] = n[0]####fix naming problem\n        listJnt = n[1:]\n        listSpineShape = cmds.listRelatives(listSpine,s=1,ni=1)\n        nodeName = listSpine[0].split(\"_\")\n        nodeName[0]=nodeName[0]+\"_\"####fix naming problem\n        \n        ##Creation\n        crvNode = cmds.shadingNode(\"curveInfo\",au=1,n=listSpine[0]+\"Info\")\n        scaleNode = cmds.shadingNode(\"multiplyDivide\",au=1,n=nodeName[0]+\"stretch_scaleFix\")\n        normNode = cmds.shadingNode(\"multiplyDivide\",au=1,n=nodeName[0]+\"stretch_normalize\")\n        sqrtNode = cmds.shadingNode(\"multiplyDivide\",au=1,n=nodeName[0]+\"stretch_sqrt\")\n        invrsNode = cmds.shadingNode(\"multiplyDivide\",au=1,n=nodeName[0]+\"stretch_Inverse\")\n        tempCir=cmds.circle (ch=0,n=\"tempScaleTarget\")\n        \n        ##Set Node Attribute\n        cmds.setAttr(scaleNode+\".operation\",2)\n        cmds.setAttr(normNode+\".operation\",2)\n        cmds.setAttr(sqrtNode+\".operation\",3)\n        cmds.setAttr(sqrtNode+\".input2X\",.5)\n        cmds.setAttr(invrsNode+\".operation\",2)\n        cmds.setAttr(invrsNode+\".input1X\",1)\n        \n        ##Connect Attribute\n        cmds.connectAttr(listSpineShape[0] + \".worldSpace[0]\",crvNode+\".inputCurve\",f=1)\n        cmds.connectAttr(tempCir[0]+\".scale\",scaleNode+\".input2\",f=1)\n        cmds.connectAttr(crvNode+\".arcLength\",scaleNode+\".input1X\",f=1)\n        arcLen = cmds.getAttr(crvNode+\".arcLength\")\n        cmds.connectAttr(scaleNode+\".outputX\",normNode+\".input1X\",f=1)\n        cmds.setAttr(normNode+\".input2X\",arcLen)\n        cmds.connectAttr(normNode+\".outputX\",sqrtNode+\".input1X\",f=1)\n        cmds.connectAttr(sqrtNode+\".outputX\",invrsNode+\".input2X\",f=1)\n        \n        for q in listJnt:\n            cmds.connectAttr (normNode+\".outputX\",q+\".scaleX\")\n            cmds.connectAttr (invrsNode+\".outputX\",q+\".scaleY\")\n            cmds.connectAttr (invrsNode+\".outputX\",q+\".scaleZ\")\n        return scaleNode    \n    else:cmds.warning(\"Select ikCurve and joint(s) to be stretched.\")\nlistAll = cmds.ls(sl=1)\nstretchySpline(listAll)" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "StretchyIK" 
+        -enableBackground 0
+        -align "center" 
+        -label "stretchy ik" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "S_IK" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "#Please select an ikHandle and a controller which will be assigned additional attribute(optional).##\n\nimport maya.cmds as cmds\nimport sys\ndef createSphere (name):\n    cA=cmds.circle(c=[0,0,0],nr=[0,1,0],sw=360,r=1,d=3,ut=0,tol=.01,s=8,ch=0,n=name)\n    cB=cmds.circle(c=[0,0,0],nr=[1,0,0],sw=360,r=1,d=3,ut=0,tol=.01,s=8,ch=0)\n    cC=cmds.circle(c=[0,0,0],nr=[0,0,1],sw=360,r=1,d=3,ut=0,tol=.01,s=8,ch=0)    \n    cmds.parent(cmds.listRelatives(cC[0],c=1)[0],cmds.listRelatives(cB[0],c=1)[0],cA[0],r=1,s=1)\n    cmds.delete(cB,cC)\n    cmds.select(cl=1)\n    return cA\n\ndef createStretchyIK(*arg):           \n    tempMain = arg[0]\n        \n    if (len(tempMain)>2 or len(tempMain)<1) or cmds.objectType(tempMain[0],isType=\"ikHandle\")==False :\n        cmds.warning(\"Please select an ikHandle and a controller which will be assigned additional attribute(optional).\")    \n        sys.exit()\n    else:\n        handle=tempMain[0]\n        ikName=cmds.ikHandle(handle,q=1,n=1)\n        jntList=cmds.ikHandle(handle,q=1,jl=1)[1:]\n        tempList = cmds.listRelatives(jntList[-1],c=1)\n        for temp in tempList:\n            if temp != cmds.ikHandle(handle,q=1,ee=1):jntList.append(temp)\n            else: break \n        \n        startJnt=cmds.xform(cmds.ikHandle(handle,q=1,jl=1)[0] ,q=1,t=1,ws=1)\n        endJnt = cmds.xform(jntList[-1],q=1,t=1,ws=1)\n        locA= cmds.spaceLocator(n=ikName+\"_stretch_start_LOC\")\n        cmds.setAttr(locA[0]+\".translate\",startJnt[0],startJnt[1],startJnt[2],typ=\"double3\")\n        locB=cmds.spaceLocator(n=ikName+\"_stretch_end_LOC\")\n        cmds.setAttr(locB[0]+\".translate\",endJnt[0],endJnt[1],endJnt[2],typ=\"double3\")\n        disParent=cmds.createNode(\"transform\",n=ikName+\"_distance\")\n        disNode=cmds.createNode(\"distanceDimShape\",n=ikName+\"_distanceShape\",p=disParent)\n        cmds.connectAttr(locA[0]+\"Shape.worldPosition\",disNode+\".startPoint\",f=1)\n        cmds.connectAttr(locB[0]+\"Shape.worldPosition\",disNode+\".endPoint\",f=1)\n        \n        totalDis = sum([cmds.getAttr(jnt+\".tx\") for jnt in jntList])\n        \n        if len(tempMain)==1:\n            newCtrl = createSphere(\"CTRL_\"+ikName)[0]\n            cmds.addAttr(newCtrl,ln=\"stretchy\",at=\"double\",min=0,max=1,dv=1,k=1)\n            \n        elif len(tempMain)==2:\n            newCtrl = tempMain[1]\n            cmds.addAttr(newCtrl,ln=\"stretchy\",at=\"double\",min=0,max=1,dv=1,k=1)    \n            \n        \n        switchNode1 = cmds.shadingNode(\"multiplyDivide\",au=1,n=ikName+\"_stretch_Switch\")\n        scaleNode = cmds.shadingNode(\"multiplyDivide\",au=1,n=ikName+\"_stretch_scaleFix\")\n        \n        cmds.setAttr(scaleNode+'.operation',2)\n        cmds.connectAttr(disNode+\".distance\",switchNode1+\".input1X\")\n        cmds.connectAttr(switchNode1+\".outputX\",scaleNode+\".input1X\")\n        cmds.connectAttr (newCtrl+\".stretchy\",switchNode1+\".input2X\")\n            \n        for jnt in jntList:\n            cmds.setDrivenKeyframe(jnt+\".translateX\",cd=disNode+\".distance\",dv=totalDis,v=(cmds.getAttr(jnt+\".translateX\")),itt=\"linear\",ott=\"linear\")\n            cmds.setDrivenKeyframe(jnt+\".translateX\",cd=disNode+\".distance\",dv=totalDis*2,v=(cmds.getAttr(jnt+\".translateX\")*2),itt=\"linear\",ott=\"linear\")\n            animCurv=cmds.listConnections(jnt+\".translateX\",t=\"animCurve\")[0]\n            cmds.setAttr(animCurv+\".postInfinity\",4)    \n            cmds.connectAttr(scaleNode+\".outputX\",animCurv+\".input\",f=1)\n        distanceGrp = cmds.group(em=1,n=ikName + \"_distance_util_grp\")\n        cmds.parent(locA,locB,disNode,distanceGrp)        \n        cmds.parentConstraint (cmds.ikHandle(handle,q=1,jl=1)[0],locA,mo=1)\n        #handle=cmds.ls(sl=1)\n        handleParent = cmds.listRelatives(handle,p=1)\n        if handleParent==None :\n            cmds.warning(\"Please manually parent \"+locB[0]+\".\")\n            sys.exit()\n\n        else:\n            cmds.parentConstraint (handleParent[0],locB,mo=1)\n        #cmds.parentConstraint (handle,locB,mo=1)\n\ncreateStretchyIK(cmds.ls(sl=1))\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "FileTextureManager" 
+        -enableBackground 0
+        -align "center" 
+        -label "FileTextureManager" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "FTM" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "source \"C:/xtra/@FileTextureManager.mel\";FileTextureManager;" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "import maya.cmds as cmds\nimport maya.mel as mel\n\n\nmel.eval('setAttr perspShape.backgroundColor -type double3 0.631373 0.631373 0.631373 ;')\ncmds.setAttr( \"defaultRenderGlobals.imageFormat\", 8)\nmel.eval('RenderViewWindow;renderWindowRender redoPreviousRender renderView;')\nrenderWin='renderView'\nnewName=(cmds.file(q=1,sn=1).split(\"/\")[-1]).split(\"_\")[2]\nfilePath = cmds.file(q=1,sn=1).split(\"/\")[:-2]\nnewFileName=\"/\".join(filePath)+\"/\"+filePath[-1]+\"_Preview\"\ncmds.renderWindowEditor(renderWin,e=1,wi=newFileName)\ncmds.deleteUI('renderViewWindow')\nmel.eval('setAttr perspShape.backgroundColor -type double3 0 0 0 ;')" 
+        -enableBackground 0
+        -align "center" 
+        -label "render image" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "IMG" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import maya.cmds as cmds\nimport maya.mel as mel\n\n\nmel.eval('setAttr perspShape.backgroundColor -type double3 0.631373 0.631373 0.631373 ;')\ncmds.setAttr( \"defaultRenderGlobals.imageFormat\", 8)\ncmds.setAttr( \"defaultRenderGlobals.ren\", \"mayaHardware2\",typ=\"string\")\n\nmel.eval('RenderViewWindow;')\nuiList=cmds.lsUI(p=1,l=1)\nrenderWin= [q for q in uiList if 'render' in q]\ncom = mel.eval('renderWindowRender redoPreviousRender ' + str(renderWin[0]) + \";\")\ncmds.window(renderWin[0]+'Window',e=1,vis=0)\n\nnewName=(cmds.file(q=1,sn=1).split(\"/\")[-1]).split(\"_\")[2]\nfilePath = cmds.file(q=1,sn=1).split(\"/\")[:-2]\nnewFileName=\"/\".join(filePath)+\"/\"+filePath[-1]+\"_Preview\"\ncmds.renderWindowEditor(renderWin,e=1,wi=newFileName)\ncmds.deleteUI(renderWin[0]+'Window')\nmel.eval('setAttr perspShape.backgroundColor -type double3 0 0 0 ;')" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "renameMat" 
+        -enableBackground 0
+        -align "center" 
+        -label "search and rename materials" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "rMat" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "def searchRenameMat(*arg):    \n    allMat = cmds.ls(mat=1)\n    defMat = ['lambert1','particleCloud1']\n    filMat = ['_ma','_mat']\n    newMat = []\n    cusMat = []\n    for mat in allMat:\n        for m in defMat:\n            if mat not in defMat:\n                cusMat.append(mat)\n                break\n    for mat in cusMat:\n        tempList = mat.split('_')\n        \n        if tempList[-1]!=\"SHD\" and len(tempList)!=1:\n            tempList[-1]=\"SHD\"        \n        if len(tempList)==1:\n            tempList.append(\"SHD\")\n          \n        tempList = \"_\".join(tempList)\n        \n        if (tempList in newMat) and (mat!=cusMat[0]) and len(newMat)>0:\n            tempList = tempList.split(\"_\")\n            if tempList[-2][-1].isdigit():\n                tempList[-2][-1] = str(int(tempList[-2][-1])+1)\n            else:\n                tempList[-2] = tempList[-2]+\"1\"\n            tempList = \"_\".join(tempList)\n        newMat.append(tempList)\n        mat = cmds.rename(mat,tempList)\n    print sorted(cusMat)\nsearchRenameMat()  " 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "duplicate and move" 
+        -enableBackground 0
+        -align "center" 
+        -label "import maya.cmds as cmds\nlistDul = cmds.ls(sl=1)\nparentItem = [l..." 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "dulMov" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import maya.cmds as cmds\nlistDul = cmds.ls(sl=1)\nparentItem = [listDul[-1]]\nlistDul = listDul[:-1]\nfor item in range(len(listDul)):\n    newName = listDul[item].replace(\"jnt\",\"CTRL\")       \n    temp = cmds.duplicate(parentItem[0],n=newName,rc=1)         \n    newGrp = cmds.group(temp[0],n=newName + '_grp')\n    cmds.parentConstraint (listDul[item],newGrp,n=\"pcC1\")\n    cmds.delete (\"pcC1\")\n    listDul[item] = newGrp\ncmds.delete (parentItem)\ncmds.select(listDul)\n" 
+        -sourceType "python" 
+        -doubleClickCommand "import maya.cmds as cmds\nlistDul = cmds.ls(sl=1)\nparentItem = [listDul[-1]]\nlistDul = listDul[:-1]\nfor item in range(len(listDul)):\n    newName = listDul[item].replace(\"jnt\",\"CTRL\")       \n    temp = cmds.duplicate(parentItem[0],n=newName,rc=1)         \n    offGrp = cmds.group(temp,n=newName + '_offset_grp',em=1)\n    drvGrp = cmds.group(temp,n=newName + '_drv_grp',em=1,p=offGrp)\n    cmds.parent(temp,drvGrp)\n    cmds.parentConstraint (listDul[item],offGrp,mo=0,n=\"pcC1\")\n    cmds.delete (\"pcC1\")\n    listDul[item] = offGrp\ncmds.delete (parentItem)\ncmds.select(listDul)\n" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "-------------" ( "print(\"User defined menuItem\");" )
+        -mi "pC_Ctrl" ( "for q in cmds.ls(sl=1):\n    cmds.parentConstraint(q,q.replace(\"CTRL\",\"jnt\"),mo=1)" )
+        -mip 1
+        -mi "pC_Ctrl(scale)" ( "for q in cmds.ls(sl=1):\n    cmds.parentConstraint(q,q.replace(\"CTRL\",\"jnt\"),mo=1)\n    cmds.scaleConstraint(q,q.replace(\"CTRL\",\"jnt\"),mo=1)" )
+        -mip 2
+        -mi "direct_Connect" ( "for q in cmds.ls(sl=1):\n    cmds.connectAttr(q+'.translate',q.replace(\"CTRL\",\"jnt\")+'.translate', f=1)\n    cmds.connectAttr(q+'.rotate',q.replace(\"CTRL\",\"jnt\")+'.rotate', f=1)\n    cmds.connectAttr(q+'.scale',q.replace(\"CTRL\",\"jnt\")+'.scale', f=1)" )
+        -mip 3
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "create addtional attribute for follicle" 
+        -enableBackground 0
+        -align "center" 
+        -label "folList = cmds.ls(sl=1)\nfor q in folList:#q=cmds.ls(sl=1)[0]\n\tcm..." 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "foli" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "folList = cmds.ls(sl=1)\nfor q in folList:#q=cmds.ls(sl=1)[0]\n\tcmds.addAttr(q,ln='uValue',at='double',k=1)\n\tcmds.addAttr(q,ln='vValue',at='double',k=1)\n\t\n\tcmds.shadingNode('unitConversion',au=1,n=q+'_uValue')\t\n\tcmds.shadingNode('unitConversion',au=1,n=q+'_vValue')\n\t\n\tcmds.setAttr(q+'_uValue.conversionFactor',.01)\n\tcmds.setAttr(q+'_vValue.conversionFactor',.01)\n\t\n\tcmds.connectAttr(q+\".uValue\",q+'_uValue.input',f=1)\n\tcmds.connectAttr(q+\".vValue\",q+'_vValue.input',f=1)\n\t\n\tfolShp = cmds.listRelatives(q,typ='follicle')[0]\n\t\n\tcmds.setAttr(q+'.uValue',cmds.getAttr(folShp+'.parameterU')*100)\n\tcmds.setAttr(q+'.vValue',cmds.getAttr(folShp+'.parameterV')*100)\n\t\n\tcmds.connectAttr(q+'_uValue.output', folShp+'.parameterU' , f=1)\n\tcmds.connectAttr(q+'_vValue.output', folShp+'.parameterV' , f=1)\n\ncmds.select(folList)" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "$listExtDel = `ls -sl`;\nextractDeltas -s $listExtDel[0] -c $list..." 
+        -enableBackground 0
+        -align "center" 
+        -label "$listExtDel = `ls -sl`;\nextractDeltas -s $listExtDel[0] -c $list..." 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "C:/Users/Anim_Artist_006_2/Documents/maya/2015-x64/prefs/icons/extractDeltas.png" 
+        -image1 "C:/Users/Anim_Artist_006_2/Documents/maya/2015-x64/prefs/icons/extractDeltas.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "performExtractDeltas" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "extractDeltasDuplicateMesh" 
+        -enableBackground 0
+        -align "center" 
+        -label "extractDeltasDuplicateMesh" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "C:/Users/Anim_Artist_006_2/Documents/maya/2015-x64/prefs/icons/extractDeltasDuplicate.png" 
+        -image1 "C:/Users/Anim_Artist_006_2/Documents/maya/2015-x64/prefs/icons/extractDeltasDuplicate.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "extractDeltasDuplicateMesh" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 39
+        -height 39
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "SHAPESBrush" 
+        -enableBackground 0
+        -align "center" 
+        -label "SHAPESBrush" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "C:/Users/Anim_Artist_006_2/Documents/maya/2015-x64/prefs/icons/SHAPESBrush.png" 
+        -image1 "C:/Users/Anim_Artist_006_2/Documents/maya/2015-x64/prefs/icons/SHAPESBrush.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "SHAPESBrush" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "joint draw style" 
+        -enableBackground 0
+        -align "center" 
+        -label "dsa" 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "jntVis" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "for q in cmds.ls(type=\"joint\"):\n\tif cmds.getAttr(\"%s.drawStyle\"%q)==0:\n\t\tcmds.setAttr(\"%s.drawStyle\"%q,2)\n\telse:\n\t\tcmds.setAttr(\"%s.drawStyle\"%q,0)" 
+        -sourceType "python" 
+        -doubleClickCommand "for q in cmds.ls(type=\"joint\"):\n\tcmds.setAttr(\"%s.drawStyle\"%q,0)" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "fx tools" 
+        -enableBackground 0
+        -align "center" 
+        -label "import os\ndef assignOrder(*n):\n    for ind, q in enumerate(cmds...." 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "FX" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import os\ndef assignOrder(*n):\n    for ind, q in enumerate(cmds.ls(sl=1)):\n        if \"selOrder\" not in cmds.listAttr(q):\n            cmds.addAttr(q,longName = \"selOrder\",attributeType = \"long\" , keyable =0)\n        cmds.setAttr(\"%s.selOrder\"%q,channelBox=0)\n        cmds.setAttr(\"%s.selOrder\"%q,lock=0)\n        cmds.setAttr(\"%s.selOrder\"%q,ind)\n        cmds.setAttr(\"%s.selOrder\"%q,lock=1)\n\ndef selReorder(*n):\n    itemList = cmds.ls(sl=1)\n    newList = range(len(itemList))\n    listLen = 0\n    for item in itemList:\n        if \"selOrder\" in cmds.listAttr(item):\n            ind = cmds.getAttr(\"%s.selOrder\"%item)\n            newList[ind] = item\n            listLen+=1\n    cmds.select(newList[:listLen])\n    \ndef searchAsset(prompt = 0,search=0):# 0 = Reference , 1 = Import batchAsset()\n    loc=\"c:/animation/RuiLiTheBull_2/Scene/_AnimLoop/Anim/bake\"\n    if prompt ==1 :\n        res = cmds.promptDialog(m=\"Insert Custom Location\",db=\"Confirm\",ds=\"Confirm\")\n        if res == \"Confirm\":\n            loc =cmds.promptDialog(q=1,tx=1)\n    if search==1:\n        cmds.textScrollList(\"assetTextScroll\",e=1,removeAll = 1)\n        loc = cmds.textScrollList(\"assetTextScroll\",q=1,ann = 1)\n        allFiles = os.listdir(loc)\n        searchText = cmds.textFieldGrp(\"importSearchBar\",q=1,tx=1)\n        for q in allFiles:\n            splitList = os.path.splitext(q)\n            if splitList[-1]==\".mb\" and (searchText.lower() in splitList[0].lower()) :\n                cmds.textScrollList(\"assetTextScroll\",e=1,append = q)\n        return\n    cmds.textScrollList(\"assetTextScroll\",e=1,removeAll = 1)\n    cmds.textScrollList(\"assetTextScroll\",e=1,ann = \"\")\n    allFiles = os.listdir(loc)\n    for q in allFiles:\n        if os.path.splitext(q)[-1]==\".mb\":\n            cmds.textScrollList(\"assetTextScroll\",e=1,append = q)\n    cmds.textScrollList(\"assetTextScroll\",e=1,ann = loc)\n\ndef batchAsset(*n):\n    selectedItem = cmds.textScrollList(\"assetTextScroll\",q=1,si = 1)\n    location = cmds.textScrollList(\"assetTextScroll\",q=1,ann = 1).replace(\"c:/animation/RuiLiTheBull_2/\",\"\")\n    mode = cmds.radioButtonGrp(\"imRefradio\",q=1,sl=1)\n    #print location    \n    if mode == 1 :\n        for item in selectedItem:\n            cmds.file(location+\"/\"+item,reference=1,namespace = os.path.splitext(item)[0])\n    else:\n        for item in selectedItem:\n            cmds.file(location+\"/\"+item,i=1)\n\ndef rmanAttr(mode = 1):      \n    rmanAddAttrScript = '$allItem = `ls -sl`;for ($i=0;$i<`size $allItem`;$i++){$mesh = `listRelatives -type \"mesh\" $allItem[$i]`;rmanAddAttr $mesh[0] `rmanGetAttrName subdivScheme` \"\";rmanAddAttr $mesh[0] `rmanGetAttrName subdivFacevaryingInterp` \"\";}'\n    if mode == 1 :\n        mel.eval(rmanAddAttrScript)\n    else:\n        for q in cmds.ls(sl=1):\n            selectedShape = cmds.listRelatives(q,children=1,type=\"shape\")[0]\n            cmds.deleteAttr(\"%s.rman__torattr___subdivScheme\"%selectedShape)\n            cmds.deleteAttr(\"%s.rman__torattr___subdivFacevaryingInterp\"%selectedShape)\n\n\ndef readjustWindow(*n):\n    tagFrame = cmds.frameLayout(\"tagFrame\",q=1,h=1)\n    fxFrame = cmds.frameLayout(\"fxFrame\",q=1,h=1)\n    rmanFrame = cmds.frameLayout(\"rmanFrame\",q=1,h=1)\n    importRefFrame = cmds.frameLayout(\"importRefFrame\",q=1,h=1)\n    cmds.window('createFxWind',e=1,h=(tagFrame+fxFrame+rmanFrame+importRefFrame)+40)\n\ndef deleteTag(*n):\n    for q in cmds.ls(sl=1,long=1):\n        if \"objType\" in cmds.listAttr(q):\n            print q\n            cmds.setAttr(\"%s.objType\"%q,lock=0)\n            cmds.deleteAttr(q, attribute = 'objType')\n            \ndef assignTag(tagName = \"\"):\n    for q in cmds.ls(sl=1):\n        if \"objType\" not in cmds.listAttr(q):\n            cmds.addAttr(q,longName=\"objType\",dataType=\"string\",keyable=1)\n        else:\n            cmds.setAttr(\"%s.objType\"%q,lock=0)\n        cmds.setAttr(\"%s.objType\"%q,tagName,type=\"string\")\n        cmds.setAttr(\"%s.objType\"%q,lock=1)\n        if tagName == \"eyedart\":\n            if not cmds.objExists('eyeDart_SHDSG'):\n                createSurfShad(name = 'eyeDart_SHD')\n            cmds.setAttr(\"%s.castsShadows\"%q,0,lock=1)\n            cmds.setAttr(\"%s.receiveShadows\"%q,0,lock=1)\n            cmds.setAttr(\"%s.visibleInReflections\"%q,0,lock=1)\n            cmds.setAttr(\"%s.visibleInRefractions\"%q,0,lock=1)\n            cmds.setAttr(\"%s.primaryVisibility\"%q,0,lock=1)\n            cmds.setAttr(\"%s.doubleSided\"%q,1,lock=1)\n            cmds.sets(q,e=1,forceElement='eyeDart_SHDSG')\n            \n    print \"Assigned %s to %s\" %(tagName , cmds.ls(sl=1))    \n\ndef createSurfShad(name = '',color = (0,0,0),opacity = (1,1,1)):#createSurfShad(name = \"eyeDart_SHD\")\n    shadeNode = cmds.shadingNode(\"surfaceShader\",asShader = 1,n=name)\n    shadeSets = cmds.sets(renderable = True , noSurfaceShader = True ,empty = True, name = \"%sSG\"%name)\n    cmds.connectAttr(\"%s.outColor\"%shadeNode ,\"%s.surfaceShader\"%shadeSets, force=1)\n    cmds.setAttr(\"%s.outColor\"%shadeNode , color[0],color[1],color[2],type = \"double3\")\n    cmds.setAttr(\"%s.outMatteOpacity\"%shadeNode , opacity[0],opacity[1],opacity[2],type = \"double3\")\n\ndef createCacheMesh(*n):\n    meshList=[] #len(dulMeshList)   \n    for q in cmds.ls(transforms=1):\n        if \"objType\" in cmds.listAttr(q):\n            if cmds.getAttr(\"%s.objType\"%q) in [\"geometry\",\"eyedart\",\"polyHair\",\"gloss\"]:\n                meshList.append(q)\n                \n    newMesh = cmds.polyUnite(meshList)[0]\n    bsMesh = cmds.duplicate(newMesh,n=\"DUPL_\"+newMesh)[0]    \n    cmds.addAttr(bsMesh,longName=\"objType\",dataType=\"string\",keyable=1)\n    cmds.setAttr(\"%s.objType\"%bsMesh,\"cacheMesh\",type=\"string\")\n    \n    currentFilePath = \"/\".join(cmds.file(query=1,sceneName=1).split(\"/\")[:-1])\n    currentFileName = cmds.file(query=1,sceneName=1).split(\"/\")[-1]\n    if \"/old\" not in currentFilePath:\n        currentFilePath+=\"/old\"\n    \n    if cmds.checkBox(\"fxMeshBt\",q=1,value=1):\n        for q in cmds.file(q=1,r=1):\n            cmds.file(q,ir=1)\n        \n    if cmds.checkBox(\"fxSaveCB\",q=1,value=1):\n        cmds.select(bsMesh)\n        cmds.file((currentFilePath+\"/\"+currentFileName.replace(\"rig\",\"fx_model\")),force=1,options=\"v=0;\",type=\"mayaBinary\",preserveReferences=1,exportSelected=1)\n    \n    bsNode = cmds.blendShape(newMesh,bsMesh,n=\"%s_BS\"%bsMesh)[0]\n    cmds.setAttr(\"%s.%s\"%(bsNode,newMesh),1)\n    cmds.setAttr(\"%s.visibility\"%(newMesh),0)\n    cmds.parent(newMesh,bsMesh,\"Geometry\")\n    if cmds.checkBox(\"fxSaveCB\",q=1,value=1):\n        cmds.file(rn=(currentFilePath+\"/\"+currentFileName.replace(\"rig\",\"fx_rig\")))\n        cmds.file(save=1,force=1,options=\"v=0;\",type=\"mayaBinary\",preserveReferences=1)\n    \ntry:\n    cmds.deleteUI(\"createFxWind\")\nexcept:\n    pass\n\ncmds.window('createFxWind',vis=1,wh=[300,110],sizeable=0,title = \"Fx Mesh Window\")\ncmds.columnLayout(\"fxMainLay\",w=300)\ncmds.frameLayout(\"tagFrame\",label = \"Tag Creation\",cll=1,w=299,parent ='fxMainLay' ,cl=True,cc=readjustWindow,ec=readjustWindow,bgc=(.5,0,0))\ncmds.rowColumnLayout('tagColLay',p='tagFrame',co=[(1,\"both\",5),(2,\"both\",5)],cw=[(1,300),(2,300)],rowOffset=[(1,\"top\",5),(4,\"top\",5)])\ncmds.optionMenu('tagOpMenu',parent = 'tagColLay',label = \"Object Type:\",w=100,ann = \"Assign tag to selected objects.\\ngeometry: objects will be render.\\neyedart: object just to visible in viewport not render.\\npolyHair: hair object for LOD purpose.\\ncacheMesh: object to apply cache on it. Mostly for fx dept.\\nprop_geometry: just for prop or object to be combine after cacheMesh is created.\")#print \"\\\"cmds.optionMenu('tagOpMenu',q=1,v=1)\\\"\"\nmenuItemList = [\"geometry\",\"eyedart\",\"polyHair\",\"cacheMesh\",\"prop_geometry\",\"cacheCurve\"]\nfor item in menuItemList:\n    cmds.menuItem(label = item,parent = 'tagOpMenu')\ncmds.separator(\"tagSepA\",parent = 'tagColLay',h=10)\ncmds.button(\"tagBt\",parent = 'tagColLay',label = \"Assign Tag to Selected Objects\",c = \"assignTag(tagName = cmds.optionMenu('tagOpMenu',q=1,v=1))\")\ncmds.button(\"tagRemoveBt\",parent = 'tagColLay',label = \"Remove Tag on Selected Objects\",c = deleteTag)\n\ncmds.separator('fxWindSperatorA',h=10,p='fxMainLay')\n\ncmds.frameLayout(\"fxFrame\",label = \"FX Mesh\",cll=1,w=299,parent ='fxMainLay' ,cl=True,cc=readjustWindow,ec=readjustWindow,bgc=(0,.5,0))\ncmds.rowLayout(\"fxMeshLay\",nc = 3, cw3=(70,125,100),cl2=('left','right'),parent = 'fxFrame')\ncmds.checkBox(\"fxSaveCB\",parent = 'fxMeshLay',label = \"Auto Save\",ann = 'Export fx_model and save a new file as fx_rig.')\ncmds.checkBox(\"fxImCB\",parent = 'fxMeshLay',label = \"Import All Reference\",ann = 'Import all references in this file.')\ncmds.button(\"fxMeshBt\",parent = 'fxMeshLay',label = \"Create Fx Mesh\",c = createCacheMesh)\ncmds.button(\"fxSelAsgnBt\",parent = 'fxFrame',label = \"Assign Selection Order\",c = assignOrder)\ncmds.button(\"fxSelOrderBt\",parent = 'fxFrame',label = \"Selection Reorder\",c = selReorder)\ncmds.separator('fxWindSperatorE',h=10,p='fxFrame')\ncmds.rowLayout(\"fxMeshLayB\",nc = 3, cw2=(140,140),cl2=('left','right'),parent = 'fxFrame')\ncmds.button(\"assignShdBt\", w = 140 ,parent = 'fxMeshLayB',label = \"Assign Mesh Name \\nTo Shading Engine\",ann = 'Select all shading groups (except initial shading groups) and run.')\ncmds.button(\"linkShdBt\", w = 140 ,parent = 'fxMeshLayB',label = \"Link Shading Groups \\nTo Mesh\",ann = 'Import Shading Group first before use this function.')\n\n\ncmds.separator('fxWindSperatorB',h=10,p='fxMainLay')\n\ncmds.frameLayout(\"rmanFrame\",label = \"RenderMan Attribute\",cll=1,w=299,parent ='fxMainLay' ,cl=True,cc=readjustWindow,ec=readjustWindow,bgc=(0,0,.5))#cmds.frameLayout(\"rmanFrame\",q=1,h=1)\ncmds.button(\"rmanAddBt\",parent = 'rmanFrame',label = \"Add Subdiv Scheme\",c = \"rmanAttr(mode = 1)\")\ncmds.button(\"rmanDelBt\",parent = 'rmanFrame',label = \"Remove Subdiv Scheme\",c = \"rmanAttr(mode = 0)\")\n\ncmds.separator('fxWindSperatorC',h=10,p='fxMainLay')\n\ncmds.frameLayout(\"importRefFrame\",label = \"Batch Import/Reference Asset\",cll=1,w=299,parent ='fxMainLay' ,cl=True,cc=readjustWindow,ec=readjustWindow,bgc=(0,.5,.5))#cmds.frameLayout(\"rmanFrame\",q=1,h=1)\ncmds.textFieldGrp(\"importSearchBar\",parent = 'importRefFrame',label = \"Search: \",ad2=1,cc='searchAsset(prompt=0,search=1)')\ncmds.textScrollList(\"assetTextScroll\",parent = 'importRefFrame',ams=1,h=300)\ncmds.button(\"imRefBt\",parent = 'importRefFrame',label = \"General Location\",c = searchAsset)\ncmds.button(\"speciLocBt\",parent = 'importRefFrame',label = \"Specific Location\",c = 'searchAsset(prompt=1)')\ncmds.radioButtonGrp(\"imRefradio\",parent = 'importRefFrame',label = \"Action Type:\",nrb=2,la2=[\"Reference\",\"Import\"],cw3=[80,100,100],sl=1)\ncmds.button(\"bringBt\",parent = 'importRefFrame',label = \"Bring Them IN!\",c = batchAsset)\n\ncmds.separator('fxWindSperatorD',h=10,p='fxMainLay')\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "controller on mesh" 
+        -enableBackground 0
+        -align "center" 
+        -label "for q in cmds.ls(sl=1):\n    meshName = \"edge_\"+q.split(\"[\")[-1][..." 
+        -labelOffset 0
+        -font "plainLabelFont" 
+        -imageOverlayLabel "COM" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "for q in cmds.ls(sl=1):\n    meshName = \"edge_\"+q.split(\"[\")[-1][:-1]\n    crvList =cmds.duplicateCurve(q,ch=1,name = meshName)\n    cmds.rename(crvList[1],meshName+\"_crvMeshEdge\")\n    cvShape = cmds.listRelatives(crvList[0],type=\"nurbsCurve\")[0]\n    pointInfo = cmds.shadingNode(\"pointOnCurveInfo\",au=1,name = \"%s_pointOnCurveInfo\"%meshName)\n    plusNode = cmds.shadingNode(\"plusMinusAverage\",au=1,name = \"%s_plusMinusAverage\"%meshName)\n    posGrp = cmds.group(em=1,name = \"CTRL_%s_pos_grp\"%meshName)\n    offGrp = cmds.group(parent=posGrp,em=1,name = \"CTRL_%s_offset_grp\"%meshName)\n    subGrp = cmds.group(parent=offGrp,em=1,name = \"CTRL_%s_sub_grp\"%meshName)\n    cir = cmds.circle(c=(0,0,0) ,nr=(0,1,0) ,sw=360 ,r=1 ,d=3 ,ut=0 ,tol=0.01 ,s=8 ,ch=0,name = \"CTRL_%s\"%meshName)[0]\n    \n    cmds.addAttr(posGrp,longName = \"parameter\",min = 0,max=100,keyable=1,at='double')\n    ucNode = cmds.shadingNode(\"unitConversion\",au=1,name = \"%s_uc\"%pointInfo)\n    cmds.setAttr(\"%s.conversionFactor\"%ucNode,.01)\n    cmds.connectAttr(\"%s.parameter\"%posGrp,\"%s.input\"%ucNode)\n    cmds.connectAttr(\"%s.output\"%ucNode,\"%s.parameter\"%pointInfo)\n    \n    \n    cmds.parent(cir,subGrp)\n    cmds.setAttr(\"%s.operation\"%plusNode,2)\n    cmds.setAttr(\"%s.turnOnPercentage\"%pointInfo,1)\n    cmds.connectAttr(\"%s.worldSpace[0]\"%cvShape,\"%s.inputCurve\"%pointInfo)\n    cmds.connectAttr(\"%s.position\"%pointInfo,\"%s.translate\"%posGrp)\n    cmds.connectAttr(\"%s.translate\"%cir,\"%s.input3D[0]\"%plusNode)\n    cmds.disconnectAttr(\"%s.translate\"%cir,\"%s.input3D[0]\"%plusNode)\n    cmds.connectAttr(\"%s.translate\"%cir,\"%s.input3D[1]\"%plusNode)\n    cmds.connectAttr(\"%s.output3D\"%plusNode,\"%s.translate\"%subGrp)\n    \n    \n    " 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "-----------" ( "print(\"User defined menuItem\");" )
+        -mi "change shape" ( "selectionList = cmds.ls(sl=1)[:-1]\nnewCv = cmds.ls(sl=1)[-1]\n\nfor sel in selectionList:\n    dulCv = cmds.duplicate(newCv)[0]\n    cmds.parentConstraint(sel,dulCv,mo=0,name = \"PCCC1\")\n    cmds.delete(\"PCCC1\")\n    cmds.parent(dulCv,sel)\n    cmds.makeIdentity(apply = True, translate = True)\n    cmds.delete (cmds.listRelatives(sel,c=1,type=\"nurbsCurve\"))\n    cmds.parent(cmds.listRelatives(dulCv,c=1,f=1,type=\"nurbsCurve\"),sel,r=1,s=1)\n    cmds.delete(dulCv)\ncmds.delete(newCv)" )
+        -mip 1
+    ;
+
+} 
