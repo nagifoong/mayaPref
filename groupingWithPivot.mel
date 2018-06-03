@@ -1,0 +1,17 @@
+$listA = `ls -sl`;
+for ($item in $listA){
+    select -cl;
+    $itemA = $item+"_grp";
+    group -em -n $itemA ;
+    $parent = `listRelatives -p $item`;
+    if (`size $parent`>0){
+    	parent $itemA `listRelatives -p $item`;
+    }
+    
+    parentConstraint -n "tempPC" $item $itemA;
+    delete "tempPC";
+	if (`getAttr ($item + ".tx")` == 0 && `getAttr ($item + ".ty")` == 0 && `getAttr ($item + ".tz")` == 0){
+		makeIdentity -a 1 -t 1 $itemA;
+	}	
+    parent $item $itemA;     
+}
