@@ -2,7 +2,7 @@ import maya.cmds as cmds
 ###Select nurbsSurface or mesh to run it
 ### To mirror duplicate the nurbsSurface and set ScaleX to -1
 
-def createIkFeather(obj , name= ''):
+def createIkFeather(obj , name= '',follicleShape = '',pos = [0,0]):
     totalJnt = 5    
     jntList= []
     drvJnt = []
@@ -104,6 +104,24 @@ def createIkFeather(obj , name= ''):
     cmds.connectAttr(ucB+".output",plus+".input1D[1]")
     cmds.connectAttr(plus+".output1D",offG+".ty")
     
+    ####Adding attribute on transform node for futher adjustments
+    cmds.addAttr(offG,ln='uValue',at='double',k=1)
+    cmds.addAttr(offG,ln='vValue',at='double',k=1)
+     
+    uUc= cmds.shadingNode('unitConversion',au=1,n=follicleShape+'_uValue')	
+    vUc= cmds.shadingNode('unitConversion',au=1,n=follicleShape+'_vValue')
+    
+    cmds.setAttr('%s.conversionFactor'%uUc,.01)
+    cmds.setAttr('%s.conversionFactor'%vUc,.01)
+    
+    cmds.connectAttr(offG+".uValue",'%s.input'%uUc,f=1)
+    cmds.connectAttr(offG+".vValue",'%s.input'%vUc,f=1)
+    
+    cmds.setAttr(offG+'.uValue',pos[0]*100)
+    cmds.setAttr(offG+'.vValue',pos[1]*100)
+    
+    cmds.connectAttr('%s.output'%uUc, follicleShape+'.parameterU' , f=1)
+    cmds.connectAttr('%s.output'%vUc, follicleShape+'.parameterV' , f=1)
 
     return [jntG,constG,utilG,ucA,ucB]
 
@@ -127,30 +145,13 @@ def createFollicle(obj , name = '' ,uPos = 0.0, vPos = 0.0):
     cmds.connectAttr("%s.outRotate"%fol,"%s.rotate"%folTrans,f=1)
     cmds.connectAttr("%s.outTranslate"%fol,"%s.translate"%folTrans,f=1)    
     
-    ####Adding attribute on transform node for futher adjustments
-    cmds.addAttr(name,ln='uValue',at='double',k=1)
-    cmds.addAttr(name,ln='vValue',at='double',k=1)
-    
-    uUc= cmds.shadingNode('unitConversion',au=1,n=name+'_uValue')	
-    vUc= cmds.shadingNode('unitConversion',au=1,n=name+'_vValue')
-    
-    cmds.setAttr('%s.conversionFactor'%uUc,.01)
-    cmds.setAttr('%s.conversionFactor'%vUc,.01)
-    
-    cmds.connectAttr(name+".uValue",'%s.input'%uUc,f=1)
-    cmds.connectAttr(name+".vValue",'%s.input'%vUc,f=1)
-    
-    cmds.setAttr(name+'.uValue',uPos*100)
-    cmds.setAttr(name+'.vValue',vPos*100)
-    
-    cmds.connectAttr(name+'_uValue.output', fol+'.parameterU' , f=1)
-    cmds.connectAttr(name+'_vValue.output', fol+'.parameterV' , f=1)
+
     
     ##Clean up: lock transform's translate and rotate
     cmds.setAttr(name+".t",lock=1)
     cmds.setAttr(name+".r",lock=1)
     
-    ctrlSys = createIkFeather(folTrans,name=name.replace("follicle",""))
+    ctrlSys = createIkFeather(folTrans,name=name.replace("follicle",""),follicleShape = fol,pos =[uPos,vPos])
     
     return folTrans,ctrlSys
     
@@ -348,4 +349,4 @@ def wingRigWindow():
 
 
 if __name__ == '__main__':
-    wingRigWindow()        
+    wingRigWindow()
