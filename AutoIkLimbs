@@ -1,3 +1,12 @@
+def ikFootProxy():
+    ###Create locators to initialize ik foot system variable
+	prefix = "Left"    
+	outF = cmds.spaceLocator(n=prefix+"_foot_outter_proxy")	
+	heel = cmds.spaceLocator(n=prefix+"_heel_proxy")	
+	inF = cmds.spaceLocator(n=prefix+"_foot_inner_proxy")	
+	toe = cmds.spaceLocator(n=prefix+"_toe_proxy")
+	cmds.group(outF,heel,inF,toe,name = "jnt_%s_toe_proxy"%prefix)
+
 def mirrorJnt (*n):
     #mirrorJnt(cmds.ls(sl=1))
     # Mirror joint on YZ plane and re-orient the x axis to point towards the next joint
@@ -83,7 +92,13 @@ def ikLegAuto (prefix,ctrl,mirror,const = None):#1=posX,-1=negX
     
 	footProxy = "jnt_%s_toe_proxy"%prefix
 	for axis in ['x','y','z']:
-		for loc in [outF,heel,inF,toe]:
+		for loc in [heel,toe,inF,outF]:    	    
+			if cmds.objExists(footProxy):    			
+				cmds.pointConstraint(loc+"_proxy",loc,mo=0,name = "PCCC1")
+				cmds.delete ("PCCC1")
+				continue
+				
+    	
 			if mirror == 1:
 				if cmds.objExists(loc.replace("Left","Right")):
 					getVal = cmds.getAttr("%s.t%s"%(loc.replace("Left","Right"),axis)) 
@@ -93,16 +108,18 @@ def ikLegAuto (prefix,ctrl,mirror,const = None):#1=posX,-1=negX
 					continue
     				                
 			if mirror == -1:
+				
 				if cmds.objExists(loc.replace("Right","Left")):
-					getVal = cmds.getAttr("%s.t%s"%(loc.replace("Right","Left"),axis)) 
-					if (loc == outF or loc == inF) and axis == 'x':	
+					getVal = cmds.getAttr("%s.t%s"%(loc.replace("Right","Left"),axis)) 				    
+					if axis == 'x':	
 					    getVal *=-1
 					cmds.setAttr("%s.t%s"%(loc,axis),getVal)
-					continue
-			if cmds.objExists(footProxy):
-				cmds.pointConstraint(loc+"_proxy",loc,mo=0,name = "PCCC1")
-				cmds.delete ("PCCC1")
-			    
+					print "Mirroring %s.t%s"%(loc,axis)
+					#continue
+			
+	if cmds.objExists(footProxy):
+	    cmds.delete(footProxy)
+	    		    
 
 	cmds.connectAttr(ctrl+".roll",creaAnimInfi(legGrp+".rx",1)+".input",f=1)	
 	cmds.connectAttr(ctrl+".roll",creaAnimInfi(heel+".rx",-2)+".input",f=1)
