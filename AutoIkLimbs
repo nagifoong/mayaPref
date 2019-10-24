@@ -547,21 +547,33 @@ def fkIkJoints(*n):#fkIkJoints(cmds.ls(sl=1))
     connectUnitConvert(input = '%s.global'%fkSys[1],output = '%s.blendParent1'%fkSys[0],factor = .1,reverse = 1)
     
        
-    return (ctrlMainGrp,utilGrp)
+    return (ctrlMainGrp,utilGrp,parentJnt)
 
 import sys
+##Check foot proxy existance for foot functions
 if findTag(name = "footProxyGrp") ==None:
     ikFootProxy()
     sys.exit()
     cmds.warning("Please set foot parameters with provided locators.")
     
 selection = cmds.ls(sl=1)    
-ctrlMainGrp,utilGrp = fkIkJoints(selection)
+ctrlMainGrp,utilGrp,jntGrp = fkIkJoints(selection)
 #Try to mirror joint if other side of the joint is not exists
 if not cmds.objExists(selection[1].replace("Left","Right")):
     negJnt = mirrorJnt(selection[1])
-    mirrorCtrlMainGrp,mirrorUtilGrp = fkIkJoints([negJnt[1],negJnt[0]])
-    
-if not cmds.objExists("util_grp"):
-    cmds.group(name = "util_grp",em=1)
-cmds.parent(mirrorUtilGrp,utilGrp,"util_grp") 
+    mirrorCtrlMainGrp,mirrorUtilGrp,mirrorJntGrp = fkIkJoints([negJnt[1],negJnt[0]])
+
+##Clean up outliner. Organize skin joints and utilities to their own group    
+jntMainGrp = findTag(name = "jntMainGrp")
+if jntMainGrp == None:
+    jntMainGrp = [cmds.group(name = "jnt_grp",em=1)]
+    cmds.addAttr(jntMainGrp[0],longName="objType",dataType="string",keyable=1)
+    cmds.setAttr("%s.objType"%jntMainGrp[0],"jntMainGrp",type="string")        
+cmds.parent(jntGrp,mirrorJntGrp,jntMainGrp[0])
+
+utilMainGrp = findTag(name = "utilMainGrp")
+if utilMainGrp == None:
+    utilMainGrp = [cmds.group(name = "util_grp",em=1)]
+    cmds.addAttr(utilMainGrp[0],longName="objType",dataType="string",keyable=1)
+    cmds.setAttr("%s.objType"%utilMainGrp[0],"utilMainGrp",type="string")    
+cmds.parent(mirrorUtilGrp,utilGrp,utilMainGrp[0]) 
