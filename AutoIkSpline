@@ -133,6 +133,8 @@ def stretchySpline(n):
         normNode = cmds.shadingNode("multiplyDivide",au=1,n=nodeName[0]+"stretch_normalize")
         sqrtNode = cmds.shadingNode("multiplyDivide",au=1,n=nodeName[0]+"stretch_sqrt")
         invrsNode = cmds.shadingNode("multiplyDivide",au=1,n=nodeName[0]+"stretch_Inverse")
+        volNode = cmds.shadingNode("blendColors",au=1,n=nodeName[0]+"stretchVolume_blend")
+        volumeUc= cmds.shadingNode("unitConversion",au=1,name = nodeName[0]+"stretchVolume_uc")
         tempCir=cmds.circle (ch=0,n="tempScaleTarget")
         
         ##Set Node Attribute
@@ -142,6 +144,7 @@ def stretchySpline(n):
         cmds.setAttr(sqrtNode+".input2X",.5)
         cmds.setAttr(invrsNode+".operation",2)
         cmds.setAttr(invrsNode+".input1X",1)
+        cmds.setAttr(volumeUc+".conversionFactor",.1)
         
         ##Connect Attribute
         cmds.connectAttr(listSpineShape[0] + ".worldSpace[0]",crvNode+".inputCurve",f=1)
@@ -152,12 +155,14 @@ def stretchySpline(n):
         cmds.setAttr(normNode+".input2X",arcLen)
         cmds.connectAttr(normNode+".outputX",sqrtNode+".input1X",f=1)
         cmds.connectAttr(sqrtNode+".outputX",invrsNode+".input2X",f=1)
+        cmds.connectAttr(invrsNode+".outputX",volNode+".color1R",f=1)
+        cmds.connectAttr(volumeUc+".output",volNode+".blender")
         
         for q in listJnt:
             cmds.connectAttr (normNode+".outputX",q+".scaleX")
-            cmds.connectAttr (invrsNode+".outputX",q+".scaleY")
-            cmds.connectAttr (invrsNode+".outputX",q+".scaleZ")
-        return [tempCir[0],scaleNode]    
+            cmds.connectAttr (volNode+".outputR",q+".scaleY")
+            cmds.connectAttr (volNode+".outputR",q+".scaleZ")
+        return [tempCir[0],scaleNode,volumeUc]    
     else:cmds.warning("Select ikCurve and joint(s) to be stretched.")
     
 def runAutospline():
@@ -170,7 +175,7 @@ def runAutospline():
     name = "jnt_spline"
     for jnt in cmds.ls(type = "joint"):
         attr = cmds.getAttr("%s.otherType"%jnt)
-        if attr.isdigit():
+        if attr.isdigit()and "proxy" in jnt:
             jnt = cmds.rename(jnt,jnt.replace("proxy",""))
             ctrlJnt.append(jnt)
             crvPos.append(cmds.xform(jnt,q=1,ws=1,t=1))
@@ -249,6 +254,7 @@ def runAutospline():
     
     for ind,ctrl in enumerate(ctrlJnt):
         cmds.setAttr("%s.drawLabel"%ctrl,0)
+        
         if cmds.getAttr("%s.jointOrientX"%ctrlJnt[0])<45:
             fk = controllerCv(name = "%s_FK"%ctrl.replace("jnt_",""),type="circle")
             ik = controllerCv(name = "%s_IK"%ctrl.replace("jnt_",""),type="cylinder")
@@ -262,13 +268,17 @@ def runAutospline():
             pcTemp = cmds.parentConstraint(ctrl,fk[0],mo=0)[0]
             cmds.delete(pcTemp)
             cmds.rotate('-90deg',"%s"%fk[0],r=1,x=1)
-        
+        if ind == 0:
+            cmds.addAttr(fk[1],longName = "stretchVolume", at="double",min=0,max=10,dv=10,k=1)
+            cmds.connectAttr(fk[1]+".stretchVolume",scaleFixUtil[2]+".input")
+
         #cmds.setAttr("%s.t"%fk[0],crvPos[ind][0],crvPos[ind][1],crvPos[ind][2],type="double3")
         fkGrp.append(fk[0])
         ikCtrl.append(cmds.listRelatives(newIkGrp,ad=1,type="transform")[0])
         #ikGrp.append(newIkGrp)
         if ind>0:
             fkCtrl = cmds.parent(fkGrp[-1],fkCtrl[-1])
+            
         fkCtrl.append(fk[1])
         cmds.parentConstraint(ikCtrl[-1],ctrl,mo=1)
         
@@ -280,13 +290,13 @@ def runAutospline():
         cmds.setAttr("%s.objType"%jntGrp[0],"jntMainGrp",type="string")        
     cmds.parent(ctrlJnt,drvnJnt[0],jntGrp[0])
     
-    utilGrp = findTag(name = "utilGrp")
+    utilGrp = findTag(name = "utilMainGrp")
     if utilGrp == None:
         utilGrp = [cmds.group(name = "util_grp",em=1)]
         cmds.addAttr(utilGrp[0],longName="objType",dataType="string",keyable=1)
-        cmds.setAttr("%s.objType"%jntGrp[0],"utilGrp",type="string")
+        cmds.setAttr("%s.objType"%jntGrp[0],"utilMainGrp",type="string")
         
-    spineUtilGrp = cmds.group(name = "spine_util_grp",em=1,p=utilGrp[0])
+    spineUtilGrp = cmds.group(name = "%s_util_grp"%name.replace("jnt_",""),em=1,p=utilGrp[0])
     cmds.parent(ikCurve,splineIk[0],spineUtilGrp)
     
     cmds.connectAttr("%s.s"%jntGrp[0],"%s.input2"%scaleFixUtil[1],f=1)
