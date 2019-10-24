@@ -1,3 +1,15 @@
+def findTag(name = ""):
+    objWithTag = []
+    for obj in cmds.ls(type="transform"):
+        if "objType" in cmds.listAttr(obj):
+            if cmds.getAttr("%s.objType"%obj)==name:
+                 objWithTag.append(obj)
+                 
+    if len(objWithTag)<1:
+        return None
+    return objWithTag
+
+
 def ikFootProxy():
     ###Create locators to initialize ik foot system variable
 	prefix = "Left"    
@@ -5,7 +17,9 @@ def ikFootProxy():
 	heel = cmds.spaceLocator(n=prefix+"_heel_proxy")	
 	inF = cmds.spaceLocator(n=prefix+"_foot_inner_proxy")	
 	toe = cmds.spaceLocator(n=prefix+"_toe_proxy")
-	cmds.group(outF,heel,inF,toe,name = "jnt_%s_toe_proxy"%prefix)
+	proxyGrp = cmds.group(outF,heel,inF,toe,name = "jnt_%s_toe_proxy"%prefix)
+	cmds.addAttr(proxyGrp,longName="objType",dataType="string",keyable=1)
+	cmds.setAttr("%s.objType"%proxyGrp,"footProxyGrp",type="string")
 
 def mirrorJnt (*n):
     #mirrorJnt(cmds.ls(sl=1))
@@ -475,6 +489,10 @@ def fkIkJoints(*n):#fkIkJoints(cmds.ls(sl=1))
         skinJnts =cmds.ls(sl=1,type = "joint")
       
     #create groups to organize objects
+    if "skin" not in skinJnts[0]:
+        for index,jnt in enumerate(skinJnts):
+            skinJnts[index] = cmds.rename(jnt,jnt+"_skin")
+            
     grpName = skinJnts[0].replace("jnt_","").replace("skin_","")
     utilGrp = cmds.group(em=1,n=grpName+"_util_grp")
     cmds.addAttr(utilGrp,ln= "ikFk",at="double",min = 0,max = 1 ,k=1 )
@@ -531,7 +549,11 @@ def fkIkJoints(*n):#fkIkJoints(cmds.ls(sl=1))
        
     return (ctrlMainGrp,utilGrp)
 
-
+import sys
+if findTag(name = "footProxyGrp") ==None:
+    ikFootProxy()
+    sys.exit()
+    cmds.warning("Please set foot parameters with provided locators.")
     
 selection = cmds.ls(sl=1)    
 ctrlMainGrp,utilGrp = fkIkJoints(selection)
@@ -542,4 +564,4 @@ if not cmds.objExists(selection[1].replace("Left","Right")):
     
 if not cmds.objExists("util_grp"):
     cmds.group(name = "util_grp",em=1)
-cmds.parent(mirrorUtilGrp,utilGrp,"util_grp")
+cmds.parent(mirrorUtilGrp,utilGrp,"util_grp") 
