@@ -7,10 +7,10 @@ for item in list:
     drvGrp = cmds.group(name = "%s_DRV_grp"%item,em=1,p=offGrp)
     parent = cmds.listRelatives(item,p=1)
     if parent!= None:
-        cmds.parent(mainGrp,item)
+        #cmds.parent(mainGrp,item)
+        cmds.parent(mainGrp,parent)
         
     pc = cmds.parentConstraint(item,mainGrp,name = "tempPCC1",mo=0)
-    cmds.delete(pc)
+    cmds.delete(pc)   
     
-    cmds.parent(mainGrp,parent)
     cmds.parent(item,drvGrp)
