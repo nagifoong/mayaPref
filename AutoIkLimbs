@@ -275,11 +275,15 @@ def AutoIkLimb (jntList = [] ,ikName = ''):
     arrowV = startMid - projV
     #arrowV*= startEnd.length()
     finalV = arrowV + midV
-    print startEnd.length(),startEnd
+    if finalV.z <0:
+        newZ = finalV.z-startEnd.length()/2.0
+    else:
+        newZ = finalV.z+startEnd.length()/2.0
+    #print startEnd.length(),startEnd
     ##Pole Vector Controller Creation and Reposition ##
     PVCtrl = createController(name = ctrlName,reposition = 0,shape = "locator")
         
-    cmds.xform(PVCtrl[0] , ws =1 , t= (finalV.x  , finalV.y  , finalV.z+float(startEnd.length())/2 ))
+    cmds.xform(PVCtrl[0] , ws =1 , t= (finalV.x  , finalV.y  , newZ))
     
     ##IkHandle and Pole Vector constraint
     ikHdl = cmds.ikHandle(sj=jntList[0],ee = jntList[2],solver = "ikRPsolver",name = "%s_ikHandle"%ikName)
@@ -547,29 +551,29 @@ def fkIkJoints(*n):#fkIkJoints(cmds.ls(sl=1))
     connectUnitConvert(input = '%s.global'%fkSys[1],output = '%s.blendParent1'%fkSys[0],factor = .1,reverse = 1)
     
        
-    return (ctrlMainGrp,utilGrp,parentJnt)
+    return (ctrlMainGrp,utilGrp,skinJnts)
 
 import sys
+selection = cmds.ls(sl=1) 
 ##Check foot proxy existance for foot functions
-if findTag(name = "footProxyGrp") ==None:
+if findTag(name = "footProxyGrp") ==None and ("leg" in selection[0] or "thigh" in selection[0]):
     ikFootProxy()
     sys.exit()
     cmds.warning("Please set foot parameters with provided locators.")
     
-selection = cmds.ls(sl=1)    
+   
 ctrlMainGrp,utilGrp,jntGrp = fkIkJoints(selection)
 #Try to mirror joint if other side of the joint is not exists
 if not cmds.objExists(selection[1].replace("Left","Right")):
     negJnt = mirrorJnt(selection[1])
     mirrorCtrlMainGrp,mirrorUtilGrp,mirrorJntGrp = fkIkJoints([negJnt[1],negJnt[0]])
-
-##Clean up outliner. Organize skin joints and utilities to their own group    
+    
 jntMainGrp = findTag(name = "jntMainGrp")
 if jntMainGrp == None:
     jntMainGrp = [cmds.group(name = "jnt_grp",em=1)]
     cmds.addAttr(jntMainGrp[0],longName="objType",dataType="string",keyable=1)
     cmds.setAttr("%s.objType"%jntMainGrp[0],"jntMainGrp",type="string")        
-cmds.parent(jntGrp,mirrorJntGrp,jntMainGrp[0])
+cmds.parent(selection[1],negJnt[0],jntMainGrp[0])
 
 utilMainGrp = findTag(name = "utilMainGrp")
 if utilMainGrp == None:
