@@ -274,16 +274,13 @@ def AutoIkLimb (jntList = [] ,ikName = ''):
     projV = startEndN * proj
     arrowV = startMid - projV
     #arrowV*= startEnd.length()
-    finalV = arrowV + midV
-    if finalV.z <0:
-        newZ = finalV.z-startEnd.length()/2.0
-    else:
-        newZ = finalV.z+startEnd.length()/2.0
+    finalV = (arrowV*(startEnd.length()/3)) + midV
+
     #print startEnd.length(),startEnd
     ##Pole Vector Controller Creation and Reposition ##
     PVCtrl = createController(name = ctrlName,reposition = 0,shape = "locator")
         
-    cmds.xform(PVCtrl[0] , ws =1 , t= (finalV.x  , finalV.y  , newZ))
+    cmds.xform(PVCtrl[0] , ws =1 , t= (finalV.x  , finalV.y  , finalV.z))
     
     ##IkHandle and Pole Vector constraint
     ikHdl = cmds.ikHandle(sj=jntList[0],ee = jntList[2],solver = "ikRPsolver",name = "%s_ikHandle"%ikName)
@@ -573,7 +570,11 @@ if jntMainGrp == None:
     jntMainGrp = [cmds.group(name = "jnt_grp",em=1)]
     cmds.addAttr(jntMainGrp[0],longName="objType",dataType="string",keyable=1)
     cmds.setAttr("%s.objType"%jntMainGrp[0],"jntMainGrp",type="string")        
-cmds.parent(selection[1],negJnt[0],jntMainGrp[0])
+
+try:
+    cmds.parent(selection[1],negJnt[0],jntMainGrp[0])
+except:
+    pass
 
 utilMainGrp = findTag(name = "utilMainGrp")
 if utilMainGrp == None:
