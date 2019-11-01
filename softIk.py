@@ -31,6 +31,13 @@ pref = pref[:-1] if pref[-1] == "_" else pref
 total = cmds.xform(jntList[1],q=1,t=1)[0]+cmds.xform(jntList[2],q=1,t=1)[0]
 
 ## create node
+softIkJnts = []
+softIkJnts.append(cmds.joint(name = "jnt_%s_softIk1"%pref,p =(0,0,0)))
+softIkJnts.append(cmds.joint(name = "jnt_%s_softIk2"%pref,p =(1,0,0)))
+softIk = cmds.ikHandle(softIkJnts[0],ee=softIkJnts[1],name = "%s_softIkHandle"%pref,shf=0)
+cmds.xform(softIkJnts[0],t=cmds.xform(jntList[0],q=1,ws=1,t=1))
+cmds.xform(softIk[0],t=cmds.xform(ikMain,q=1,ws=1,t=1))
+
 locA = cmds.spaceLocator(name = "%s_locA"%pref)
 locB = cmds.spaceLocator(name = "%s_locB"%pref)
 dimNode = cmds.shadingNode("distanceDimShape",au=1,name = "%s_distanceNodeShape"%pref)
@@ -40,7 +47,7 @@ for ind , loc in enumerate([locA,locB]):
     cmds.xform(loc,t=cmds.xform(ikJnts[ind],q=1,ws=1,t=1))
     locShp.append(cmds.listRelatives(loc, type = "locator")[0])
     
-
+cmds.addAttr(ctrl,ln="softIk",min=0,max=1,k=1,at="double")
 distanceSub = cmds.shadingNode("plusMinusAverage",name = "%s_softIk_distance_SUB",au=1)
 diffSub = cmds.shadingNode("plusMinusAverage",name = "%s_softIk_diff_SUB",au=1)
 negUc = cmds.shadingNode("unitConversion",name = "%s_softIk_diff_NEG",au=1)
@@ -64,6 +71,34 @@ cmds.setAttr("%s.operation"%finalAdd,1)
 cmds.setAttr("%s.operation"%condNode,2)
 
 ##connect attribute##
-##distance node
 cmds.connectAttr("%s.worldPosition"%locShp[0],"%s.startPoint"%dimNode)
 cmds.connectAttr("%s.worldPosition"%locShp[1],"%s.endPoint"%dimNode)
+
+cmds.connectAttr("%s.softIk"%ctrl,"%s.input1D[1]"%distanceSub)
+
+cmds.connectAttr("%s.distance"%dimNode,"%s.input1D[0]"%diffSub)
+cmds.connectAttr("%s.output1D"%distanceSub,"%s.input1D[0]"%diffSub)
+cmds.connectAttr("%s.output1D"%distanceSub,"%s.input1D[1]"%diffSub)
+
+cmds.connectAttr("%s.output1D"%diffSub,"%s.input"%negUc)
+
+cmds.connectAttr("%s.output"%negUc,"%s.input2X"%expNode)
+
+cmds.connectAttr("%s.output"%expNode,"%s.input1D[1]"%revSub)
+
+cmds.connectAttr("%s.softIk"%ctrl,"%s.input1X"%expMult)
+cmds.connectAttr("%s.output1D"%revSub,"%s.input2X"%expMult)
+
+cmds.connectAttr("%s.output1D"%distanceSub,"%s.input1D[0]"%finalAdd)
+cmds.connectAttr("%s.outputX"%expMult,"%s.input1D[1]"%finalAdd)
+
+cmds.connectAttr("%s.output1D"%finalAdd,"%s.colorIfTrueR"%condNode)
+cmds.connectAttr("%s.distance"%dimNode,"%s.colorIfFalseR"%condNode)
+cmds.connectAttr("%s.distance"%dimNode,"%s.firstTerm"%condNode)
+cmds.connectAttr("%s.output1D"%distanceSub,"%s.secondTerm"%condNode)
+
+cmds.connectAttr("%s.outColorR"%condNode,"%s.tx"%softIkJnts[-1])
+
+##clean up
+utilGrp = cmds.group(nmae = "%s_softIk_utilGrp"%pref,em=1)
+cmds.parent(locA,locB,dimNode.replace("Shape",""),utilGrp)
