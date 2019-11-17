@@ -28,7 +28,7 @@ def defSkinWeight(sel):
     
     # poly mesh and skinCluster name
     shapeName = sel#'pCube1'
-    smoothing = 0.1 ### percentage
+    smoothing = 0 ### percentage
     #clusterName = 'skinCluster1'
     ##find skin cluster from selected mesh
     selection = OpenMaya.MSelectionList()
@@ -156,8 +156,8 @@ def defSkinWeight(sel):
                 continue
             if disStart<=0 and disEnd>=0:
                 ## finding skin weights value for each joint based on distance between joints and vertex
-                newInfVal[ind] = disEnd/(totalDistance*(1+smoothing))
-                newInfVal[ind+1] = 1-(disEnd/(totalDistance*(1+smoothing)))
+                newInfVal[ind+1] = cmds.gradientControlNoAttr('skinGrad',q=1,vap=disEnd/totalDistance)
+                newInfVal[ind] = 1-newInfVal[ind+1]
                 ## while smoothing value is not 0, makes all vertex with skin weight 1 share the skin weight to its neighbours
                 if smoothing != 0:
                     if newInfVal[ind] ==1 :
@@ -179,7 +179,7 @@ def defSkinWeight(sel):
                 for inf , newVal in enumerate(newInfVal):                
                     wAttr = '%s.weightList[%s].weights[%s]' % (clusterName, i,inf)
                     cmds.setAttr(wAttr,newVal)
-
+    cmds.select(sel)
 
 
 
