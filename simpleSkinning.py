@@ -21,14 +21,9 @@ def getSkinCluster( dag):
       raise RuntimeError("Selected mesh has no skinCluster")
       
 def defSkinWeight(sel):
-    import maya.OpenMaya as OpenMaya
-    import maya.OpenMayaAnim as OpenMayaAnim
-    import maya.cmds as cmds
-    import maya.mel as mel
-    
     # poly mesh and skinCluster name
     shapeName = sel#'pCube1'
-    smoothing = 0 ### percentage
+    smoothing = cmds.floatSliderGrp("smoothFloatGrp",q=1,v=1) ### percentage
     #clusterName = 'skinCluster1'
     ##find skin cluster from selected mesh
     selection = OpenMaya.MSelectionList()
@@ -124,17 +119,19 @@ def defSkinWeight(sel):
     # create function set and get points in world space
     currentInMeshMFnMesh = OpenMaya.MFnMesh(dagPath)
     currentInMeshMFnMesh.getPoints(inMeshMPointArray, OpenMaya.MSpace.kWorld)
-    		
-    for ind,jnt in enumerate(infs):
+    
+    weightList = {}
+    weightMax = [[] for nullInf in infs]		
+    for ind in range(len(infs)):
         #ind = 0
         if ind+1 == len(infs):
             break
             
         skinList = []
-        newInfVal = [0 for nullInf in infs]
+        
         cmds.select(cl=1)
         
-        jntA = cmds.xform(jnt ,q= 1 ,ws = 1,t =1 )
+        jntA = cmds.xform(infs[ind] ,q= 1 ,ws = 1,t =1 )
         jntB = cmds.xform(infs[ind+1] ,q= 1 ,ws = 1,t =1 )
         startV = OpenMaya.MVector(jntA[0] ,jntA[1],jntA[2])
         endV = OpenMaya.MVector(jntB[0] ,jntB[1],jntB[2])
@@ -142,43 +139,61 @@ def defSkinWeight(sel):
         startEndN = startEnd.normal()
         kStart = startV * startEndN#cmds.xform("locator3",t=( startEndN[0],startEndN[1],startEndN[2]))
         kEnd = endV * startEndN
-        totalDistance = float('%f' %(kEnd-kStart))
+        totalDistance = float('%f' %(kEnd-kStart))#+smoothing
         
-        for i in range(len(weights)):
+        
+        for id in range(len(weights)):
             #create a list to temporaly
             newInfVal = [0 for nullInf in infs]
-            vertLoc = OpenMaya.MVector(inMeshMPointArray[i][0], inMeshMPointArray[i][1], inMeshMPointArray[i][2])
+            vertLoc = OpenMaya.MVector(inMeshMPointArray[id][0], inMeshMPointArray[id][1], inMeshMPointArray[id][2])
     
-            disStart = kStart-(vertLoc*startEndN)
+            disStart = float('%f' %(kStart-(vertLoc*startEndN)))
             disEnd = float('%f' %(kEnd-(vertLoc*startEndN)))
             
+            ##filter vertices which are out of bound
             if disStart> 0 or disEnd<0:
                 continue
-            if disStart<=0 and disEnd>=0:
+                
+            if disStart<=0  and disEnd>=0 :
+                ##filter vertices which been processed
+                if disEnd == 0 and ind+2 != len(infs):
+                    continue
+                    
                 ## finding skin weights value for each joint based on distance between joints and vertex
-                newInfVal[ind+1] = cmds.gradientControlNoAttr('skinGrad',q=1,vap=disEnd/totalDistance)
-                newInfVal[ind] = 1-newInfVal[ind+1]
-                ## while smoothing value is not 0, makes all vertex with skin weight 1 share the skin weight to its neighbours
-                if smoothing != 0:
-                    if newInfVal[ind] ==1 :
-                        if ind-1 >= 0:                
-                            newInfVal[ind-1] = smoothing
-                            newInfVal[ind] -=smoothing
-                        if ind+1 < len(infs):                
-                            newInfVal[ind+1] = smoothing
-                            newInfVal[ind] -=smoothing
-                    elif newInfVal[ind+1] ==1:
-                        if ind >= 0:                
-                            newInfVal[ind] =smoothing
-                            newInfVal[ind+1] -=smoothing
-                        if ind+2 < len(infs):                
-                            newInfVal[ind+2] =smoothing
-                            newInfVal[ind+1] -=smoothing
-                #print "vertex %s weight %s" %(i,newInfVal)
-                ##apply skin weights to each vertex        
-                for inf , newVal in enumerate(newInfVal):                
-                    wAttr = '%s.weightList[%s].weights[%s]' % (clusterName, i,inf)
-                    cmds.setAttr(wAttr,newVal)
+                ## then look for value on gradient control
+                tempVal = cmds.gradientControlNoAttr('skinGrad',q=1,vap=disEnd/totalDistance)
+                if tempVal<.01:
+                    tempVal = 0.0
+                newInfVal[ind+1] = tempVal
+                newInfVal[ind] = 1-tempVal
+                
+                weightList[id]=newInfVal
+                weightMax[ind].append(1-tempVal)         
+                #print "vertex %s weight %s. " %(id,newInfVal)
+    
+        weightMax[ind] =  sorted(list(set(weightMax[ind])))[::-1]
+        
+    for id in weightList:
+        for index , inf in enumerate(weightList[id]):
+            if index > 0 and index+1 < len(infs) and smoothing != 0:
+                if inf+.01 >= weightMax[index][0]: 
+                    smoothVal = (weightMax[index][0]*smoothing)/2
+                    weightList[id][index] -=(smoothVal*2)
+                    weightList[id][index-1] += smoothVal
+                    weightList[id][index+1] += smoothVal
+                    #print weightList[id][index]+weightList[id][index-1]+weightList[id][index+1]
+                    
+                elif inf< weightMax[index][0] and inf >= weightMax[index][1]:
+                    smoothVal = (weightMax[index][1]*(smoothing/3))/2
+                    weightList[id][index] -=(smoothVal*2)
+                    weightList[id][index-1] += smoothVal
+                    weightList[id][index+1] += smoothVal
+                               
+    for id in weightList:
+        for index , inf in enumerate(weightList[id]):             
+            wAttr = '%s.weightList[%s].weights[%s]' % (clusterName, id,index)
+            cmds.setAttr(wAttr,weightList[id][index])
+                                
     cmds.select(sel)
 
 
@@ -189,9 +204,12 @@ def gardCC(*n):
     '''
     cmds.optionMenu("skinInterMenu",e=1,sl=cmds.gradientControlNoAttr('skinGrad',q=1,civ=1))
     
+    string = cmds.gradientControlNoAttr('skinGrad',q=1,asString=1)
+    stringSplit = string.split(",")
     currentKey = cmds.gradientControlNoAttr('skinGrad',q=1,ck=1)
-    currentYVal = cmds.gradientControlNoAttr('skinGrad',q=1,cvv=1)
-    currentXVal = cmds.gradientControlNoAttr('skinGrad',q=1,vap=currentYVal)
+    currentXVal = float(stringSplit[currentKey*3+1])
+    currentYVal = float(stringSplit[currentKey*3])
+        
     cmds.floatSliderGrp("skinXlocGrp",e=1,v=currentXVal)
     cmds.floatSliderGrp("skinYlocGrp",e=1,v=currentYVal)
     
@@ -207,7 +225,10 @@ def floatCC(*n):
     
     cmds.gradientControlNoAttr('skinGrad',e=1,asString=",".join(stringSplit))
 
+import maya.OpenMaya as OpenMaya
+import maya.OpenMayaAnim as OpenMayaAnim
 import maya.cmds as cmds
+import maya.mel as mel
 
 if cmds.window('betterSkinWind',q=1,ex=1):
     cmds.deleteUI('betterSkinWind')
@@ -235,9 +256,11 @@ cmds.floatSliderGrp("skinXlocGrp",p = 'interpCol',l = "X:",step = .01,cw3=[10,50
 
 cmds.floatSliderGrp("skinYlocGrp",p = 'interpCol',l = "Y:",step = .01,cw3=[10,50,100],ad3=3,min=0,max=1,fmn=0,fmx=1, f=1,cc=floatCC ,v= cmds.gradientControlNoAttr('skinGrad',q=1,vap=cmds.gradientControlNoAttr('skinGrad',q=1,cvv=1)) )
 
+cmds.columnLayout("smoothCol",p ='mainCol' )
+cmds.floatSliderGrp("smoothFloatGrp",p = 'smoothCol',l = "Smoothing:",step = .01,cw3=[80,50,80],ad3=3,min=0,max=1,fmn=0,fmx=1, f=1,cc=floatCC ,v= .1)
 
-cmds.button("applyBt",l = "Apply",p='mainCol', c='defSkinWeight(cmds.ls(sl=1)[0])')
-cmds.formLayout("mainCol",e=1,af = [('baseTxt','top',5),('baseTxt','left',5),('childTxt','top',5),('childTxt','right',5),('skinGrad','top',30),('skinGrad','left',5),('skinGrad','right',5),('interpCol','left',5),('interpCol','bottom',5),('applyBt','right',5),('applyBt','bottom',5)],
+cmds.button("applyBt",al="right",l = "Apply",p='smoothCol', c='defSkinWeight(cmds.ls(sl=1)[0])')
+cmds.formLayout("mainCol",e=1,af = [('baseTxt','top',5),('baseTxt','left',5),('childTxt','top',5),('childTxt','right',5),('skinGrad','top',30),('skinGrad','left',5),('skinGrad','right',5),('interpCol','left',5),('interpCol','bottom',5),('smoothCol','right',5),('smoothCol','bottom',5)],
                                 ac = [('baseTxt','bottom',5,'skinGrad'),('skinGrad','bottom',5,'interpCol')])
 
 
