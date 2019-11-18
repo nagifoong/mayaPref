@@ -159,7 +159,8 @@ def defSkinWeight(sel):
                 if disEnd == 0 and ind+2 != len(infs):
                     continue
                     
-                ## finding skin weights value for each joint based on distance between joints and vertex
+                ## finding skin weights value for each joint based 
+                ##   on distance between joints and vertex
                 ## then look for value on gradient control
                 tempVal = cmds.gradientControlNoAttr('skinGrad',q=1,vap=disEnd/totalDistance)
                 if tempVal<.01:
@@ -170,25 +171,27 @@ def defSkinWeight(sel):
                 weightList[id]=newInfVal
                 weightMax[ind].append(1-tempVal)         
                 #print "vertex %s weight %s. " %(id,newInfVal)
-    
+                
+        ##storing skin weights values for comparing later
         weightMax[ind] =  sorted(list(set(weightMax[ind])))[::-1]
         
     for id in weightList:
         for index , inf in enumerate(weightList[id]):
             if index > 0 and index+1 < len(infs) and smoothing != 0:
+                ##smoothing vertices which influence the most by the joint
                 if inf+.01 >= weightMax[index][0]: 
                     smoothVal = (weightMax[index][0]*smoothing)/2
                     weightList[id][index] -=(smoothVal*2)
                     weightList[id][index-1] += smoothVal
                     weightList[id][index+1] += smoothVal
                     #print weightList[id][index]+weightList[id][index-1]+weightList[id][index+1]
-                    
+                # smoothing vertices whoch are next to the joint    
                 elif inf< weightMax[index][0] and inf >= weightMax[index][1]:
                     smoothVal = (weightMax[index][1]*(smoothing/3))/2
                     weightList[id][index] -=(smoothVal*2)
                     weightList[id][index-1] += smoothVal
                     weightList[id][index+1] += smoothVal
-                               
+    ##Apply skin weights                           
     for id in weightList:
         for index , inf in enumerate(weightList[id]):             
             wAttr = '%s.weightList[%s].weights[%s]' % (clusterName, id,index)
@@ -253,17 +256,18 @@ cmds.menuItem(label = "Smooth" , p = 'skinInterMenu')
 cmds.menuItem(label = "Stepped" , p = 'skinInterMenu')
 
 cmds.floatSliderGrp("skinXlocGrp",p = 'interpCol',l = "X:",step = .01,cw3=[10,50,100],ad3=3,min=0,max=1,fmn=0,fmx=1, f=1,cc=floatCC ,v= cmds.gradientControlNoAttr('skinGrad',q=1,cvv=1) )
-
 cmds.floatSliderGrp("skinYlocGrp",p = 'interpCol',l = "Y:",step = .01,cw3=[10,50,100],ad3=3,min=0,max=1,fmn=0,fmx=1, f=1,cc=floatCC ,v= cmds.gradientControlNoAttr('skinGrad',q=1,vap=cmds.gradientControlNoAttr('skinGrad',q=1,cvv=1)) )
 
-cmds.columnLayout("smoothCol",p ='mainCol' )
-cmds.floatSliderGrp("smoothFloatGrp",p = 'smoothCol',l = "Smoothing:",step = .01,cw3=[80,50,80],ad3=3,min=0,max=1,fmn=0,fmx=1, f=1,cc=floatCC ,v= .1)
+cmds.floatSliderGrp("smoothFloatGrp",p = 'mainCol',l = "Smoothing:",step = .01,cw3=[80,50,80],ad3=3,min=0,max=1,fmn=0,fmx=1, f=1,cc=floatCC ,v= .2)
+cmds.button("applyBt",al="right",l = "Apply",p='mainCol', c='defSkinWeight(cmds.ls(sl=1)[0])',w=100)
 
-cmds.button("applyBt",al="right",l = "Apply",p='smoothCol', c='defSkinWeight(cmds.ls(sl=1)[0])')
-cmds.formLayout("mainCol",e=1,af = [('baseTxt','top',5),('baseTxt','left',5),('childTxt','top',5),('childTxt','right',5),('skinGrad','top',30),('skinGrad','left',5),('skinGrad','right',5),('interpCol','left',5),('interpCol','bottom',5),('smoothCol','right',5),('smoothCol','bottom',5)],
-                                ac = [('baseTxt','bottom',5,'skinGrad'),('skinGrad','bottom',5,'interpCol')])
+cmds.formLayout("mainCol",e=1,af = [('baseTxt','top',5),('baseTxt','left',5),('childTxt','top',10),('childTxt','right',5),('skinGrad','top',30),('skinGrad','left',5),('skinGrad','right',5),('interpCol','left',5),('interpCol','bottom',5),('smoothFloatGrp','right',5),('smoothFloatGrp','bottom',5),('applyBt','right',10),('applyBt','bottom',5)],
+                                ac = [('baseTxt','bottom',5,'skinGrad'),('skinGrad','bottom',5,'interpCol'),('skinGrad','bottom',5,'smoothFloatGrp'),('smoothFloatGrp','bottom',5,'applyBt')])
 
 
 gardCC()
 
 #cmds.optionVar(q='skinningFalloffOptionVar')
+
+
+
