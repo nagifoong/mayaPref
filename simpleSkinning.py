@@ -163,40 +163,47 @@ def defSkinWeight(sel):
                 ##   on distance between joints and vertex
                 ## then look for value on gradient control
                 tempVal = cmds.gradientControlNoAttr('skinGrad',q=1,vap=disEnd/totalDistance)
+                tempVal = float('%.2f' %(tempVal))
                 if tempVal<.01:
                     tempVal = 0.0
                 newInfVal[ind+1] = tempVal
                 newInfVal[ind] = 1-tempVal
                 
                 weightList[id]=newInfVal
-                weightMax[ind].append(1-tempVal)         
+                weightMax[ind].append(1-tempVal)
+                weightMax[ind].append(tempVal)         
                 #print "vertex %s weight %s. " %(id,newInfVal)
                 
         ##storing skin weights values for comparing later
+        list = __builtins__.list
+        print weightMax
         weightMax[ind] =  sorted(list(set(weightMax[ind])))[::-1]
         
     for id in weightList:
         for index , inf in enumerate(weightList[id]):
+            smoothVal=0
             if index > 0 and index+1 < len(infs) and smoothing != 0:
                 ##smoothing vertices which influence the most by the joint
-                if inf+.01 >= weightMax[index][0]: 
-                    smoothVal = (weightMax[index][0]*smoothing)/2
+                if inf >= weightMax[index][0]: 
+                    smoothVal = float('%.2f' %((weightMax[index][0]*smoothing)/2))
                     weightList[id][index] -=(smoothVal*2)
                     weightList[id][index-1] += smoothVal
                     weightList[id][index+1] += smoothVal
+                    break
                     #print weightList[id][index]+weightList[id][index-1]+weightList[id][index+1]
                 # smoothing vertices whoch are next to the joint    
-                elif inf< weightMax[index][0] and inf >= weightMax[index][1]:
-                    smoothVal = (weightMax[index][1]*(smoothing/3))/2
+                if inf< weightMax[index][0] and inf >= weightMax[index][1]:
+                    smoothVal = float('%.2f' %((weightMax[index][1]*(smoothing/4))/2))
                     weightList[id][index] -=(smoothVal*2)
                     weightList[id][index-1] += smoothVal
                     weightList[id][index+1] += smoothVal
+                    break
     ##Apply skin weights                           
     for id in weightList:
         for index , inf in enumerate(weightList[id]):             
             wAttr = '%s.weightList[%s].weights[%s]' % (clusterName, id,index)
             cmds.setAttr(wAttr,weightList[id][index])
-                                
+                          
     cmds.select(sel)
 
 
@@ -268,6 +275,3 @@ cmds.formLayout("mainCol",e=1,af = [('baseTxt','top',5),('baseTxt','left',5),('c
 gardCC()
 
 #cmds.optionVar(q='skinningFalloffOptionVar')
-
-
-
